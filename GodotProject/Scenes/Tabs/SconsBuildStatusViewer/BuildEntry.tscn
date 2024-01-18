@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw5hxf3pru6jd"]
+
+[ext_resource type="Script" path="res://Scenes/Tabs/SconsBuildStatusViewer/BuildEntry.cs" id="1_rgb64"]
+
+[node name="BuildEntry" type="MarginContainer" node_paths=PackedStringArray("TimeNode")]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 20.0
+grow_horizontal = 2
+mouse_filter = 0
+script = ExtResource("1_rgb64")
+TimeNode = NodePath("HBoxContainer/Time")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "Entry"
+
+[node name="Time" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+mouse_filter = 1
+text = "0s"

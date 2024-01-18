@@ -1,0 +1,42 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://do67oop6pvq3m"
+path="res://.godot/imported/Inter-Regular.otf-32ef62871139b34d9fd22639ad20b628.fontdata"
+
+[deps]
+
+source_file="res://Assets/Fonts/Inter-Regular.otf"
+dest_files=["res://.godot/imported/Inter-Regular.otf-32ef62871139b34d9fd22639ad20b628.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=2
+generate_mipmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={
+1667330917: 1,
+1668313968: 1,
+1801810542: 1
+}

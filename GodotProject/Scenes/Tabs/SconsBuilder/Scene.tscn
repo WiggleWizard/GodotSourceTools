@@ -1,0 +1,394 @@
+[gd_scene load_steps=16 format=3 uid="uid://bngp3vevif6ji"]
+
+[ext_resource type="Script" path="res://Scenes/Tabs/SconsBuilder/MainTabSconsBuilder.cs" id="1_fi5ex"]
+[ext_resource type="FontFile" uid="uid://ppis0jn7ai0u" path="res://Assets/Fonts/Font Awesome 6 Free-Solid-900.otf" id="2_3hsyl"]
+[ext_resource type="Script" path="res://addons/appframework/ActionSystem/ActionExecutor.cs" id="3_atv1h"]
+[ext_resource type="Script" path="res://addons/appframework/ActionSystem/Action.cs" id="4_a774s"]
+[ext_resource type="Script" path="res://Scripts/Cues/ActionCueBuildStatusChanged.cs" id="4_h7ybj"]
+[ext_resource type="Script" path="res://addons/appframework/ActionSystem/ActionTaskSetNodeProperty.cs" id="5_e6rym"]
+
+[sub_resource type="Resource" id="Resource_fo5aw"]
+script = ExtResource("4_h7ybj")
+OnStatusChangedTo = 1
+
+[sub_resource type="Resource" id="Resource_0tse3"]
+script = ExtResource("4_h7ybj")
+OnStatusChangedTo = 2
+
+[sub_resource type="Resource" id="Resource_td4re"]
+script = ExtResource("5_e6rym")
+Properties = {
+"visible": false
+}
+Nodes = [NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Clean"), NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Build")]
+
+[sub_resource type="Resource" id="Resource_72bvw"]
+script = ExtResource("5_e6rym")
+Properties = {
+"visible": true
+}
+Nodes = [NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Cancel")]
+
+[sub_resource type="Resource" id="Resource_kw671"]
+script = ExtResource("4_a774s")
+Cues = [SubResource("Resource_fo5aw"), SubResource("Resource_0tse3")]
+Tasks = [SubResource("Resource_td4re"), SubResource("Resource_72bvw")]
+
+[sub_resource type="Resource" id="Resource_ha06k"]
+script = ExtResource("4_h7ybj")
+OnStatusChangedTo = 0
+
+[sub_resource type="Resource" id="Resource_gy4b7"]
+script = ExtResource("5_e6rym")
+Properties = {
+"visible": false
+}
+Nodes = [NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Cancel")]
+
+[sub_resource type="Resource" id="Resource_kx8ix"]
+script = ExtResource("5_e6rym")
+Properties = {
+"visible": true
+}
+Nodes = [NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Clean"), NodePath("../MarginContainer/VBoxContainer/HBoxContainer2/Build")]
+
+[sub_resource type="Resource" id="Resource_s6ayv"]
+script = ExtResource("4_a774s")
+Cues = [SubResource("Resource_ha06k")]
+Tasks = [SubResource("Resource_gy4b7"), SubResource("Resource_kx8ix")]
+
+[node name="Scons Builder" type="Control" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fi5ex")
+ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/VanillaModules")
+ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
+TargetOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target/Control")
+PlatformOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control")
+ConfigSelector = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigSelector")
+ConfigEditor = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit")
+ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConfigSelector" type="OptionButton" parent="MarginContainer/VBoxContainer/HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="ConfigEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/HBoxContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Edit" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Rename config"
+theme_override_fonts/font = ExtResource("2_3hsyl")
+text = "Edit"
+
+[node name="VSeparator2" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Add" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Add new config entry"
+theme_override_fonts/font = ExtResource("2_3hsyl")
+text = "Add"
+
+[node name="Remove" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Remove currently selected config entry"
+theme_override_fonts/font = ExtResource("2_3hsyl")
+text = "Remove"
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Save config to source directory"
+theme_override_fonts/font = ExtResource("2_3hsyl")
+text = "Save"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 300
+
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="PanelContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/Panel"]
+layout_mode = 2
+text = "Vanilla Modules"
+
+[node name="VanillaModules" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+columns = 2
+
+[node name="Panel2" type="PanelContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/Panel2"]
+layout_mode = 2
+text = "Custom Modules"
+
+[node name="CustomModules" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+columns = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnableAll" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Enables every module available, including custom ones"
+text = "Enable All"
+
+[node name="DisableAll" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Disables all modules"
+text = "Disable All"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VanillaOnly" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Toggles only vanilla modules"
+text = "Vanilla Only"
+
+[node name="ToggleMono" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Toggles on/off mono (to enable/disable C#)"
+text = "Toggle Mono"
+
+[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer"]
+layout_mode = 2
+
+[node name="Platform" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "The platform on which the engine will run on once compiled.
+Note: Currently only Windows compilation on Windows has been tested."
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Platform"
+
+[node name="Control" type="OptionButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Target" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Compilation targets
+- Editor: The actual Godot Editor
+- Debug Template: Export template that provides debug capabilities
+- Release Template: Fully optimized and has no debug capabilities"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Target"
+
+[node name="Control" type="OptionButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IsDevBuild" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "If unchecked, will optimize as much as possible. Dev Builds are handy for fast iteration as build times are often quicker than non Dev Builds"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Dev Build"
+
+[node name="Control" type="CheckButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"]
+layout_mode = 2
+
+[node name="BuildWithTools" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Build With Tools"
+
+[node name="Control" type="CheckButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"]
+layout_mode = 2
+
+[node name="GenerateVsProj" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Creates a .sln file in the repository to open with your IDE"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Generate VS .sln"
+
+[node name="Control" type="CheckButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"]
+layout_mode = 2
+
+[node name="Suffix" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Appends a suffix on to the binary and intermediate files.Useful for when creating
+experimental builds that you want to differentiate from your main one and not
+have to rebuild your main to switch back to it"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Suffix"
+
+[node name="Control" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AdditionalArgs" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Any additional arguments you wish to provide to the scons build. Sometimes this is required
+if you've got some custom scons scripts that need to run but can only be invoked through a
+CLI switch"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Additional Args"
+
+[node name="Control" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Clean" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+modulate = Color(0.346768, 0.905574, 0.472953, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+tooltip_text = "Starts a scons --clean operation. Handy when caches are giving you trouble or you need to force a rebuild/regeneration"
+text = " Clean "
+
+[node name="Build" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+modulate = Color(0, 0.584314, 0.996078, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Starts a build with the currently displayed options above"
+text = "Build"
+
+[node name="Cancel" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+visible = false
+modulate = Color(1, 0.335514, 0.269596, 1)
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+
+[node name="ActionExecutor" type="Node" parent="."]
+script = ExtResource("3_atv1h")
+Actions = [SubResource("Resource_kw671"), SubResource("Resource_s6ayv")]
+
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigSelector" to="." method="OnConfigSelectorItemSelected"]
+[connection signal="text_submitted" from="MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit" to="." method="OnConfigEditTextSubmitted"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Edit" to="." method="OnEditConfigPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Add" to="." method="OnAddPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Save" to="." method="OnSaveConfigPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer/EnableAll" to="." method="ForceModuleListPreset" binds= ["EnableAll"]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer/DisableAll" to="." method="ForceModuleListPreset" binds= ["DisableAll"]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer2/VanillaOnly" to="." method="ForceModuleListPreset" binds= ["VanillaOnly"]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer2/ToggleMono" to="." method="ForceModuleListPreset" binds= ["ToggleMono"]]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control" to="." method="OnOptionButtonItemSelected" binds= ["Platform"]]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target/Control" to="." method="OnOptionButtonItemSelected" binds= ["Target"]]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild/Control" to="." method="OnConfigCheckButtonToggled" binds= ["IsDevBuild"]]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools/Control" to="." method="OnConfigCheckButtonToggled" binds= ["BuildWithTools"]]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj/Control" to="." method="OnConfigCheckButtonToggled" binds= ["GenerateVsProj"]]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix/Control" to="." method="OnConfigLineEditChanged" binds= ["Suffix"]]
+[connection signal="text_changed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs/Control" to="." method="OnConfigLineEditChanged" binds= ["AdditionalArgs"]]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Clean" to="." method="OnCleanPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Build" to="." method="OnBuildPressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer2/Cancel" to="." method="OnCancelPressed"]

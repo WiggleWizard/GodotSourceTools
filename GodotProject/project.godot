@@ -1,0 +1,61 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[App Framework]
+
+"Run/Loading Screen Scene"="res://Scenes/Loading/Loading.tscn"
+"Run/Prompt For VC Redist"=true
+
+[application]
+
+config/name="Godot Source Tools"
+config/version="0.1"
+run/main_scene="res://Scenes/Main.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Godot Source Tools"
+config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
+boot_splash/bg_color=Color(0.0392157, 0.0470588, 0.0705882, 1)
+boot_splash/image="res://GodotSourceToolIcon.png"
+boot_splash/fullsize=false
+config/icon="res://GodotSourceToolIcon.png"
+config/windows_native_icon="res://Assets/App Icons/icon.ico"
+
+[autoload]
+
+AppStartupManager="*res://addons/appframework/AppStartupManager.cs"
+AppConfig="*res://Scripts/Autoloads/AppConfig.cs"
+ToastNotificationManager="*res://Scripts/Autoloads/ToastNotificationManager.cs"
+SourceManager="*res://Scripts/Autoloads/SourceManager.cs"
+BuildManager="*res://Scripts/Autoloads/BuildManager.cs"
+
+[display]
+
+window/size/viewport_width=900
+window/size/viewport_height=1000
+window/subwindows/embed_subwindows=false
+
+[dotnet]
+
+project/assembly_name="Godot Source Tools"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/appframework/plugin.cfg")
+
+[gui]
+
+theme/custom="res://Assets/Themes/Default.tres"
+theme/custom_font="res://Assets/Fonts/DefaultSystem.tres"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+anti_aliasing/quality/use_debanding=true

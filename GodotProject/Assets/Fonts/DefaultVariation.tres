@@ -1,0 +1,6 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://bny6nju7fc6cs"]
+
+[ext_resource type="FontFile" uid="uid://do67oop6pvq3m" path="res://Assets/Fonts/Inter-Regular.otf" id="1_5yia3"]
+
+[resource]
+base_font = ExtResource("1_5yia3")

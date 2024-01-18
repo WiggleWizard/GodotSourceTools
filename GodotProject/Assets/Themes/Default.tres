@@ -1,0 +1,38 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://s2icye65ewu8"]
+
+[ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="1_5f05a"]
+
+[resource]
+Button/font_sizes/font_size = 14
+CheckBox/font_sizes/font_size = 14
+CheckButton/font_sizes/font_size = 14
+CodeEdit/font_sizes/font_size = 16
+ColorPickerButton/font_sizes/font_size = 16
+GraphNodeTitleLabel/font_sizes/font_size = 16
+HeaderLarge/font_sizes/font_size = 16
+HeaderMedium/font_sizes/font_size = 14
+HeaderSmall/font_sizes/font_size = 16
+ItemList/font_sizes/font_size = 16
+Label/font_sizes/font_size = 14
+LargeScrollableTextBox/font_sizes/font_size = 16
+LargeScrollableTextBox/fonts/font = ExtResource("1_5f05a")
+LineEdit/font_sizes/font_size = 14
+LinkButton/font_sizes/font_size = 16
+MenuBar/font_sizes/font_size = 14
+MenuButton/font_sizes/font_size = 14
+OptionButton/font_sizes/font_size = 14
+PopupMenu/font_sizes/font_separator_size = 16
+PopupMenu/font_sizes/font_size = 16
+ProgressBar/font_sizes/font_size = 16
+RichTextLabel/font_sizes/bold_font_size = 16
+RichTextLabel/font_sizes/bold_italics_font_size = 16
+RichTextLabel/font_sizes/italics_font_size = 16
+RichTextLabel/font_sizes/mono_font_size = 16
+RichTextLabel/font_sizes/normal_font_size = 16
+TabBar/font_sizes/font_size = 14
+TabContainer/font_sizes/font_size = 14
+TextEdit/font_sizes/font_size = 16
+TooltipLabel/font_sizes/font_size = 14
+Tree/font_sizes/font_size = 14
+Tree/font_sizes/title_button_font_size = 14
+Window/font_sizes/title_font_size = 16

@@ -1,0 +1,167 @@
+[gd_scene load_steps=19 format=3 uid="uid://bxynsf1rxmx3a"]
+
+[ext_resource type="Script" path="res://Scenes/Loading/Loading.cs" id="1_43j5f"]
+[ext_resource type="Material" uid="uid://b15esbkhig0w5" path="res://Assets/Materials/Shine.tres" id="2_68hxy"]
+[ext_resource type="Script" path="res://addons/appframework/UI/ColorCircle.cs" id="2_exi40"]
+[ext_resource type="Texture2D" uid="uid://bxj5a2fxfymo2" path="res://GodotSourceToolIcon.png" id="3_tgd3g"]
+[ext_resource type="Material" uid="uid://dqmjpgpmbmgrc" path="res://Assets/Materials/Debanding.tres" id="3_vbodo"]
+[ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="3_whl4o"]
+[ext_resource type="AnimationLibrary" uid="uid://bjd8jnbfrj887" path="res://Scenes/Loading/Animations.tres" id="6_ona3t"]
+
+[sub_resource type="Gradient" id="Gradient_vikil"]
+interpolation_mode = 2
+colors = PackedColorArray(0.760784, 0.996078, 0.780392, 1, 0, 0.682353, 0.45098, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_e00wp"]
+gradient = SubResource("Gradient_vikil")
+width = 900
+height = 900
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1683b"]
+animation = &"loading_text"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2kv5q"]
+animation = &"loading"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_3qvw1"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_cfvh6"]
+graph_offset = Vector2(-475, 90)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_2kv5q")
+nodes/Animation/position = Vector2(0, 140)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_1683b")
+"nodes/Animation 2/position" = Vector2(0, 280)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_3qvw1")
+nodes/Blend2/position = Vector2(220, 140)
+nodes/output/position = Vector2(440, 200)
+node_connections = [&"Blend2", 0, &"Animation", &"Blend2", 1, &"Animation 2", &"output", 0, &"Blend2"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8wpaw"]
+animation = &"exit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_shu3c"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ublu6"]
+advance_mode = 2
+advance_condition = &"done"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_qbmth"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_1kuuw"]
+states/End/position = Vector2(570, 124)
+states/Loading/node = SubResource("AnimationNodeBlendTree_cfvh6")
+states/Loading/position = Vector2(218, 124)
+states/Start/position = Vector2(25, 124)
+states/exit/node = SubResource("AnimationNodeAnimation_8wpaw")
+states/exit/position = Vector2(423, 124)
+transitions = ["Start", "Loading", SubResource("AnimationNodeStateMachineTransition_shu3c"), "Loading", "exit", SubResource("AnimationNodeStateMachineTransition_ublu6"), "exit", "End", SubResource("AnimationNodeStateMachineTransition_qbmth")]
+graph_offset = Vector2(-216, -32)
+
+[node name="Loading" type="Control" node_paths=PackedStringArray("AnimationTree")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_43j5f")
+AnimationTree = NodePath("AnimationTree")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0391713, 0.0465531, 0.0719107, 1)
+
+[node name="Logo" type="TextureRect" parent="."]
+material = ExtResource("2_68hxy")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_tgd3g")
+stretch_mode = 3
+
+[node name="Glow" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.0509804)
+material = ExtResource("3_vbodo")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -125.0
+offset_right = 125.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_e00wp")
+
+[node name="StatusText" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -54.0
+offset_top = 96.055
+offset_right = 102.0
+offset_bottom = 116.055
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.877616, 0.877616, 0.877616, 1)
+theme_override_fonts/font = ExtResource("3_whl4o")
+theme_override_font_sizes/font_size = 18
+text = "INITIALIZING.."
+vertical_alignment = 1
+
+[node name="ColorCircle" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.5
+offset_top = 120.93
+offset_right = 17.5
+offset_bottom = 155.931
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.71109
+pivot_offset = Vector2(17.5, 17.5005)
+script = ExtResource("2_exi40")
+Color = Color(0.637843, 0.637843, 0.637843, 1)
+Outline = true
+OutlineWidth = 4.0
+ArcStartAngle = 40.0
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+deterministic = false
+tree_root = SubResource("AnimationNodeStateMachine_1kuuw")
+anim_player = NodePath("AnimationPlayer")
+parameters/conditions/done = false
+parameters/Loading/Blend2/blend_amount = 0.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationTree"]
+root_node = NodePath("../..")
+libraries = {
+"": ExtResource("6_ona3t")
+}

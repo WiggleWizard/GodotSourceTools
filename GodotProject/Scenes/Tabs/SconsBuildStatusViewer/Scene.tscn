@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcssp54g7136x"]
+
+[ext_resource type="Script" path="res://Scenes/Tabs/SconsBuildStatusViewer/MainTabSconsBuildStatusViewer.cs" id="1_hv6vx"]
+[ext_resource type="PackedScene" uid="uid://dw5hxf3pru6jd" path="res://Scenes/Tabs/SconsBuildStatusViewer/BuildEntry.tscn" id="2_5gni0"]
+[ext_resource type="Script" path="res://Scenes/Tabs/SconsBuildStatusViewer/LargeScrollableBuildStatus.cs" id="2_16adc"]
+[ext_resource type="Script" path="res://addons/appframework/UI/ItemListCustom.cs" id="3_n22yu"]
+[ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="4_2owy3"]
+
+[node name="Scons Build Status" type="Control" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hv6vx")
+BuildListContainer = NodePath("HSplitContainer/ItemList")
+BuildArgsDisplay = NodePath("HSplitContainer/Panel2/VBoxContainer/BuildArgs")
+ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollableTextBox")
+BuildEntryScene = ExtResource("2_5gni0")
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 225
+
+[node name="ItemList" type="VBoxContainer" parent="HSplitContainer"]
+layout_mode = 2
+script = ExtResource("3_n22yu")
+
+[node name="Panel2" type="Panel" parent="HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="HSplitContainer/Panel2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LargeScrollableTextBox" type="Control" parent="HSplitContainer/Panel2/VBoxContainer"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_16adc")
+
+[node name="BuildArgs" type="TextEdit" parent="HSplitContainer/Panel2/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("4_2owy3")
+editable = false
+wrap_mode = 1

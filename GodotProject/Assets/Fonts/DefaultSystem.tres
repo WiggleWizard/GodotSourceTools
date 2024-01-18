@@ -1,0 +1,8 @@
+[gd_resource type="SystemFont" load_steps=2 format=3 uid="uid://0706rf8jvw6j"]
+
+[ext_resource type="FontVariation" uid="uid://bny6nju7fc6cs" path="res://Assets/Fonts/DefaultVariation.tres" id="1_y3n04"]
+
+[resource]
+fallbacks = Array[Font]([ExtResource("1_y3n04")])
+font_names = PackedStringArray("Segoe UI")
+allow_system_fallback = false

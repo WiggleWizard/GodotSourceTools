@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dqmjpgpmbmgrc"]
+
+[ext_resource type="Shader" path="res://Assets/Shaders/Debanding.gdshader" id="1_gy5rf"]
+
+[resource]
+shader = ExtResource("1_gy5rf")
