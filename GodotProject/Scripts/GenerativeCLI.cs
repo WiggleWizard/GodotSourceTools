@@ -98,3 +98,12 @@ public enum BuildTarget
     [GenerativeCliEnumValue("template_release")]
     TemplateRelease
 }
+
+public enum BuildPrecision
+{
+    [GenerativeCliEnumValue("single")]
+    Single,
+    
+    [GenerativeCliEnumValue("double")]
+    Double
+}

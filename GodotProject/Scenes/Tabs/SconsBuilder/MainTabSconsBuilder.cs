@@ -13,6 +13,7 @@ public partial class MainTabSconsBuilder : MainTabBase
     [Export] private Control ModuleListCustomContainer { set; get; } = null;
     [Export] private OptionButton TargetOptionButton { set; get; } = null;
     [Export] private OptionButton PlatformOptionButton { set; get; } = null;
+    [Export] private OptionButton PrecisionOptionButton { set; get; } = null;
     [Export] private OptionButton ConfigSelector { set; get; } = null;
     [Export] private LineEdit ConfigEditor { set; get; } = null;
     [Export] private Array<Control?> ConfigControlContainers { set; get; } = new();
@@ -38,6 +39,11 @@ public partial class MainTabSconsBuilder : MainTabBase
         foreach (var v in Enum.GetValues(typeof(BuildPlatform)))
         {
             PlatformOptionButton.AddItem(v.ToString());
+        }
+
+        foreach (var v in Enum.GetValues(typeof(BuildPrecision)))
+        {
+            PrecisionOptionButton.AddItem(v.ToString());
         }
 
         var sourceManager = SourceManager.GetInstance();
@@ -138,7 +144,6 @@ public partial class MainTabSconsBuilder : MainTabBase
             if (child is ModuleCheckBox checkbox)
                 checkbox.ButtonPressed = CurrentlySelectedConfig.EnabledModules.Contains(child.Name);
         }
-        
         
         foreach (Node child in ModuleListCustomContainer.GetChildren())
         {

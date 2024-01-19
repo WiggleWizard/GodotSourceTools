@@ -23,6 +23,9 @@ public partial class SourceManagerConfigEntry : Resource
     [Export, GenerativeCLIArg("target")]
     public BuildTarget Target { get; set; } = BuildTarget.Editor;
     
+    [Export, GenerativeCLIArg("precision")]
+    public BuildPrecision Precision { get; set; } = BuildPrecision.Single;
+    
     [Export, GenerativeCLIArg("dev_build")]
     public bool IsDevBuild { get; set; } = false;
     
@@ -45,13 +48,14 @@ public partial class SourceManagerConfigEntry : Resource
     {
         Dictionary result = new();
 
-        result["name"] = Name;
-        result["platform"] = (int)Platform;
-        result["target"] = (int)Target;
-        result["dev_build"] = IsDevBuild;
-        result["tools"] = BuildWithTools;
-        result["vsproj"] = GenerateVsProj;
-        result["suffix"] = Suffix;
+        result["name"]            = Name;
+        result["platform"]        = (int)Platform;
+        result["target"]          = (int)Target;
+        result["precision"]       = (int)Precision;
+        result["dev_build"]       = IsDevBuild;
+        result["tools"]           = BuildWithTools;
+        result["vsproj"]          = GenerateVsProj;
+        result["suffix"]          = Suffix;
         result["enabled_modules"] = EnabledModules;
         result["additional_args"] = AdditionalArgs;
 
@@ -62,17 +66,26 @@ public partial class SourceManagerConfigEntry : Resource
     {
         SourceManagerConfigEntry newEntry = new();
 
-        newEntry.Name = entryData["name"].AsString();
-        newEntry.Platform = (BuildPlatform)entryData["platform"].AsInt32();
-        newEntry.Target = (BuildTarget)entryData["target"].AsInt32();
-        newEntry.IsDevBuild = entryData["dev_build"].AsBool();
-        newEntry.BuildWithTools = entryData["tools"].AsBool();
-        newEntry.GenerateVsProj = entryData["vsproj"].AsBool();
-        newEntry.Suffix = entryData["suffix"].AsString();
-        newEntry.EnabledModules = new Array<String>(entryData["enabled_modules"].AsStringArray());
-        newEntry.AdditionalArgs = entryData["additional_args"].AsString();
+        newEntry.Name           = GetValueOrDefault(entryData, "name", "").AsString();
+        newEntry.Platform       = (BuildPlatform)GetValueOrDefault(entryData, "platform", 0).AsInt32();
+        newEntry.Target         = (BuildTarget)GetValueOrDefault(entryData, "target", 0).AsInt32();
+        newEntry.Precision      = (BuildPrecision)GetValueOrDefault(entryData, "precision", 0).AsInt32();
+        newEntry.IsDevBuild     = GetValueOrDefault(entryData, "dev_build", false).AsBool();
+        newEntry.BuildWithTools = GetValueOrDefault(entryData, "tools", false).AsBool();
+        newEntry.GenerateVsProj = GetValueOrDefault(entryData, "vsproj", false).AsBool();
+        newEntry.Suffix         = GetValueOrDefault(entryData, "suffix", "").AsString();
+        newEntry.EnabledModules = new Array<string>(GetValueOrDefault(entryData, "enabled_modules", new Array<string>()).AsStringArray());
+        newEntry.AdditionalArgs = GetValueOrDefault(entryData, "additional_args", "").AsString();
 
         return newEntry;
+    }
+
+    public static Variant GetValueOrDefault(Dictionary o, string key, Variant d)
+    {
+        if (!o.ContainsKey(key))
+            return d;
+
+        return o[key];
     }
 
     public Array<string> GenerateCliArgs()

@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://ybin34bn1e8l"]
+[gd_scene load_steps=4 format=3 uid="uid://ybin34bn1e8l"]
 
 [ext_resource type="Script" path="res://Scenes/Main.cs" id="1_khurv"]
-[ext_resource type="Script" path="res://Scripts/Spinner.cs" id="2_0d8do"]
 [ext_resource type="PackedScene" uid="uid://bngp3vevif6ji" path="res://Scenes/Tabs/SconsBuilder/Scene.tscn" id="2_cegwt"]
 [ext_resource type="PackedScene" uid="uid://dcssp54g7136x" path="res://Scenes/Tabs/SconsBuildStatusViewer/Scene.tscn" id="4_kwo65"]
 
@@ -53,7 +52,7 @@ TargetOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Pan
 PlatformOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control")
 ConfigSelector = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigSelector")
 ConfigEditor = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit")
-ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
+ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
 
 [node name="Scons Build Status" parent="VBoxContainer/Content/TabContainer" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox") instance=ExtResource("4_kwo65")]
 visible = false
@@ -66,11 +65,5 @@ ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollab
 visible = false
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
-
-[node name="Spinner" type="ColorRect" parent="VBoxContainer/StatusBar"]
-custom_minimum_size = Vector2(20, 0)
-layout_mode = 2
-color = Color(1, 1, 1, 0)
-script = ExtResource("2_0d8do")
 
 [connection signal="id_pressed" from="VBoxContainer/MainMenu/MenuBar/File" to="." method="OnFileIdPressed"]

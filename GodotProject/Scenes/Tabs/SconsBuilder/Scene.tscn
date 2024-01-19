@@ -57,7 +57,7 @@ script = ExtResource("4_a774s")
 Cues = [SubResource("Resource_ha06k")]
 Tasks = [SubResource("Resource_gy4b7"), SubResource("Resource_kx8ix")]
 
-[node name="Scons Builder" type="Control" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers")]
+[node name="Scons Builder" type="Control" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,9 +69,10 @@ ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitConta
 ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
 TargetOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target/Control")
 PlatformOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control")
+PrecisionOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision/Control")
 ConfigSelector = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigSelector")
 ConfigEditor = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit")
-ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
+ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -278,6 +279,22 @@ text = "Target"
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Precision" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Enables double precision on floating point numbers. Useful if you are making an
+open world game with huge terrains or space exploration.
+Note: This will increase your build size and possibly have performance impacts
+on certain platforms."
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Precision"
+
+[node name="Control" type="OptionButton" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="IsDevBuild" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer"]
 layout_mode = 2
 tooltip_text = "If unchecked, will optimize as much as possible. Dev Builds are handy for fast iteration as build times are often quicker than non Dev Builds"
@@ -384,6 +401,7 @@ Actions = [SubResource("Resource_kw671"), SubResource("Resource_s6ayv")]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/VBoxContainer/HBoxContainer2/ToggleMono" to="." method="ForceModuleListPreset" binds= ["ToggleMono"]]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control" to="." method="OnOptionButtonItemSelected" binds= ["Platform"]]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target/Control" to="." method="OnOptionButtonItemSelected" binds= ["Target"]]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision/Control" to="." method="OnOptionButtonItemSelected" binds= ["Precision"]]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild/Control" to="." method="OnConfigCheckButtonToggled" binds= ["IsDevBuild"]]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools/Control" to="." method="OnConfigCheckButtonToggled" binds= ["BuildWithTools"]]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj/Control" to="." method="OnConfigCheckButtonToggled" binds= ["GenerateVsProj"]]
