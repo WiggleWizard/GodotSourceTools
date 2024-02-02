@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c72yba5b1n3q3"]
+
+[ext_resource type="Script" path="res://Scenes/Sidebar/Sidebar.cs" id="1_dhlme"]
+
+[node name="Sidebar" type="Control"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 589.0
+grow_vertical = 2
+theme_type_variation = &"PanelWindowDecoration"
+script = ExtResource("1_dhlme")
+Items = ["trowel-bricks", "terminal", "globe"]
