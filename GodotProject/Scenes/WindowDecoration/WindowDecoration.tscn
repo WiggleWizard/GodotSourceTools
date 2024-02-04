@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct17vc4nwj2q1"]
+
+[ext_resource type="PackedScene" uid="uid://dmu4q4bj2vg2h" path="res://Scenes/WindowDecoration/Titlebar.tscn" id="1_4sbmn"]
+[ext_resource type="PackedScene" uid="uid://c72yba5b1n3q3" path="res://Scenes/Sidebar/Sidebar.tscn" id="2_7d3ib"]
+
+[node name="WindowDecoration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Titlebar" parent="VBoxContainer" node_paths=PackedStringArray("MinWindowControl", "MaxWindowControl", "CloseWindowControl") instance=ExtResource("1_4sbmn")]
+layout_mode = 2
+MinWindowControl = NodePath("HBoxContainer/Controls/Minimize")
+MaxWindowControl = NodePath("HBoxContainer/Controls/Maximize")
+CloseWindowControl = NodePath("HBoxContainer/Controls/Close")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="Sidebar" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_7d3ib")]
+layout_mode = 2
+
+[node name="Content" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+color = Color(0.0745098, 0.0901961, 0.12549, 1)

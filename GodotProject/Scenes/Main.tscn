@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://ybin34bn1e8l"]
 
 [ext_resource type="Script" path="res://Scenes/Main.cs" id="1_khurv"]
-[ext_resource type="PackedScene" uid="uid://c72yba5b1n3q3" path="res://Scenes/Sidebar/Sidebar.tscn" id="2_7eer5"]
+[ext_resource type="PackedScene" uid="uid://ct17vc4nwj2q1" path="res://Scenes/WindowDecoration/WindowDecoration.tscn" id="2_3nq7d"]
 [ext_resource type="PackedScene" uid="uid://bngp3vevif6ji" path="res://Scenes/Tabs/SconsBuilder/Scene.tscn" id="2_cegwt"]
 [ext_resource type="PackedScene" uid="uid://dcssp54g7136x" path="res://Scenes/Tabs/SconsBuildStatusViewer/Scene.tscn" id="4_kwo65"]
 
-[node name="Main" type="Control" node_paths=PackedStringArray("TabContainer", "MainMenu")]
+[node name="Main" type="Control" node_paths=PackedStringArray("TabContainer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,47 +13,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_khurv")
-TabContainer = NodePath("VBoxContainer/Content/HBoxContainer/TabContainer")
-MainMenu = NodePath("VBoxContainer/MainMenu/MenuBar")
+TabContainer = NodePath("WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="WindowDecoration" parent="." instance=ExtResource("2_3nq7d")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="MainMenu" type="HBoxContainer" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
+[node name="Titlebar" parent="WindowDecoration/VBoxContainer" index="0" node_paths=PackedStringArray("MinWindowControl", "MaxWindowControl", "CloseWindowControl")]
+MinWindowControl = NodePath("HBoxContainer/Controls/Minimize")
+MaxWindowControl = NodePath("HBoxContainer/Controls/Maximize")
+CloseWindowControl = NodePath("HBoxContainer/Controls/Close")
 
-[node name="MenuBar" type="MenuBar" parent="VBoxContainer/MainMenu"]
-layout_mode = 2
-switch_on_hover = false
-
-[node name="File" type="PopupMenu" parent="VBoxContainer/MainMenu/MenuBar"]
-item_count = 1
-item_0/text = "Open..."
-item_0/id = 0
-
-[node name="Content" type="VBoxContainer" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/Content"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Sidebar" parent="VBoxContainer/Content/HBoxContainer" instance=ExtResource("2_7eer5")]
-layout_mode = 2
-
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/Content/HBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Scons Builder" parent="VBoxContainer/Content/HBoxContainer/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
+[node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
 layout_mode = 2
 ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/VanillaModules")
 ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
@@ -64,16 +39,11 @@ ConfigSelector = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/C
 ConfigEditor = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit")
 ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
 
-[node name="Scons Build Status" parent="VBoxContainer/Content/HBoxContainer/TabContainer" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox") instance=ExtResource("4_kwo65")]
+[node name="Scons Build Status" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox") instance=ExtResource("4_kwo65")]
 visible = false
 layout_mode = 2
 BuildListContainer = NodePath("HSplitContainer/ItemList")
 BuildArgsDisplay = NodePath("HSplitContainer/Panel2/VBoxContainer/BuildArgs")
 ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollableTextBox")
 
-[node name="StatusBar" type="HBoxContainer" parent="VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
-
-[connection signal="id_pressed" from="VBoxContainer/MainMenu/MenuBar/File" to="." method="OnFileIdPressed"]
+[editable path="WindowDecoration"]

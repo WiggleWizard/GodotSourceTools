@@ -1,0 +1,136 @@
+[gd_scene load_steps=6 format=3 uid="uid://dmu4q4bj2vg2h"]
+
+[ext_resource type="Script" path="res://addons/appframework/UI/WindowTitlebar.cs" id="1_58jei"]
+[ext_resource type="Texture2D" uid="uid://bxj5a2fxfymo2" path="res://GodotSourceToolIcon.png" id="1_knfd7"]
+[ext_resource type="Script" path="res://addons/appframework/UI/SimpleShape.cs" id="2_w313m"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7op7g"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 1
+border_color = Color(0.556863, 0.611765, 0.67451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yhv5"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.556863, 0.611765, 0.67451, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="Titlebar" type="Panel" node_paths=PackedStringArray("MinWindowControl", "MaxWindowControl", "CloseWindowControl")]
+custom_minimum_size = Vector2(0, 35)
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme_type_variation = &"PanelWindowDecoration"
+script = ExtResource("1_58jei")
+MinWindowControl = NodePath("HBoxContainer/Controls/Minimize")
+MaxWindowControl = NodePath("HBoxContainer/Controls/Maximize")
+CloseWindowControl = NodePath("HBoxContainer/Controls/Close")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Container" type="MarginContainer" parent="HBoxContainer/Title"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/Title/Container"]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("1_knfd7")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Title"]
+layout_mode = 2
+text = "Godot Source Tools"
+
+[node name="Controls" type="HBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(108, 0)
+layout_mode = 2
+
+[node name="Minimize" type="Button" parent="HBoxContainer/Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"ButtonWindowControls"
+
+[node name="Visual" type="Panel" parent="HBoxContainer/Controls/Minimize"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.5
+offset_top = -5.5
+offset_right = 5.5
+offset_bottom = 5.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7op7g")
+
+[node name="Maximize" type="Button" parent="HBoxContainer/Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"ButtonWindowControls"
+
+[node name="Visual" type="Panel" parent="HBoxContainer/Controls/Maximize"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -5.5
+offset_top = -5.5
+offset_right = 5.5
+offset_bottom = 5.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3yhv5")
+
+[node name="Close" type="Button" parent="HBoxContainer/Controls"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_type_variation = &"ButtonWindowControls"
+
+[node name="Visual" type="Control" parent="HBoxContainer/Controls/Close"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -5.5
+offset_right = 5.0
+offset_bottom = 5.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_w313m")
+SimpleShapeType = 1
+Color = Color(0.556863, 0.611765, 0.67451, 1)

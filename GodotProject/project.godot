@@ -39,6 +39,7 @@ BuildManager="*res://Scripts/Autoloads/BuildManager.cs"
 
 window/size/viewport_width=900
 window/size/viewport_height=1000
+window/size/borderless=true
 window/subwindows/embed_subwindows=false
 
 [dotnet]

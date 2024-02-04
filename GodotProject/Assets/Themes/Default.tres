@@ -32,6 +32,7 @@ bg_color = Color(0.262745, 0.545098, 0.819608, 1)
 
 [resource]
 Button/font_sizes/font_size = 14
+ButtonWindowControls/base_type = &"Button"
 CheckBox/font_sizes/font_size = 14
 CheckButton/font_sizes/font_size = 14
 CodeEdit/font_sizes/font_size = 16
