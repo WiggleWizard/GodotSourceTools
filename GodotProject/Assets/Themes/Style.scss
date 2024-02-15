@@ -1,0 +1,290 @@
+
+//===================================================//
+//===================== VARIABLES ===================//
+//===================================================//
+
+// Colors
+$Grey1: #{'gd_var(Generic/Grey1)'}; /*! $Generic/Grey1:Color:FF00FFFF */
+$Grey2: #{'gd_var(Generic/Grey2)'}; /*! $Generic/Grey2:Color:FF00FFFF */
+$Grey3: #{'gd_var(Generic/Grey3)'}; /*! $Generic/Grey3:Color:FF00FFFF */
+$Neutral: #{'gd_var(Generic/Neutral)'}; /*! $Generic/Neutral:Color:FF00FFFF */
+$Highlight: #{'gd_var(Generic/Highlight)'}; /*! $Generic/Highlight:Color:FF00FFFF */
+
+$Frame: #{'gd_var(Generic/Frame)'}; /*! $Generic/Frame:Color:FF00FFFF */
+
+$TextColor: #{'gd_var(Generic/TextColor)'};       /*! $Generic/TextColor:Color:FF00FFFF */
+$OffTextColor: #{'gd_var(Generic/OffTextColor)'}; /*! $Generic/OffTextColor:Color:FF00FFFF */
+
+$ButtonBg: #{'gd_var(Generic/ButtonBg)'};        /*! $Generic/ButtonBg:Color:FF00FFFF */
+$ButtonHoverBg: #{'gd_var(Generic/ButtonHoverBg)'};   /*! $Generic/ButtonHoverBg:Color:FF00FFFF */
+$ButtonPressedBg: #{'gd_var(Generic/ButtonPressedBg)'}; /*! $Generic/ButtonPressedBg:Color:FF00FFFF */
+
+$SepColor: #{'gd_var(Generic/SeparatorColor)'}; /*! $Generic/SeparatorColor:Color:FF00FFFF */
+
+$MarginPanelBoundaryColor: #{'gd_var(Specific/MarginPanelBoundaryColor)'}; /*! $Specific/MarginPanelBoundaryColor:Color:FF00FFFF */
+
+// Constants
+$ScrollbarWidth: #{'gd_var(Generic/ScrollbarWidth)'}; /*! $Generic/ScrollbarWidth:Int:6 */
+$ScrollbarPadding: #{'gd_var(Generic/ScrollbarPadding)'}; /*! $Generic/ScrollbarPadding:Int:1 */
+$GeneralCornerRounding: #{'gd_var(Generic/GeneralCornerRounding)'}; /*! $Generic/GeneralCornerRounding:Int:2 */
+$MarginPanelBoundaryThickness: #{'gd_var(Specific/MarginPanelBoundaryThickness)'}; /*! $Specific/MarginPanelBoundaryThickness:Int:1 */
+$MarginPanelMargins: #{'gd_var(Specific/MarginPanelMargins)'}; /*! $Specific/MarginPanelMargins:Int:5 */
+
+// Icons
+$OptionButtonArrow: #{'gd_var(Specific/OptionButtonArrow)'}; /*! $Specific/OptionButtonArrow:Texture: */
+$IconHSplitGrabber: #{'gd_var(Specific/HSplitGrabber)'}; /*! $Specific/HSplitGrabber:Texture: */
+$IconVSplitGrabber: #{'gd_var(Specific/VSplitGrabber)'}; /*! $Specific/VSplitGrabber:Texture: */
+
+//===================================================//
+//===================== HELPERS =====================//
+//===================================================//
+
+@mixin constant_margins($v)
+{
+    constant_margin_bottom: $v;
+    constant_margin_top: $v;
+    constant_margin_left: $v;
+    constant_margin_right: $v;
+}
+
+@mixin stylebox_content_margins($v)
+{
+    stylebox_int_content_margin_left: $v;
+    stylebox_int_content_margin_right: $v;
+    stylebox_int_content_margin_top: $v;
+    stylebox_int_content_margin_bottom: $v;
+}
+
+@mixin styleboxflat_corner_radius($v)
+{
+    styleboxflat_int_corner_radius_top_left: $v;
+    styleboxflat_int_corner_radius_top_right: $v;
+    styleboxflat_int_corner_radius_bottom_right: $v;
+    styleboxflat_int_corner_radius_bottom_left: $v;
+}
+
+@mixin styleboxflat_border_width($v)
+{
+    styleboxflat_int_border_width_left: $v;
+    styleboxflat_int_border_width_top: $v;
+    styleboxflat_int_border_width_right: $v;
+    styleboxflat_int_border_width_bottom: $v;
+}
+
+@mixin styleboxflat_expand_margins($v)
+{
+    stylebox_int_expand_margin_left: $v;
+    stylebox_int_expand_margin_right: $v;
+    stylebox_int_expand_margin_top: $v;
+    stylebox_int_expand_margin_bottom: $v;
+}
+
+//===================================================//
+//===================== RESETS ======================//
+//===================================================//
+
+
+
+//===================================================//
+//===================== BUILT-INS ===================//
+//===================================================//
+
+Button, OptionButton, LineEdit {
+    @include styleboxflat_corner_radius($GeneralCornerRounding);
+}
+
+VSplitContainer {
+    icon_grabber: $IconVSplitGrabber;
+}
+
+HSplitContainer {
+    icon_grabber: $IconHSplitGrabber;
+}
+
+TabContainer {
+    .panel {
+        stylebox_color_bg_color: $Grey1;
+        @include styleboxflat_corner_radius(0);
+    }
+}
+
+OptionButton {
+    @include stylebox_content_margins(5);
+    styleboxflat_int_content_margin_top: -1;
+    styleboxflat_int_content_margin_bottom: -1;
+    styleboxflat_color_border_color: $Neutral;
+    @include styleboxflat_border_width(1);
+    
+    icon_arrow: $OptionButtonArrow;
+    
+    .normal {
+        styleboxflat_color_bg_color: $Grey2;
+    }
+    
+    .hover {
+        styleboxflat_color_bg_color: $Grey3;
+    }
+    
+    .pressed, .focus {
+        styleboxflat_color_bg_color: $Grey1;
+    }
+}
+
+PopupMenu {
+    color_font_color: $OffTextColor;
+    color_font_hover_color: $TextColor;
+    
+    .panel {
+        @include styleboxflat_border_width(1);
+        styleboxflat_color_border_color: $Neutral;
+        styleboxflat_color_bg_color: $Grey2;
+    }
+    
+    .hover {
+        @include styleboxflat_corner_radius(0);
+        styleboxflat_color_bg_color: $Grey3;
+    }
+}
+
+Label {
+    color_font_color: $TextColor;
+}
+
+Button {
+    @include styleboxflat_border_width(1);
+    @include stylebox_content_margins(5);
+
+    styleboxflat_color_border_color: $ButtonHoverBg;
+    styleboxflat_color_bg_color: $ButtonBg;
+    styleboxflat_bool_draw_center: true;
+
+    color_font_color: $TextColor;
+
+    .hover {
+        styleboxflat_color_bg_color: $ButtonHoverBg;
+    }
+
+    .pressed {
+        stylebox_color_bg_color: $ButtonPressedBg;
+    }
+
+    .focus {
+        stylebox: none;
+    }
+}
+
+FlatButton {
+    stylebox: none;
+}
+
+CheckButton {
+    .normal, .focus, .hover {
+        stylebox: StyleBoxEmpty;
+    }
+}
+
+CheckBox {
+    .normal, .disabled, .pressed, .focus, .hover, .hover_pressed {
+        stylebox: StyleBoxEmpty;
+    }
+}
+
+LineEdit {
+    @include stylebox_content_margins(5);
+    @include styleboxflat_border_width(1);
+
+    styleboxflat_color_bg_color: $Grey2;
+    styleboxflat_color_border_color: $Neutral;
+}
+
+HScrollBar, VScrollBar  {
+    .grabber, .grabber_highlight, .grabber_pressed {
+        @include styleboxflat_corner_radius(2);
+    }
+    
+    .grabber {
+        @include styleboxflat_border_width(1);
+        styleboxflat_color_border_color: $Neutral;
+        styleboxflat_color_bg_color: $Grey2;
+    }
+
+    .scroll {
+        styleboxflat_color_bg_color: $Grey1;
+    }
+}
+
+VScrollBar .scroll {
+    stylebox_int_content_margin_left: $ScrollbarWidth;
+    styleboxflat_int_expand_margin_left: $ScrollbarPadding;
+    styleboxflat_int_expand_margin_right: $ScrollbarPadding;
+}
+
+HScrollBar .scroll {
+    stylebox_int_content_margin_top: $ScrollbarWidth;
+    styleboxflat_int_expand_margin_top: $ScrollbarPadding;
+    styleboxflat_int_expand_margin_bottom: $ScrollbarPadding;
+}
+
+HSeparator, VSeparator {
+    stylebox: StyleBoxLine;
+    .separator {
+        stylebox_color_color: $SepColor;
+    }
+}
+
+VSeparator {
+    .separator {
+        stylebox_bool_vertical: true;
+    }
+}
+
+
+//===================================================//
+//===================== CUSTOM ======================//
+//===================================================//
+
+VBoxContainerNoSeparation {
+    inherits: VBoxContainer;
+    constant_separation: 0;
+}
+
+HBoxContainerNoSeparation {
+    inherits: HBoxContainer;
+    constant_separation: 0;
+}
+
+MarginPanel {
+    constant_boundary_thickness: $MarginPanelBoundaryThickness;
+    color_boundary: $MarginPanelBoundaryColor;
+    
+    @include constant_margins($MarginPanelMargins);
+
+    .panel {
+        stylebox_color_bg_color: $Grey3;
+    }
+}
+
+PanelLayer1 {
+    inherits: Panel;
+    
+    .panel {
+        stylebox_color_bg_color: $Grey3;
+    }
+}
+
+ButtonWindowControls {
+    stylebox: none;
+
+    .normal {
+        styleboxflat_color_bg_color: #00000000;
+    }
+}
+
+Sidebar {
+    fontsize_item: 18;
+    color_item_selected: $Highlight;
+
+    .background {
+        styleboxflat_color_bg_color: $Frame;
+    }
+}

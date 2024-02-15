@@ -48,12 +48,12 @@ project/assembly_name="Godot Source Tools"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/appframework/plugin.cfg")
+enabled=PackedStringArray("res://addons/StylesheetUI/plugin.cfg", "res://addons/appframework/plugin.cfg")
 
 [gui]
 
-theme/custom="res://Assets/Themes/Default.tres"
-theme/custom_font="res://Assets/Fonts/DefaultSystem.tres"
+theme/custom="res://Assets/Themes/Application.tres"
+theme/custom_font="res://Assets/Fonts/Inter-Regular.otf"
 
 [rendering]
 

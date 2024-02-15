@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GodotSourceTools;
+namespace GodotAppFramework;
 
 class StringFormatting
 {

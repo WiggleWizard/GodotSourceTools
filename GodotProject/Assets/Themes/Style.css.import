@@ -1,0 +1,40 @@
+[remap]
+
+importer="stylesheet"
+type="Resource"
+uid="uid://c5p3auumu6m2e"
+path="res://.godot/imported/Style.css-1f05d8117f6f2f86820a3c0543c74fe0.res"
+
+[deps]
+
+source_file="res://Assets/Themes/Style.css"
+dest_files=["res://.godot/imported/Style.css-1f05d8117f6f2f86820a3c0543c74fe0.res"]
+
+[params]
+
+variables={
+"Generic/ButtonBg": Color(1, 0, 1, 1),
+"Generic/ButtonHoverBg": Color(1, 0, 1, 1),
+"Generic/ButtonPressedBg": Color(1, 0, 1, 1),
+"Generic/Frame": Color(1, 0, 1, 1),
+"Generic/GeneralCornerRounding": 2,
+"Generic/Grey1": Color(1, 0, 1, 1),
+"Generic/Grey2": Color(1, 0, 1, 1),
+"Generic/Grey3": Color(1, 0, 1, 1),
+"Generic/Highlight": Color(1, 0, 1, 1),
+"Generic/Neutral": Color(1, 0, 1, 1),
+"Generic/OffTextColor": Color(1, 0, 1, 1),
+"Generic/ScrollbarPadding": 1,
+"Generic/ScrollbarWidth": 6,
+"Generic/SeparatorColor": Color(1, 0, 1, 1),
+"Generic/TextColor": Color(1, 0, 1, 1),
+"Specific/HSplitGrabber": Object(ImageTexture,"resource_local_to_scene":false,"resource_name":"","image":null,"script":null)
+,
+"Specific/MarginPanelBoundaryColor": Color(1, 0, 1, 1),
+"Specific/MarginPanelBoundaryThickness": 1,
+"Specific/MarginPanelMargins": 5,
+"Specific/OptionButtonArrow": Object(ImageTexture,"resource_local_to_scene":false,"resource_name":"","image":null,"script":null)
+,
+"Specific/VSplitGrabber": Object(ImageTexture,"resource_local_to_scene":false,"resource_name":"","image":null,"script":null)
+
+}

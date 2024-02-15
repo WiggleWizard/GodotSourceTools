@@ -8,6 +8,7 @@ using AppFramework.Globals;
 [Tool]
 public partial class AppFrameworkPlugin : EditorPlugin
 {
+	
 	public override void _EnterTree()
 	{
 		GD.Print("Enabling App Framework");

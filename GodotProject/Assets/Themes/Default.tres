@@ -1,8 +1,42 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://s2icye65ewu8"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://s2icye65ewu8"]
 
 [ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="1_5f05a"]
 [ext_resource type="FontFile" uid="uid://do67oop6pvq3m" path="res://Assets/Fonts/Inter-Regular.otf" id="1_l3efr"]
 [ext_resource type="FontFile" uid="uid://ppis0jn7ai0u" path="res://Assets/Fonts/Font Awesome 6 Free-Solid-900.otf" id="3_43vd4"]
+[ext_resource type="Texture2D" uid="uid://dvpa8tx6rjq3n" path="res://Assets/Themes/Icons/OptionButton.png" id="3_p2r6w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvflr"]
+content_margin_left = 10.0
+content_margin_top = 5.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.219608, 0.247059, 0.286275, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.290196, 0.333333, 0.403922, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lpubu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0ews6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dq2q6"]
+content_margin_left = 8.0
+bg_color = Color(0.12549, 0.137255, 0.152941, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.172549, 0.184314, 0.203922, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pg01i"]
 bg_color = Color(0.101961, 0.113725, 0.137255, 1)
@@ -31,45 +65,30 @@ corner_radius_bottom_left = 4
 bg_color = Color(0.262745, 0.545098, 0.819608, 1)
 
 [resource]
-Button/font_sizes/font_size = 14
+default_font_size = 13
+Button/colors/font_color = Color(0.847059, 0.866667, 0.886275, 1)
+Button/styles/normal = SubResource("StyleBoxFlat_nvflr")
 ButtonWindowControls/base_type = &"Button"
-CheckBox/font_sizes/font_size = 14
-CheckButton/font_sizes/font_size = 14
-CodeEdit/font_sizes/font_size = 16
-ColorPickerButton/font_sizes/font_size = 16
-GraphNodeTitleLabel/font_sizes/font_size = 16
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_lpubu")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_0ews6")
 HSplitContainer/constants/autohide = 0
 HSplitContainer/constants/minimum_grab_thickness = 0
 HSplitContainer/constants/separation = 0
 HSplitContainer/icons/grabber = null
-HeaderLarge/font_sizes/font_size = 16
-HeaderMedium/font_sizes/font_size = 14
-HeaderSmall/font_sizes/font_size = 16
-ItemList/font_sizes/font_size = 16
 Label/colors/font_color = Color(0.847059, 0.866667, 0.886275, 1)
-Label/font_sizes/font_size = 14
 Label/fonts/font = ExtResource("1_l3efr")
-LargeScrollableTextBox/font_sizes/font_size = 16
+LabelOffText/base_type = &"Label"
+LabelOffText/colors/font_color = Color(0.556863, 0.611765, 0.67451, 1)
 LargeScrollableTextBox/fonts/font = ExtResource("1_5f05a")
-LineEdit/font_sizes/font_size = 14
-LinkButton/font_sizes/font_size = 16
-MenuBar/font_sizes/font_size = 14
-MenuButton/font_sizes/font_size = 14
-OptionButton/font_sizes/font_size = 14
-OptionButton/icons/arrow = null
+OptionButton/constants/arrow_margin = 0
+OptionButton/constants/h_separation = 4
+OptionButton/icons/arrow = ExtResource("3_p2r6w")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_dq2q6")
 Panel/styles/panel = null
 PanelGrey1/base_type = &"Panel"
 PanelGrey1/styles/panel = SubResource("StyleBoxFlat_pg01i")
 PanelWindowDecoration/base_type = &"Panel"
 PanelWindowDecoration/styles/panel = SubResource("StyleBoxFlat_8xkkh")
-PopupMenu/font_sizes/font_separator_size = 16
-PopupMenu/font_sizes/font_size = 16
-ProgressBar/font_sizes/font_size = 16
-RichTextLabel/font_sizes/bold_font_size = 16
-RichTextLabel/font_sizes/bold_italics_font_size = 16
-RichTextLabel/font_sizes/italics_font_size = 16
-RichTextLabel/font_sizes/mono_font_size = 16
-RichTextLabel/font_sizes/normal_font_size = 16
 Sidebar/colors/hover = Color(0, 0, 0, 1)
 Sidebar/colors/item = Color(0.847059, 0.866667, 0.886275, 1)
 Sidebar/colors/item_hovered = Color(0.847059, 0.866667, 0.886275, 1)
@@ -82,16 +101,8 @@ Sidebar/constants/item_margin = 2
 Sidebar/constants/item_y_offset = -3
 Sidebar/constants/selected_bg_size = 40
 Sidebar/constants/selected_pip_width = 2
-Sidebar/font_sizes/item = 18
 Sidebar/fonts/item = ExtResource("3_43vd4")
 Sidebar/styles/background = SubResource("StyleBoxFlat_jj6rl")
 Sidebar/styles/hovered_background = SubResource("StyleBoxFlat_lui2a")
 Sidebar/styles/selected_background = SubResource("StyleBoxFlat_u77yf")
 Sidebar/styles/selected_pip = SubResource("StyleBoxFlat_smosj")
-TabBar/font_sizes/font_size = 14
-TabContainer/font_sizes/font_size = 14
-TextEdit/font_sizes/font_size = 16
-TooltipLabel/font_sizes/font_size = 14
-Tree/font_sizes/font_size = 14
-Tree/font_sizes/title_button_font_size = 14
-Window/font_sizes/title_font_size = 16

@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxFlat" script_class="StyleBoxSplitter" load_steps=2 format=3 uid="uid://bsg0p7lfwrc8v"]
+
+[ext_resource type="Script" path="res://Assets/Themes/Styleboxes/StyleBoxSplitter.cs" id="1_trngb"]
+
+[resource]
+script = ExtResource("1_trngb")

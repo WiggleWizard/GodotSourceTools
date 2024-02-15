@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://ct17vc4nwj2q1"]
+[gd_scene load_steps=4 format=3 uid="uid://ct17vc4nwj2q1"]
 
 [ext_resource type="PackedScene" uid="uid://dmu4q4bj2vg2h" path="res://Scenes/WindowDecoration/Titlebar.tscn" id="1_4sbmn"]
 [ext_resource type="PackedScene" uid="uid://c72yba5b1n3q3" path="res://Scenes/Sidebar/Sidebar.tscn" id="2_7d3ib"]
+[ext_resource type="PackedScene" uid="uid://baf0nmgrmqijc" path="res://Scenes/WindowDecoration/Statusbar.tscn" id="3_655tu"]
 
 [node name="WindowDecoration" type="Control"]
 layout_mode = 3
@@ -37,8 +38,15 @@ layout_mode = 2
 [node name="Content" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="ColorRect" type="ColorRect" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 color = Color(0.0745098, 0.0901961, 0.12549, 1)
+
+[node name="Statusbar" parent="VBoxContainer" instance=ExtResource("3_655tu")]
+layout_mode = 2

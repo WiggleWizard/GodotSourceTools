@@ -8,8 +8,9 @@
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="ExCSS" Version="4.2.5" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
-    <PackageReference Include="NativeFileDialogs.Net" Version="1.1.0" />
   </ItemGroup>
 </Project>

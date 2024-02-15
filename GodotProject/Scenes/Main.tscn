@@ -27,17 +27,18 @@ CloseWindowControl = NodePath("HBoxContainer/Controls/Close")
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+tab_alignment = 1
 
 [node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
 layout_mode = 2
-ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/VanillaModules")
-ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
-TargetOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target/Control")
-PlatformOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform/Control")
-PrecisionOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision/Control")
-ConfigSelector = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigSelector")
-ConfigEditor = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Control/ConfigEdit")
-ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/Panel2/MarginContainer/VBoxContainer/AdditionalArgs")]
+ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/ScrollContainer/VBoxContainer/VanillaModules")
+ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
+TargetOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Target/Control")
+PlatformOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Platform/Control")
+PrecisionOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Precision/Control")
+ConfigSelector = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigSelector")
+ConfigEditor = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigEdit")
+ConfigControlContainers = [null, null, null, null, null, null, null, null]
 
 [node name="Scons Build Status" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox") instance=ExtResource("4_kwo65")]
 visible = false

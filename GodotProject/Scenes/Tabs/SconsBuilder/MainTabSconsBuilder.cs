@@ -4,7 +4,7 @@ using Godot.Collections;
 using System;
 using System.Reflection;
 
-using ModuleCheckBox = Godot.CheckButton;
+using ModuleCheckBox = Godot.CheckBox;
 
 public partial class MainTabSconsBuilder : MainTabBase
 {
