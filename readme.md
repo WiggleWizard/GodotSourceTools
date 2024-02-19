@@ -1,6 +1,6 @@
 <p align="center"><img alt="Banner.png" src="Docs/Banner.png"/></p>
 
-<p align="center"><img alt="Screenshot.png" src="Docs/Screenshot.png"/></p>
+<p align="center"><img alt="BetterUIScreenshot.png" src="Docs/BetterUIScreenshot.png"/></p>
 
 # Goals
 The goals of Godot Source Tools are to:
@@ -66,7 +66,7 @@ In no particular order, I'd love to add the following features in the near futur
 - [ ] Automatic installation of requirements 
 - [ ] Module/GDExtension repository to allow in-app one tap download of modules to allow easier compilation of entirely custom builds
 - [ ] Extra compilation options:
-  - [ ] Single/double precision 
+  - [x] Single/double precision 
   - [ ] Core count
 - [ ] One tap Android compilation
 - [ ] Full end-to-end Mono/C# compilation
@@ -82,7 +82,7 @@ In no particular order, I'd love to add the following features in the near futur
 - [ ] Batch building
 - [ ] Make compatible with Mesons fork
 - [ ] Support for different Godot branches other than `master` branch
-- [ ] Better UI visuals
+- [x] Better UI visuals
 - [ ] Spoken language translations
 - [ ] General pck unpacking protection
 
