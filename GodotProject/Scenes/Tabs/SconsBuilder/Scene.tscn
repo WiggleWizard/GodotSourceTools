@@ -142,15 +142,6 @@ tooltip_text = "Remove currently selected config entry"
 theme_override_fonts/font = ExtResource("2_3hsyl")
 text = "Remove"
 
-[node name="VSeparator" type="VSeparator" parent="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer"]
-layout_mode = 2
-
-[node name="Save" type="Button" parent="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer"]
-layout_mode = 2
-tooltip_text = "Save config to source directory"
-theme_override_fonts/font = ExtResource("2_3hsyl")
-text = "Save"
-
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -404,7 +395,6 @@ Actions = [SubResource("Resource_kw671"), SubResource("Resource_s6ayv")]
 [connection signal="text_submitted" from="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigEdit" to="." method="OnConfigEditTextSubmitted"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Edit" to="." method="OnEditConfigPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Add" to="." method="OnAddPressed"]
-[connection signal="pressed" from="MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Save" to="." method="OnSaveConfigPressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/VBoxContainer/HBoxContainer/EnableAll" to="." method="ForceModuleListPreset" binds= ["EnableAll"]]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/VBoxContainer/HBoxContainer/DisableAll" to="." method="ForceModuleListPreset" binds= ["DisableAll"]]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/VBoxContainer/HBoxContainer2/VanillaOnly" to="." method="ForceModuleListPreset" binds= ["VanillaOnly"]]

@@ -20,6 +20,8 @@ public partial class MainTabSconsBuilder : MainTabBase
 
     [Export] private SourceManagerConfigEntry? CurrentlySelectedConfig { set; get; } = null;
 
+    private bool _configLoaded = false;
+
     public override void _Ready()
     {
         foreach (Node? n in ConfigControlContainers)
@@ -114,14 +116,19 @@ public partial class MainTabSconsBuilder : MainTabBase
         sourceManager.CreateNewConfigEntry("New Config");
     }
 
-    public void OnSaveConfigPressed()
+    public void SaveConfig()
     {
-        var sourceManager = SourceManager.GetInstance();
-        sourceManager.SaveConfig();
+        if (_configLoaded)
+        {
+            var sourceManager = SourceManager.GetInstance();
+            sourceManager.SaveConfig();   
+        }
     }
 
     public void OnConfigSelectorItemSelected(int index)
     {
+        _configLoaded = false;
+        
         var sourceManager = SourceManager.GetInstance();
         CurrentlySelectedConfig = sourceManager.GetConfigEntry(index);
         if (CurrentlySelectedConfig == null)
@@ -150,11 +157,15 @@ public partial class MainTabSconsBuilder : MainTabBase
             if (child is ModuleCheckBox checkbox)
                 checkbox.ButtonPressed = CurrentlySelectedConfig.EnabledModules.Contains(child.Name);
         }
+
+        _configLoaded = true;
     }
 
     public void OnNewConfigAdded(SourceManagerConfigEntry newConfig)
     {
         ConfigSelector.AddItem(newConfig.Name);
+
+        SaveConfig();
     }
 
     public void OnOptionButtonItemSelected(int index, String propName)
@@ -173,6 +184,8 @@ public partial class MainTabSconsBuilder : MainTabBase
         System.Array values = Enum.GetValues(propType);
         object? value = values.GetValue(index);
         propInfo.SetValue(CurrentlySelectedConfig, value);
+        
+        SaveConfig();
     }
 
     public void OnConfigCheckButtonToggled(bool on, String propName)
@@ -188,6 +201,8 @@ public partial class MainTabSconsBuilder : MainTabBase
             return;
         
         propInfo.SetValue(CurrentlySelectedConfig, on);
+        
+        SaveConfig();
     }
 
     public void OnConfigLineEditChanged(String newText, String propName)
@@ -203,6 +218,8 @@ public partial class MainTabSconsBuilder : MainTabBase
             return;
         
         propInfo.SetValue(CurrentlySelectedConfig, newText);
+        
+        SaveConfig();
     }
 
     public void OnConfigModuleToggled(bool on, String moduleName)
@@ -216,6 +233,8 @@ public partial class MainTabSconsBuilder : MainTabBase
         CurrentlySelectedConfig.EnabledModules.Remove(moduleName);
         if (on)
             CurrentlySelectedConfig.EnabledModules.Add(moduleName);
+        
+        SaveConfig();
     }
 
     public void OnEditConfigPressed()
@@ -292,6 +311,8 @@ public partial class MainTabSconsBuilder : MainTabBase
                     checkbox.ButtonPressed = !checkbox.ButtonPressed;
             } break;
         }
+        
+        SaveConfig();
     }
 
     public void OnBuildPressed()

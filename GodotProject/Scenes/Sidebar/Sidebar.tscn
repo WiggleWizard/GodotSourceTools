@@ -11,4 +11,4 @@ offset_right = 589.0
 grow_vertical = 2
 theme_type_variation = &"PanelWindowDecoration"
 script = ExtResource("1_dhlme")
-Items = ["trowel-bricks", "terminal", "globe"]
+Items = ["trowel-bricks", "code-merge", "globe"]

@@ -49,34 +49,34 @@ $IconVSplitGrabber: #{'gd_var(Specific/VSplitGrabber)'}; /*! $Specific/VSplitGra
 
 @mixin stylebox_content_margins($v)
 {
-    stylebox_int_content_margin_left: $v;
-    stylebox_int_content_margin_right: $v;
-    stylebox_int_content_margin_top: $v;
-    stylebox_int_content_margin_bottom: $v;
+    stylebox_content_margin_left: $v;
+    stylebox_content_margin_right: $v;
+    stylebox_content_margin_top: $v;
+    stylebox_content_margin_bottom: $v;
 }
 
-@mixin styleboxflat_corner_radius($v)
+@mixin stylebox_corner_radius($v)
 {
-    styleboxflat_int_corner_radius_top_left: $v;
-    styleboxflat_int_corner_radius_top_right: $v;
-    styleboxflat_int_corner_radius_bottom_right: $v;
-    styleboxflat_int_corner_radius_bottom_left: $v;
+    stylebox_corner_radius_top_left: $v;
+    stylebox_corner_radius_top_right: $v;
+    stylebox_corner_radius_bottom_right: $v;
+    stylebox_corner_radius_bottom_left: $v;
 }
 
-@mixin styleboxflat_border_width($v)
+@mixin stylebox_border_width($v)
 {
-    styleboxflat_int_border_width_left: $v;
-    styleboxflat_int_border_width_top: $v;
-    styleboxflat_int_border_width_right: $v;
-    styleboxflat_int_border_width_bottom: $v;
+    stylebox_border_width_left: $v;
+    stylebox_border_width_top: $v;
+    stylebox_border_width_right: $v;
+    stylebox_border_width_bottom: $v;
 }
 
-@mixin styleboxflat_expand_margins($v)
+@mixin stylebox_expand_margins($v)
 {
-    stylebox_int_expand_margin_left: $v;
-    stylebox_int_expand_margin_right: $v;
-    stylebox_int_expand_margin_top: $v;
-    stylebox_int_expand_margin_bottom: $v;
+    stylebox_expand_margin_left: $v;
+    stylebox_expand_margin_right: $v;
+    stylebox_expand_margin_top: $v;
+    stylebox_expand_margin_bottom: $v;
 }
 
 //===================================================//
@@ -89,8 +89,12 @@ $IconVSplitGrabber: #{'gd_var(Specific/VSplitGrabber)'}; /*! $Specific/VSplitGra
 //===================== BUILT-INS ===================//
 //===================================================//
 
+Label, TextEdit, LineEdit, OptionButton, PopupMenu, Button {
+    color_font_color: $TextColor;
+}
+
 Button, OptionButton, LineEdit {
-    @include styleboxflat_corner_radius($GeneralCornerRounding);
+    @include stylebox_corner_radius($GeneralCornerRounding);
 }
 
 VSplitContainer {
@@ -103,69 +107,62 @@ HSplitContainer {
 
 TabContainer {
     .panel {
-        stylebox_color_bg_color: $Grey1;
-        @include styleboxflat_corner_radius(0);
+        stylebox_bg_color: $Grey1;
+        @include stylebox_corner_radius(0);
     }
 }
 
 OptionButton {
     @include stylebox_content_margins(5);
-    styleboxflat_int_content_margin_top: -1;
-    styleboxflat_int_content_margin_bottom: -1;
-    styleboxflat_color_border_color: $Neutral;
-    @include styleboxflat_border_width(1);
+    stylebox_content_margin_top: -1;
+    stylebox_content_margin_bottom: -1;
+    stylebox_border_color: $Neutral;
+    @include stylebox_border_width(1);
     
     icon_arrow: $OptionButtonArrow;
     
     .normal {
-        styleboxflat_color_bg_color: $Grey2;
+        stylebox_bg_color: $Grey2;
     }
     
     .hover {
-        styleboxflat_color_bg_color: $Grey3;
+        stylebox_bg_color: $Grey3;
     }
     
     .pressed, .focus {
-        styleboxflat_color_bg_color: $Grey1;
+        stylebox_bg_color: $Grey1;
     }
 }
 
 PopupMenu {
-    color_font_color: $OffTextColor;
     color_font_hover_color: $TextColor;
     
     .panel {
-        @include styleboxflat_border_width(1);
-        styleboxflat_color_border_color: $Neutral;
-        styleboxflat_color_bg_color: $Grey2;
+        @include stylebox_border_width(1);
+        stylebox_border_color: $Neutral;
+        stylebox_bg_color: $Grey2;
     }
     
     .hover {
-        @include styleboxflat_corner_radius(0);
-        styleboxflat_color_bg_color: $Grey3;
+        @include stylebox_corner_radius(0);
+        stylebox_bg_color: $Grey3;
     }
-}
-
-Label {
-    color_font_color: $TextColor;
 }
 
 Button {
-    @include styleboxflat_border_width(1);
+    @include stylebox_border_width(1);
     @include stylebox_content_margins(5);
 
-    styleboxflat_color_border_color: $ButtonHoverBg;
-    styleboxflat_color_bg_color: $ButtonBg;
-    styleboxflat_bool_draw_center: true;
-
-    color_font_color: $TextColor;
+    stylebox_border_color: $ButtonHoverBg;
+    stylebox_bg_color: $ButtonBg;
+    stylebox_draw_center: true;
 
     .hover {
-        styleboxflat_color_bg_color: $ButtonHoverBg;
+        stylebox_bg_color: $ButtonHoverBg;
     }
 
     .pressed {
-        stylebox_color_bg_color: $ButtonPressedBg;
+        stylebox_bg_color: $ButtonPressedBg;
     }
 
     .focus {
@@ -178,7 +175,7 @@ FlatButton {
 }
 
 CheckButton {
-    .normal, .focus, .hover {
+    .normal, .focus, .hover, .pressed {
         stylebox: StyleBoxEmpty;
     }
 }
@@ -191,50 +188,50 @@ CheckBox {
 
 LineEdit {
     @include stylebox_content_margins(5);
-    @include styleboxflat_border_width(1);
+    @include stylebox_border_width(1);
 
-    styleboxflat_color_bg_color: $Grey2;
-    styleboxflat_color_border_color: $Neutral;
+    stylebox_bg_color: $Grey2;
+    stylebox_border_color: $Neutral;
 }
 
 HScrollBar, VScrollBar  {
     .grabber, .grabber_highlight, .grabber_pressed {
-        @include styleboxflat_corner_radius(2);
+        @include stylebox_corner_radius(2);
     }
     
     .grabber {
-        @include styleboxflat_border_width(1);
-        styleboxflat_color_border_color: $Neutral;
-        styleboxflat_color_bg_color: $Grey2;
+        @include stylebox_border_width(1);
+        stylebox_border_color: $Neutral;
+        stylebox_bg_color: $Grey2;
     }
 
     .scroll {
-        styleboxflat_color_bg_color: $Grey1;
+        stylebox_bg_color: $Grey1;
     }
 }
 
 VScrollBar .scroll {
-    stylebox_int_content_margin_left: $ScrollbarWidth;
-    styleboxflat_int_expand_margin_left: $ScrollbarPadding;
-    styleboxflat_int_expand_margin_right: $ScrollbarPadding;
+    stylebox_content_margin_left: $ScrollbarWidth;
+    stylebox_expand_margin_left: $ScrollbarPadding;
+    stylebox_expand_margin_right: $ScrollbarPadding;
 }
 
 HScrollBar .scroll {
-    stylebox_int_content_margin_top: $ScrollbarWidth;
-    styleboxflat_int_expand_margin_top: $ScrollbarPadding;
-    styleboxflat_int_expand_margin_bottom: $ScrollbarPadding;
+    stylebox_content_margin_top: $ScrollbarWidth;
+    stylebox_expand_margin_top: $ScrollbarPadding;
+    stylebox_expand_margin_bottom: $ScrollbarPadding;
 }
 
 HSeparator, VSeparator {
     stylebox: StyleBoxLine;
     .separator {
-        stylebox_color_color: $SepColor;
+        stylebox_color: $SepColor;
     }
 }
 
 VSeparator {
     .separator {
-        stylebox_bool_vertical: true;
+        stylebox_vertical: true;
     }
 }
 
@@ -260,7 +257,7 @@ MarginPanel {
     @include constant_margins($MarginPanelMargins);
 
     .panel {
-        stylebox_color_bg_color: $Grey3;
+        stylebox_bg_color: $Grey3;
     }
 }
 
@@ -268,7 +265,7 @@ PanelLayer1 {
     inherits: Panel;
     
     .panel {
-        stylebox_color_bg_color: $Grey3;
+        stylebox_bg_color: $Grey3;
     }
 }
 
@@ -276,7 +273,7 @@ ButtonWindowControls {
     stylebox: none;
 
     .normal {
-        styleboxflat_color_bg_color: #00000000;
+        stylebox_bg_color: #00000000;
     }
 }
 
@@ -285,6 +282,6 @@ Sidebar {
     color_item_selected: $Highlight;
 
     .background {
-        styleboxflat_color_bg_color: $Frame;
+        stylebox_bg_color: $Frame;
     }
 }

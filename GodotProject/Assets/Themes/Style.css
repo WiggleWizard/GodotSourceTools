@@ -19,11 +19,15 @@
 /*! $Specific/OptionButtonArrow:Texture: */
 /*! $Specific/HSplitGrabber:Texture: */
 /*! $Specific/VSplitGrabber:Texture: */
+Label, TextEdit, LineEdit, OptionButton, PopupMenu, Button {
+  color_font_color: gd_var(Generic/TextColor);
+}
+
 Button, OptionButton, LineEdit {
-  styleboxflat_int_corner_radius_top_left: gd_var(Generic/GeneralCornerRounding);
-  styleboxflat_int_corner_radius_top_right: gd_var(Generic/GeneralCornerRounding);
-  styleboxflat_int_corner_radius_bottom_right: gd_var(Generic/GeneralCornerRounding);
-  styleboxflat_int_corner_radius_bottom_left: gd_var(Generic/GeneralCornerRounding);
+  stylebox_corner_radius_top_left: gd_var(Generic/GeneralCornerRounding);
+  stylebox_corner_radius_top_right: gd_var(Generic/GeneralCornerRounding);
+  stylebox_corner_radius_bottom_right: gd_var(Generic/GeneralCornerRounding);
+  stylebox_corner_radius_bottom_left: gd_var(Generic/GeneralCornerRounding);
 }
 
 VSplitContainer {
@@ -35,80 +39,74 @@ HSplitContainer {
 }
 
 TabContainer .panel {
-  stylebox_color_bg_color: gd_var(Generic/Grey1);
-  styleboxflat_int_corner_radius_top_left: 0;
-  styleboxflat_int_corner_radius_top_right: 0;
-  styleboxflat_int_corner_radius_bottom_right: 0;
-  styleboxflat_int_corner_radius_bottom_left: 0;
+  stylebox_bg_color: gd_var(Generic/Grey1);
+  stylebox_corner_radius_top_left: 0;
+  stylebox_corner_radius_top_right: 0;
+  stylebox_corner_radius_bottom_right: 0;
+  stylebox_corner_radius_bottom_left: 0;
 }
 
 OptionButton {
-  stylebox_int_content_margin_left: 5;
-  stylebox_int_content_margin_right: 5;
-  stylebox_int_content_margin_top: 5;
-  stylebox_int_content_margin_bottom: 5;
-  styleboxflat_int_content_margin_top: -1;
-  styleboxflat_int_content_margin_bottom: -1;
-  styleboxflat_color_border_color: gd_var(Generic/Neutral);
-  styleboxflat_int_border_width_left: 1;
-  styleboxflat_int_border_width_top: 1;
-  styleboxflat_int_border_width_right: 1;
-  styleboxflat_int_border_width_bottom: 1;
+  stylebox_content_margin_left: 5;
+  stylebox_content_margin_right: 5;
+  stylebox_content_margin_top: 5;
+  stylebox_content_margin_bottom: 5;
+  stylebox_content_margin_top: -1;
+  stylebox_content_margin_bottom: -1;
+  stylebox_border_color: gd_var(Generic/Neutral);
+  stylebox_border_width_left: 1;
+  stylebox_border_width_top: 1;
+  stylebox_border_width_right: 1;
+  stylebox_border_width_bottom: 1;
   icon_arrow: gd_var(Specific/OptionButtonArrow);
 }
 OptionButton .normal {
-  styleboxflat_color_bg_color: gd_var(Generic/Grey2);
+  stylebox_bg_color: gd_var(Generic/Grey2);
 }
 OptionButton .hover {
-  styleboxflat_color_bg_color: gd_var(Generic/Grey3);
+  stylebox_bg_color: gd_var(Generic/Grey3);
 }
 OptionButton .pressed, OptionButton .focus {
-  styleboxflat_color_bg_color: gd_var(Generic/Grey1);
+  stylebox_bg_color: gd_var(Generic/Grey1);
 }
 
 PopupMenu {
-  color_font_color: gd_var(Generic/OffTextColor);
   color_font_hover_color: gd_var(Generic/TextColor);
 }
 PopupMenu .panel {
-  styleboxflat_int_border_width_left: 1;
-  styleboxflat_int_border_width_top: 1;
-  styleboxflat_int_border_width_right: 1;
-  styleboxflat_int_border_width_bottom: 1;
-  styleboxflat_color_border_color: gd_var(Generic/Neutral);
-  styleboxflat_color_bg_color: gd_var(Generic/Grey2);
+  stylebox_border_width_left: 1;
+  stylebox_border_width_top: 1;
+  stylebox_border_width_right: 1;
+  stylebox_border_width_bottom: 1;
+  stylebox_border_color: gd_var(Generic/Neutral);
+  stylebox_bg_color: gd_var(Generic/Grey2);
 }
 PopupMenu .hover {
-  styleboxflat_int_corner_radius_top_left: 0;
-  styleboxflat_int_corner_radius_top_right: 0;
-  styleboxflat_int_corner_radius_bottom_right: 0;
-  styleboxflat_int_corner_radius_bottom_left: 0;
-  styleboxflat_color_bg_color: gd_var(Generic/Grey3);
-}
-
-Label {
-  color_font_color: gd_var(Generic/TextColor);
+  stylebox_corner_radius_top_left: 0;
+  stylebox_corner_radius_top_right: 0;
+  stylebox_corner_radius_bottom_right: 0;
+  stylebox_corner_radius_bottom_left: 0;
+  stylebox_bg_color: gd_var(Generic/Grey3);
 }
 
 Button {
-  styleboxflat_int_border_width_left: 1;
-  styleboxflat_int_border_width_top: 1;
-  styleboxflat_int_border_width_right: 1;
-  styleboxflat_int_border_width_bottom: 1;
-  stylebox_int_content_margin_left: 5;
-  stylebox_int_content_margin_right: 5;
-  stylebox_int_content_margin_top: 5;
-  stylebox_int_content_margin_bottom: 5;
-  styleboxflat_color_border_color: gd_var(Generic/ButtonHoverBg);
-  styleboxflat_color_bg_color: gd_var(Generic/ButtonBg);
-  styleboxflat_bool_draw_center: true;
-  color_font_color: gd_var(Generic/TextColor);
+  stylebox_border_width_left: 1;
+  stylebox_border_width_top: 1;
+  stylebox_border_width_right: 1;
+  stylebox_border_width_bottom: 1;
+  stylebox_content_margin_left: 5;
+  stylebox_content_margin_right: 5;
+  stylebox_content_margin_top: 5;
+  stylebox_content_margin_bottom: 5;
+  stylebox_border_color: gd_var(Generic/ButtonHoverBg);
+  stylebox_bg_color: gd_var(Generic/ButtonBg);
+  stylebox_draw_center: true;
 }
 Button .hover {
-  styleboxflat_color_bg_color: gd_var(Generic/ButtonHoverBg);
+  stylebox_bg_color: gd_var(Generic/ButtonHoverBg);
 }
 Button .pressed {
-  stylebox_color_bg_color: gd_var(Generic/ButtonPressedBg);
+  stylebox_bg_color: gd_var(Generic/ButtonPressedBg);
 }
 Button .focus {
   stylebox: none;
@@ -118,7 +116,7 @@ FlatButton {
   stylebox: none;
 }
 
-CheckButton .normal, CheckButton .focus, CheckButton .hover {
+CheckButton .normal, CheckButton .focus, CheckButton .hover, CheckButton .pressed {
   stylebox: StyleBoxEmpty;
 }
 
@@ -127,57 +125,57 @@ CheckBox .normal, CheckBox .disabled, CheckBox .pressed, CheckBox .focus, CheckB
 }
 
 LineEdit {
-  stylebox_int_content_margin_left: 5;
-  stylebox_int_content_margin_right: 5;
-  stylebox_int_content_margin_top: 5;
-  stylebox_int_content_margin_bottom: 5;
-  styleboxflat_int_border_width_left: 1;
-  styleboxflat_int_border_width_top: 1;
-  styleboxflat_int_border_width_right: 1;
-  styleboxflat_int_border_width_bottom: 1;
-  styleboxflat_color_bg_color: gd_var(Generic/Grey2);
-  styleboxflat_color_border_color: gd_var(Generic/Neutral);
+  stylebox_content_margin_left: 5;
+  stylebox_content_margin_right: 5;
+  stylebox_content_margin_top: 5;
+  stylebox_content_margin_bottom: 5;
+  stylebox_border_width_left: 1;
+  stylebox_border_width_top: 1;
+  stylebox_border_width_right: 1;
+  stylebox_border_width_bottom: 1;
+  stylebox_bg_color: gd_var(Generic/Grey2);
+  stylebox_border_color: gd_var(Generic/Neutral);
 }
 
 HScrollBar .grabber, HScrollBar .grabber_highlight, HScrollBar .grabber_pressed, VScrollBar .grabber, VScrollBar .grabber_highlight, VScrollBar .grabber_pressed {
-  styleboxflat_int_corner_radius_top_left: 2;
-  styleboxflat_int_corner_radius_top_right: 2;
-  styleboxflat_int_corner_radius_bottom_right: 2;
-  styleboxflat_int_corner_radius_bottom_left: 2;
+  stylebox_corner_radius_top_left: 2;
+  stylebox_corner_radius_top_right: 2;
+  stylebox_corner_radius_bottom_right: 2;
+  stylebox_corner_radius_bottom_left: 2;
 }
 HScrollBar .grabber, VScrollBar .grabber {
-  styleboxflat_int_border_width_left: 1;
-  styleboxflat_int_border_width_top: 1;
-  styleboxflat_int_border_width_right: 1;
-  styleboxflat_int_border_width_bottom: 1;
-  styleboxflat_color_border_color: gd_var(Generic/Neutral);
-  styleboxflat_color_bg_color: gd_var(Generic/Grey2);
+  stylebox_border_width_left: 1;
+  stylebox_border_width_top: 1;
+  stylebox_border_width_right: 1;
+  stylebox_border_width_bottom: 1;
+  stylebox_border_color: gd_var(Generic/Neutral);
+  stylebox_bg_color: gd_var(Generic/Grey2);
 }
 HScrollBar .scroll, VScrollBar .scroll {
-  styleboxflat_color_bg_color: gd_var(Generic/Grey1);
+  stylebox_bg_color: gd_var(Generic/Grey1);
 }
 
 VScrollBar .scroll {
-  stylebox_int_content_margin_left: gd_var(Generic/ScrollbarWidth);
-  styleboxflat_int_expand_margin_left: gd_var(Generic/ScrollbarPadding);
-  styleboxflat_int_expand_margin_right: gd_var(Generic/ScrollbarPadding);
+  stylebox_content_margin_left: gd_var(Generic/ScrollbarWidth);
+  stylebox_expand_margin_left: gd_var(Generic/ScrollbarPadding);
+  stylebox_expand_margin_right: gd_var(Generic/ScrollbarPadding);
 }
 
 HScrollBar .scroll {
-  stylebox_int_content_margin_top: gd_var(Generic/ScrollbarWidth);
-  styleboxflat_int_expand_margin_top: gd_var(Generic/ScrollbarPadding);
-  styleboxflat_int_expand_margin_bottom: gd_var(Generic/ScrollbarPadding);
+  stylebox_content_margin_top: gd_var(Generic/ScrollbarWidth);
+  stylebox_expand_margin_top: gd_var(Generic/ScrollbarPadding);
+  stylebox_expand_margin_bottom: gd_var(Generic/ScrollbarPadding);
 }
 
 HSeparator, VSeparator {
   stylebox: StyleBoxLine;
 }
 HSeparator .separator, VSeparator .separator {
-  stylebox_color_color: gd_var(Generic/SeparatorColor);
+  stylebox_color: gd_var(Generic/SeparatorColor);
 }
 
 VSeparator .separator {
-  stylebox_bool_vertical: true;
+  stylebox_vertical: true;
 }
 
 VBoxContainerNoSeparation {
@@ -199,21 +197,21 @@ MarginPanel {
   constant_margin_right: gd_var(Specific/MarginPanelMargins);
 }
 MarginPanel .panel {
-  stylebox_color_bg_color: gd_var(Generic/Grey3);
+  stylebox_bg_color: gd_var(Generic/Grey3);
 }
 
 PanelLayer1 {
   inherits: Panel;
 }
 PanelLayer1 .panel {
-  stylebox_color_bg_color: gd_var(Generic/Grey3);
+  stylebox_bg_color: gd_var(Generic/Grey3);
 }
 
 ButtonWindowControls {
   stylebox: none;
 }
 ButtonWindowControls .normal {
-  styleboxflat_color_bg_color: rgba(0, 0, 0, 0);
+  stylebox_bg_color: rgba(0, 0, 0, 0);
 }
 
 Sidebar {
@@ -221,7 +219,7 @@ Sidebar {
   color_item_selected: gd_var(Generic/Highlight);
 }
 Sidebar .background {
-  styleboxflat_color_bg_color: gd_var(Generic/Frame);
+  stylebox_bg_color: gd_var(Generic/Frame);
 }
 
 /*# sourceMappingURL=Style.css.map */
