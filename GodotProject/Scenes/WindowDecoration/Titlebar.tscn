@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmu4q4bj2vg2h"]
+[gd_scene load_steps=8 format=3 uid="uid://dmu4q4bj2vg2h"]
 
 [ext_resource type="Script" path="res://addons/appframework/UI/WindowTitlebar.cs" id="1_58jei"]
 [ext_resource type="Texture2D" uid="uid://bxj5a2fxfymo2" path="res://GodotSourceToolIcon.png" id="1_knfd7"]
 [ext_resource type="Script" path="res://addons/appframework/UI/SimpleShape.cs" id="2_w313m"]
+[ext_resource type="FontFile" uid="uid://ppis0jn7ai0u" path="res://Assets/Fonts/Font Awesome 6 Free-Solid-900.otf" id="3_7h0va"]
+[ext_resource type="Script" path="res://Scenes/WindowDecoration/BurgerButton.cs" id="4_eguei"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7op7g"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -59,9 +61,12 @@ size_flags_horizontal = 0
 texture = ExtResource("1_knfd7")
 expand_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/Title"]
+[node name="BurgerButton" type="Button" parent="HBoxContainer/Title"]
 layout_mode = 2
-text = "Godot Source Tools"
+theme_override_fonts/font = ExtResource("3_7h0va")
+text = "bars"
+flat = true
+script = ExtResource("4_eguei")
 
 [node name="Controls" type="HBoxContainer" parent="HBoxContainer"]
 custom_minimum_size = Vector2(108, 0)

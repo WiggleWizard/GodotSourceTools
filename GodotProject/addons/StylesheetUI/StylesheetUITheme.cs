@@ -268,81 +268,56 @@ public partial class StylesheetUITheme : Theme
                 SetTypeVariation(nodeType, style.Value);
                 continue;
             }
-            
-            if (_styleFuncs.TryGetValue(style.Name, out var tuple))
+        
+            string[] styleNameSplit = style.Name.Split("_");
+            string initiator = styleNameSplit[0];
+            string selector = styleNameSplit.Skip(1).ToArray().Join("_");
+
+            if (initiator == "stylebox")
             {
-                var func = tuple.Item1;
-                Variant.Type varType = tuple.Item2;
-                string varName = tuple.Item3;
-                
-                if (style is ExCSS.Property styleProperty)
+                // Specify a stylebox type explicitly if one does not exist yet
+                if (style.Name == "stylebox")
                 {
-                    func.Invoke(theme, styleProperty, varType, nodeType, itemName, varName);
+                    if (HasThemeItem(DataType.Stylebox, itemName, nodeType))
+                    {
+                        ClearThemeItem(DataType.Stylebox, itemName, nodeType);
+                    }
+                    
+                    if (style.Value != "none")
+                    {
+                        Variant newInstance = ClassDB.Instantiate(style.Value);
+                        SetThemeItem(DataType.Stylebox, itemName, nodeType, newInstance);
+                    }
+                        
+                    continue;
                 }
+                
+                string styleboxSelector = styleNameSplit.Skip(1).ToArray().Join("_");
+                SetStyleStyleBoxProperty(this, (ExCSS.Property)style, nodeType, itemName, styleboxSelector);
             }
             else
             {
-                string[] styleNameSplit = style.Name.Split("_");
-                string initiator = styleNameSplit[0];
-                string selector = styleNameSplit.Skip(1).ToArray().Join("_");
-
-                if (initiator == "stylebox" || initiator == "styleboxflat")
+                Variant v = ParseStylesheetStyleProperty(style);
+                if (Enum.TryParse<DataType>(initiator, true, out var dt))
                 {
-                    // Clear the stylebox if no selector is specified and result is null
-                    if (style.Name == "stylebox")
+                    // Themes don't like it when we pass in real, we have to cast to int here
+                    if (v.VariantType == Variant.Type.Float)
                     {
-                        if (HasThemeItem(DataType.Stylebox, itemName, nodeType))
-                        {
-                            ClearThemeItem(DataType.Stylebox, itemName, nodeType);
-                        }
-                        
-                        if (style.Value != "none")
-                        {
-                            Variant newInstance = ClassDB.Instantiate(style.Value);
-                            SetThemeItem(DataType.Stylebox, itemName, nodeType, newInstance);
-                        }
-                            
-                        continue;
+                        v = (int)Math.Round(v.AsDouble());
                     }
-                        
-                    string typeStr = styleNameSplit[1];
-                    try
+                    
+                    if (HasThemeItem(dt, selector, nodeType))
                     {
-                        Variant.Type variantType = (Variant.Type)Enum.Parse(typeof(Variant.Type), typeStr, true);
-                        string styleboxSelector = styleNameSplit.Skip(2).ToArray().Join("_");
-
-                        SetStyleStyleBoxProperty(this, (ExCSS.Property)style, variantType, nodeType, itemName, styleboxSelector);
+                        ClearThemeItem(dt, selector, nodeType);
                     }
-                    catch (ArgumentException e)
-                    {
-                        GD.PushError($"Expected type for the CSS rule \"{style.Name}\", but found \"{typeStr}\" instead. Ensure you specify the type correctly");
-                        continue;
-                    }
-                }
-                else
-                {
-                    Variant v = ParseStylesheetStyleProperty(style);
-                    if (Enum.TryParse<DataType>(initiator, true, out var dt))
-                    {
-                        // Themes don't like it when we pass in real, we have to cast to int here
-                        if (v.VariantType == Variant.Type.Float)
-                        {
-                            v = (int)Math.Round(v.AsDouble());
-                        }
-                        
-                        if (HasThemeItem(dt, selector, nodeType))
-                        {
-                            ClearThemeItem(dt, selector, nodeType);
-                        }
-                        
-                        SetThemeItem(dt, selector, nodeType, v);
-                    }
+                    
+                    SetThemeItem(dt, selector, nodeType, v);
                 }
             }
         }
     }
     
-    private static void SetStyleStyleBoxProperty(StylesheetUITheme theme, ExCSS.Property styleProperty, Variant.Type valueType, string gdThemeNodeType, string gdThemeItemName, string gdStyleBoxVarName)
+    private static void SetStyleStyleBoxProperty(StylesheetUITheme theme, ExCSS.Property styleProperty, string gdThemeNodeType, string gdThemeItemName, string gdStyleBoxVarName)
     {
         Variant val = theme.ParseStylesheetStyleProperty(styleProperty);
 
@@ -380,7 +355,7 @@ public partial class StylesheetUITheme : Theme
             {
                 AddType(nodeType);
                 
-                styleBox = new StyleBoxFlat();
+                styleBox = ClassDB.Instantiate(_stylesheet.DefaultStyleBox).As<StyleBox>();
                 SetThemeItem(DataType.Stylebox, itemName, nodeType, styleBox);
             }
 

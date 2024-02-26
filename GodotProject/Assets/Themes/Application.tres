@@ -79,25 +79,25 @@ corner_radius_bottom_left = 2
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_caaum"]
 bg_color = Color(0, 0, 0, 0)
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_roeua"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1o8vn"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l5r4k"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_efc2k"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bynve"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_msbqc"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k8xmw"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lfk3g"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r3b2l"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m05ik"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ejdhx"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m3sb2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a8tbt"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8axk1"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hidb6"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wv8j2"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e1thi"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vg448"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1kpfm"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_50t48"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3hx1s"]
 bg_color = Color(0.12549, 0.137255, 0.152941, 1)
@@ -396,18 +396,18 @@ ButtonWindowControls/base_type = &"Button"
 ButtonWindowControls/styles/normal = SubResource("StyleBoxFlat_caaum")
 CheckBox/icons/checked = ExtResource("1_kwb5y")
 CheckBox/icons/unchecked = ExtResource("2_ewxye")
-CheckBox/styles/disabled = SubResource("StyleBoxEmpty_roeua")
-CheckBox/styles/focus = SubResource("StyleBoxEmpty_l5r4k")
-CheckBox/styles/hover = SubResource("StyleBoxEmpty_bynve")
-CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_k8xmw")
-CheckBox/styles/normal = SubResource("StyleBoxEmpty_r3b2l")
-CheckBox/styles/pressed = SubResource("StyleBoxEmpty_ejdhx")
+CheckBox/styles/disabled = SubResource("StyleBoxEmpty_1o8vn")
+CheckBox/styles/focus = SubResource("StyleBoxEmpty_efc2k")
+CheckBox/styles/hover = SubResource("StyleBoxEmpty_msbqc")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxEmpty_lfk3g")
+CheckBox/styles/normal = SubResource("StyleBoxEmpty_m05ik")
+CheckBox/styles/pressed = SubResource("StyleBoxEmpty_m3sb2")
 CheckButton/icons/checked = ExtResource("1_rcooa")
 CheckButton/icons/unchecked = ExtResource("2_dafc8")
-CheckButton/styles/focus = SubResource("StyleBoxEmpty_a8tbt")
-CheckButton/styles/hover = SubResource("StyleBoxEmpty_hidb6")
-CheckButton/styles/normal = SubResource("StyleBoxEmpty_e1thi")
-CheckButton/styles/pressed = SubResource("StyleBoxEmpty_1kpfm")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_8axk1")
+CheckButton/styles/hover = SubResource("StyleBoxEmpty_wv8j2")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_vg448")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_50t48")
 HBoxContainerNoSeparation/base_type = &"HBoxContainer"
 HBoxContainerNoSeparation/constants/separation = 0
 HScrollBar/styles/grabber = SubResource("StyleBoxFlat_3hx1s")

@@ -5,6 +5,6 @@
 [resource]
 shader = ExtResource("1_pk5ei")
 shader_parameter/shine_color = Color(0.580392, 0.890196, 0.968627, 0.639216)
-shader_parameter/shine_progress = 1.0
-shader_parameter/shine_size = 0.0196834
-shader_parameter/shine_angle = 29.8566
+shader_parameter/shine_progress = 0.0
+shader_parameter/shine_size = 0.0
+shader_parameter/shine_angle = 0.0

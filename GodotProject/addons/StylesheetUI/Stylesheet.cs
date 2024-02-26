@@ -8,6 +8,7 @@ public partial class Stylesheet : Resource
 {
     [Export(PropertyHint.MultilineText)] public string RawStylesheetData = "";
     [Export] public Dictionary StylesheetProperties = new();
+    [Export] public string DefaultStyleBox = "StyleBoxFlat";
     
     public static Stylesheet Create(FileAccess file, Dictionary options)
     {
@@ -28,6 +29,7 @@ public partial class Stylesheet : Resource
     {
         RawStylesheetData = rawStylesheetString;
         StylesheetProperties = options["variables"].AsGodotDictionary();
+        DefaultStyleBox = options["default_stylebox"].AsString();
     }
 
     public override Array<Dictionary> _GetPropertyList()

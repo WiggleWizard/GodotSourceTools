@@ -64,9 +64,15 @@ public partial class StylesheetImporter : EditorImportPlugin
 
         return new()
         {
-            new() {
+            new()
+            {
                 { "name", "variables" },
                 { "default_value", values }
+            },
+            new()
+            {
+                { "name", "default_stylebox" },
+                { "default_value", "StyleBoxFlat" }
             }
         };
     }

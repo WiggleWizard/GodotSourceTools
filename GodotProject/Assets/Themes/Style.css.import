@@ -38,3 +38,4 @@ variables={
 "Specific/VSplitGrabber": Object(ImageTexture,"resource_local_to_scene":false,"resource_name":"","image":null,"script":null)
 
 }
+default_stylebox="StyleBoxFlat"

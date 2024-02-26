@@ -28,6 +28,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tab_alignment = 1
+current_tab = 0
 
 [node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
 layout_mode = 2

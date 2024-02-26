@@ -38,6 +38,39 @@ tracks/2/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Logo:material:shader_parameter/shine_progress")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Logo:material:shader_parameter/shine_size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Logo:material:shader_parameter/shine_angle")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
 
 [sub_resource type="Animation" id="Animation_feahu"]
 resource_name = "exit"
@@ -50,7 +83,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.0827317, 0.0913121, 0.58249, 0.00403796, 1, -0.227463, 0.0105996, 0.0525324, 0.0105996),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.227463, 0.0105996, 0.0525324, 0.0105996),
 "times": PackedFloat32Array(0, 0.6)
 }
 tracks/1/type = "bezier"
@@ -60,9 +93,9 @@ tracks/1/path = NodePath("Logo:material:shader_parameter/shine_size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0.306588, -0.25, 0, 0.163201, 0.00352201, 0.0196834, -0.0546851, 0.0108571, 0.25, 0),
-"times": PackedFloat32Array(0.249501, 0.514381)
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.00471803, -0.25, 0, 0.137609, 0.00536511, 0.307847, -0.0866707, 0, 0.079068, -0.00536513, 0.0798296, -0.136088, 0.00804767, 0.25, 0),
+"times": PackedFloat32Array(0.0805885, 0.228841, 0.42499)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -71,9 +104,9 @@ tracks/2/path = NodePath("Logo:material:shader_parameter/shine_angle")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(45, -0.25, 0, 0.163201, 0.00352201, 29.8566, -0.0546851, 0.0108571, 0.25, 0),
-"times": PackedFloat32Array(0.249501, 0.504128)
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 45, -0.25, 0, 0.163201, 0.00352201, 29.8566, -0.0546851, 0.0108571, 0.25, 0),
+"times": PackedFloat32Array(0, 0.249501, 0.504128)
 }
 tracks/3/type = "value"
 tracks/3/imported = false
