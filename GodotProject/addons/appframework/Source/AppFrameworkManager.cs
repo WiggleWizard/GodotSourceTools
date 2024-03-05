@@ -31,12 +31,12 @@ public partial class AppFrameworkManager : Node
         InitializeOptionalManagers();
     }
 
-    public string GetAppVersion()
+    public static Version GetAppVersion()
     {
-        return ProjectSettings.GetSetting("application/config/version").AsString();
+        return ProjectSettings.GetSetting("application/config/version").AsString().ToVersion();
     }
 
-    public string GetAppName()
+    public static string GetAppName()
     {
         return ProjectSettings.GetSetting("application/config/name").AsString();
     }

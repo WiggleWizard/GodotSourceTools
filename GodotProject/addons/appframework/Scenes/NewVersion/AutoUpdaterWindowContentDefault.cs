@@ -1,3 +1,5 @@
+using GodotAppFramework.Serializers.Github;
+
 using Godot;
 
 namespace GodotAppFramework;
@@ -19,9 +21,9 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
             return;
         }
         
-        var appName = appFrameworkManager.GetAppName();
+        var appName = AppFrameworkManager.GetAppName();
         var newVersion = releaseInfo.GetVersionStr();
-        var currentVersion = appFrameworkManager.GetAppVersion();
+        var currentVersion = AppFrameworkManager.GetAppVersion();
         var changeLog = releaseInfo.Body;
         
         WindowBodyText.Text = WindowBodyText.Text.Templated(new { appName, newVersion, currentVersion });
@@ -35,7 +37,7 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
         
         ButtonInstall.Pressed += () =>
         {
-
+            autoUpdaterManager.UnattendedUpdate();
         };
 
         ButtonDownload.Pressed += () =>

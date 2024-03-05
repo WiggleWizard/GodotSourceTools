@@ -1,6 +1,7 @@
 using Godot;
 
 using GodotAppFramework.Globals;
+using GodotAppFramework.Serializers.Github;
 
 using System;
 using System.Collections.Generic;
@@ -10,31 +11,9 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using CSHttpClient = System.Net.Http.HttpClient;
+using FileAccess = Godot.FileAccess;
 
 namespace GodotAppFramework;
-
-public partial class JsonGithubReleaseEntry : Resource
-{
-    public string Name { get; set; }
-    public string Tag_Name { get; set; }
-    public string ZipBall_Url { get; set; }
-    public bool Prerelease { get; set; }
-    public DateTime Created_At { get; set; }
-    public DateTime Published_At { get; set; }
-    public string Body { get; set; }
-    public string Html_Url { get; set; }
-
-    public string GetVersionStr()
-    {
-        return Tag_Name;
-    }
-
-    public Version GetVersion()
-    {
-        var versionStr = GetVersionStr();
-        return versionStr.ToVersion();
-    }
-}
 
 [AFXProjectSetting(Constants.ProjectSettingsPrefix, "auto_updater"), Config]
 public partial class AutoUpdaterManager : Node
@@ -61,6 +40,8 @@ public partial class AutoUpdaterManager : Node
 
     [Config] public static string IgnoreUpdateToVersion { get; set; } = "";
 
+    private static string _versionFilePath = "user://version";
+
     private Window? _updateWindow;
 
     // Triggers once an update to the application is available
@@ -72,6 +53,8 @@ public partial class AutoUpdaterManager : Node
 
     private Timer? _checkForUpdateTimer;
 
+    private ColorRect _greyOut = new ColorRect();
+
     public static AutoUpdaterManager? GetInstance()
     {
         return Instance;
@@ -80,6 +63,23 @@ public partial class AutoUpdaterManager : Node
     public override void _Ready()
     {
         Instance = this;
+        
+        // On startup, we fetch the version file first. If this contains our current version then we all good. If it doesn't exist
+        // at all then make one and write the current version. If it is a lower version then trigger the upgrade routine(s).
+        Version verFileVersion = AppFrameworkManager.GetAppVersion();
+        if (!FileAccess.FileExists(_versionFilePath))
+        {
+            var initialVerFile = FileAccess.Open(_versionFilePath, FileAccess.ModeFlags.Write);
+            initialVerFile.StoreString(verFileVersion.ToString());
+            initialVerFile.Close();
+        }
+        var verFile = FileAccess.Open(_versionFilePath, FileAccess.ModeFlags.Read);
+        verFileVersion = verFile.GetAsText().ToVersion();
+
+        if (verFileVersion < AppFrameworkManager.GetAppVersion())
+        {
+            OnAppStartupAfterUpdateSuccessful(verFileVersion);
+        }
         
         if (CheckForUpdateIntervalSec > 0)
         {
@@ -123,7 +123,7 @@ public partial class AutoUpdaterManager : Node
         IgnoreUpdateToVersion = releaseInfo.GetVersionStr();
     }
 
-    public void OnAppStartupAfterUpdateSuccessful(string prevVersion)
+    public void OnAppStartupAfterUpdateSuccessful(Version prevVersion)
     {
         
     }
@@ -192,6 +192,11 @@ public partial class AutoUpdaterManager : Node
         };
 
         AddChild(_updateWindow);
+
+        AddChild(_greyOut);
+        _greyOut.TopLevel = true;
+        _greyOut.ZIndex = 125;
+        _greyOut.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
     }
 
     private static void DeleteFiles(List<string> files)
