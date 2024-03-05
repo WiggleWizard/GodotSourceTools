@@ -1,4 +1,5 @@
 using Godot;
+using GodotAppFramework;
 
 public partial class BurgerButton : Button
 {
@@ -6,7 +7,9 @@ public partial class BurgerButton : Button
 
     private enum DropdownMenuOptions
     {
-        LoadProject
+        LoadProject,
+        Sep1,
+        TestUpdate
     }
 
     public override void _Ready()
@@ -44,13 +47,14 @@ public partial class BurgerButton : Button
 
             fileDialog.Show();
         }
+        else if (id == (long)DropdownMenuOptions.TestUpdate)
+        {
+        }
     }
 
     private void OnProjectDirSelected(string dir)
     {
-        AppConfig appConfig = AppConfig.GetInstance();
-        appConfig.SetConfigVar("last_opened_dir", dir);
-			
+        SourceManager.LastOpenedSourceDir = dir;
         SourceManager sourceManager = SourceManager.GetInstance();
         sourceManager.OpenSourceDir(dir);
     }

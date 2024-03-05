@@ -26,23 +26,4 @@ public partial class Main : Node
 			d.ChangeDir("..");
 		}
 	}
-
-	public void OnFileIdPressed(int id)
-	{
-		if (id == 0)
-		{
-			AppConfig appConfig = AppConfig.GetInstance();
-			String lastOpenedDir = appConfig.GetConfigVarString("last_opened_dir", "C:/");
-			
-			String outPath = "";
-			// NfdStatus status = Nfd.PickFolder(out outPath, lastOpenedDir);
-			// if (status == NfdStatus.Cancelled)
-			// 	return;
-			
-			appConfig.SetConfigVar("last_opened_dir", outPath);
-			
-			SourceManager sourceManager = SourceManager.GetInstance();
-			sourceManager.OpenSourceDir(outPath);
-		}
-	}
 }

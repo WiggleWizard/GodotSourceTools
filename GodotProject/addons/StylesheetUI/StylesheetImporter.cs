@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+#if TOOLS
+
+using System.Text.RegularExpressions;
 using Godot;
 using Godot.Collections;
 
@@ -135,3 +137,5 @@ public partial class StylesheetImporter : EditorImportPlugin
         return result;
     }
 }
+
+#endif

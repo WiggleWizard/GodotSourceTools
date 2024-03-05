@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://Scenes/Tabs/SconsBuilder/MainTabSconsBuilder.cs" id="1_fi5ex"]
 [ext_resource type="FontFile" uid="uid://ppis0jn7ai0u" path="res://Assets/Fonts/Font Awesome 6 Free-Solid-900.otf" id="2_3hsyl"]
-[ext_resource type="Script" path="res://addons/appframework/UI/MarginPanel.cs" id="2_v7x13"]
-[ext_resource type="Script" path="res://addons/appframework/ActionSystem/ActionExecutor.cs" id="3_atv1h"]
-[ext_resource type="Script" path="res://addons/appframework/ActionSystem/Action.cs" id="4_a774s"]
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_v7x13"]
+[ext_resource type="Script" path="res://addons/appframework/Source/ActionSystem/ActionExecutor.cs" id="3_atv1h"]
+[ext_resource type="Script" path="res://addons/appframework/Source/ActionSystem/Action.cs" id="4_a774s"]
 [ext_resource type="Script" path="res://Scripts/Cues/ActionCueBuildStatusChanged.cs" id="4_h7ybj"]
-[ext_resource type="Script" path="res://addons/appframework/ActionSystem/ActionTaskSetNodeProperty.cs" id="5_e6rym"]
+[ext_resource type="Script" path="res://addons/appframework/Source/ActionSystem/ActionTaskSetNodeProperty.cs" id="5_e6rym"]
 
 [sub_resource type="Resource" id="Resource_fo5aw"]
 script = ExtResource("4_h7ybj")

@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy08aw4k1hhcc"]
+
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="1_4hfk0"]
+[ext_resource type="Script" path="res://addons/appframework/Scenes/NewVersion/AutoUpdaterWindowContentDefault.cs" id="1_582cc"]
+
+[node name="Scene" type="Control" node_paths=PackedStringArray("WindowBodyText", "ChangeLogText", "ButtonInstall", "ButtonDownload", "ButtonCancel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_582cc")
+WindowBodyText = NodePath("Panel/VBoxContainer/Label")
+ChangeLogText = NodePath("Panel/VBoxContainer/VBoxContainer/MarginContainer/RichTextLabel")
+ButtonInstall = NodePath("Panel/VBoxContainer/HBoxContainer/Install")
+ButtonDownload = NodePath("Panel/VBoxContainer/HBoxContainer/Download")
+ButtonCancel = NodePath("Panel/VBoxContainer/HBoxContainer/Decline")
+
+[node name="Panel" type="Container" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4hfk0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "A new version of {appName} is available to download.
+
+Current Version: {currentVersion}
+New Version: {newVersion}"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Changelog:"
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Install" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Install"
+
+[node name="Download" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Download"
+
+[node name="Decline" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Not This TIme"

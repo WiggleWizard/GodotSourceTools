@@ -122,12 +122,15 @@ internal class RepoFileEntry
     public String Type { set; get; }
 }
 
+[Config]
 public partial class SourceManager : Node
 {
     private static SourceManager _instance = null;
 
     private static String _vanillaModulesFetchUrl = "https://api.github.com";
     private static String _vanillaModulesFetchUri = "repos/godotengine/godot/contents/modules";
+
+    [Config] public static string LastOpenedSourceDir { get; set; } = "";
     
     public static String ConfigName { set; get; } = "godotsourcetools.tres";
 
@@ -186,10 +189,8 @@ public partial class SourceManager : Node
     /// </summary>
     private void FinallyReady()
     {
-        AppConfig appConfig = AppConfig.GetInstance();
-        var lastOpenedDir = appConfig.GetConfigVarString("last_opened_dir");
-        if (lastOpenedDir != "")
-            OpenSourceDir(lastOpenedDir);
+        if (LastOpenedSourceDir != "")
+            OpenSourceDir(LastOpenedSourceDir);
         
         // Tell the startup manager that this node is actually done loading
         var appStartupManager = AppStartupManager.GetInstance();

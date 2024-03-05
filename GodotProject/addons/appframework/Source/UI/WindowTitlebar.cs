@@ -55,6 +55,7 @@ public partial class WindowTitlebar : Control
 
     private void OnCloseWindowControlPressed()
     {
-        GetTree().Root.EmitSignal(Window.SignalName.CloseRequested);
+        GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+        GetTree().Quit();
     }
 }

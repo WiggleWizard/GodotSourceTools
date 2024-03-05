@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dypr42bgwh8px"]
+[gd_scene load_steps=3 format=3 uid="uid://dypr42bgwh8px"]
 
 [ext_resource type="Script" path="res://Scenes/Tabs/SourceControl/MainTabSourceControl.cs" id="1_fawqg"]
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_xrs6s"]
 
-[node name="Source Control" type="Control"]
+[node name="Source Control" type="Control" node_paths=PackedStringArray("ChangeListControl")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fawqg")
+ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
 
 [node name="HBoxContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -20,13 +22,12 @@ grow_horizontal = 2
 grow_vertical = 2
 split_offset = 315
 
-[node name="Panel" type="Panel" parent="HBoxContainer"]
+[node name="Panel" type="Container" parent="HBoxContainer"]
 layout_mode = 2
+script = ExtResource("2_xrs6s")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/Panel"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
 
 [node name="ChangeList" type="VBoxContainer" parent="HBoxContainer/Panel/ScrollContainer"]
 layout_mode = 2

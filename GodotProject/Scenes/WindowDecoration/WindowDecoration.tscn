@@ -32,8 +32,9 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
 
-[node name="Sidebar" parent="VBoxContainer/HBoxContainer" instance=ExtResource("2_7d3ib")]
+[node name="Sidebar" parent="VBoxContainer/HBoxContainer" node_paths=PackedStringArray("SwitchContainer") instance=ExtResource("2_7d3ib")]
 layout_mode = 2
+SwitchContainer = NodePath("../Content")
 
 [node name="Content" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

@@ -13,14 +13,29 @@ public partial class Sidebar : Control
         get => _items;
         set { _items = value; PropChanged(); }
     }
+    
+    private int _selectedIndex = 0;
+    [Export] public int SelectedIndex
+    {
+        get => _selectedIndex;
+        set { _selectedIndex = value; PropChanged(); }
+    }
+    
+    private Control _switchContainer = null;
+    [Export] public Control SwitchContainer
+    {
+        get => _switchContainer;
+        set { _switchContainer = value; PropChanged(); }
+    }
 
     [Signal] public delegate void TabChangedEventHandler(int index);
 
     private int _indexHovering = -1;
-    private int _indexSelected = 0;
 
     public override void _Ready()
     {
+        OnNewIndexSelected(_selectedIndex);
+        
         Connect(SignalName.MouseExited, Callable.From(() =>
         {
             _indexHovering = -1;
@@ -63,7 +78,7 @@ public partial class Sidebar : Control
         for (int i = 0; i < _items.Count; ++i)
         {
             bool itemHovered = i == _indexHovering;
-            bool itemSelected = i == _indexSelected;
+            bool itemSelected = i == _selectedIndex;
             
             var item = _items[i];
             var fontHeight = itemFont.GetHeight(itemFontSize);
@@ -122,15 +137,16 @@ public partial class Sidebar : Control
         {
             if (!e.IsEcho() && mouseButton.ButtonIndex == MouseButton.Left)
             {
-                int prevIndex = _indexSelected;
+                int prevIndex = _selectedIndex;
                 int newIndex = GetIndexFromPosition(mouseButton.Position.Y);
                 if (newIndex != -1)
                 {
-                    _indexSelected = newIndex;
+                    _selectedIndex = newIndex;
                 }
                 
-                if (prevIndex != _indexSelected)
+                if (prevIndex != _selectedIndex)
                 {
+                    OnNewIndexSelected(_selectedIndex);
                     QueueRedraw();
                 }
             }
@@ -152,5 +168,29 @@ public partial class Sidebar : Control
         }
 
         return -1;
+    }
+
+    private void OnNewIndexSelected(int idx)
+    {
+        if (_switchContainer == null)
+        {
+            return;
+        }
+
+        foreach (var child in _switchContainer.GetChildren())
+        {
+            if (child is Control control)
+            {
+                control.Hide();
+                control.QueueRedraw();
+            }
+        }
+
+        Node? selectedChild = _switchContainer.GetChild(idx);
+        if (selectedChild != null && selectedChild is Control selectedControl)
+        {
+            selectedControl.Show();
+            selectedControl.QueueRedraw();
+        }
     }
 }

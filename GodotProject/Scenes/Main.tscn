@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ybin34bn1e8l"]
+[gd_scene load_steps=6 format=3 uid="uid://ybin34bn1e8l"]
 
 [ext_resource type="Script" path="res://Scenes/Main.cs" id="1_khurv"]
 [ext_resource type="PackedScene" uid="uid://ct17vc4nwj2q1" path="res://Scenes/WindowDecoration/WindowDecoration.tscn" id="2_3nq7d"]
 [ext_resource type="PackedScene" uid="uid://bngp3vevif6ji" path="res://Scenes/Tabs/SconsBuilder/Scene.tscn" id="2_cegwt"]
 [ext_resource type="PackedScene" uid="uid://dcssp54g7136x" path="res://Scenes/Tabs/SconsBuildStatusViewer/Scene.tscn" id="4_kwo65"]
+[ext_resource type="PackedScene" uid="uid://dypr42bgwh8px" path="res://Scenes/Tabs/SourceControl/Scene.tscn" id="5_u7g83"]
 
 [node name="Main" type="Control" node_paths=PackedStringArray("TabContainer")]
 layout_mode = 3
@@ -23,11 +24,13 @@ MinWindowControl = NodePath("HBoxContainer/Controls/Minimize")
 MaxWindowControl = NodePath("HBoxContainer/Controls/Maximize")
 CloseWindowControl = NodePath("HBoxContainer/Controls/Close")
 
+[node name="Sidebar" parent="WindowDecoration/VBoxContainer/HBoxContainer" index="0" node_paths=PackedStringArray("SwitchContainer")]
+SwitchContainer = NodePath("../Content")
+
 [node name="TabContainer" type="TabContainer" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="0"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-tab_alignment = 1
 current_tab = 0
 
 [node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
@@ -47,5 +50,10 @@ layout_mode = 2
 BuildListContainer = NodePath("HSplitContainer/ItemList")
 BuildArgsDisplay = NodePath("HSplitContainer/Panel2/VBoxContainer/BuildArgs")
 ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollableTextBox")
+
+[node name="Source Control" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="1" node_paths=PackedStringArray("ChangeListControl") instance=ExtResource("5_u7g83")]
+visible = false
+layout_mode = 2
+ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
 
 [editable path="WindowDecoration"]

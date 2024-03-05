@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Tabs/SconsBuildStatusViewer/MainTabSconsBuildStatusViewer.cs" id="1_hv6vx"]
 [ext_resource type="PackedScene" uid="uid://dw5hxf3pru6jd" path="res://Scenes/Tabs/SconsBuildStatusViewer/BuildEntry.tscn" id="2_5gni0"]
 [ext_resource type="Script" path="res://Scenes/Tabs/SconsBuildStatusViewer/LargeScrollableBuildStatus.cs" id="2_16adc"]
-[ext_resource type="Script" path="res://addons/appframework/UI/ItemListCustom.cs" id="3_n22yu"]
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/ItemListCustom.cs" id="3_n22yu"]
 [ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="4_2owy3"]
 
 [node name="Scons Build Status" type="Control" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox")]

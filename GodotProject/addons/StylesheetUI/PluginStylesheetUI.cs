@@ -1,4 +1,6 @@
-﻿using Godot;
+#if TOOLS
+
+using Godot;
 
 namespace StylesheetUI;
 
@@ -27,3 +29,5 @@ public partial class PluginStylesheetUI : EditorPlugin
         _stylesheetImporter = null;
     }
 }
+
+#endif

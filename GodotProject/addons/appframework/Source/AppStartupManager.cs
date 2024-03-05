@@ -1,17 +1,24 @@
-﻿using Godot;
+using Godot;
 using Godot.Collections;
 
-using System.Collections.Generic;
-using System.Linq;
-using AppFramework.Globals;
+using GodotAppFramework.Globals;
 using GodotAppFramework.UI;
 using Microsoft.Win32;
 
+using GodotAppFramework;
+
 namespace GodotSourceTools;
 
+[AFXProjectSetting(Constants.ProjectSettingsPrefix, "startup_manager")]
 public partial class AppStartupManager : Node
 {
     private static AppStartupManager? _instance = null;
+
+    [Export, AFXProjectSettingPropertyScene("loading_scene", "")]
+    public static string LoadingScreenScene { get; set; }
+    
+    [Export, AFXProjectSettingProperty("prompt_for_vc_redists", false)]
+    public static bool PromptForVcRedist { get; set; }
 
     /// <summary>
     /// A list of all the singletons that are in the process of loading up but have to do some sort of asynchronous loading
@@ -38,7 +45,7 @@ public partial class AppStartupManager : Node
         if (!Engine.IsEditorHint())
         {
             // Check for VC Redist on startup
-            if (ProjectSettings.GetSetting(ProjectSettingName.PromptForVCRedist, false).AsBool())
+            if (PromptForVcRedist)
             {
                 var vcredistVersion = Registry.GetValue(MiscNames.VCRedistRegPath, "Version", "").ToString();
                 if (vcredistVersion == string.Empty)
@@ -47,8 +54,7 @@ public partial class AppStartupManager : Node
             }
             
             // Only if we have specified a loading scene, then we want to do this stuff
-            string packedScenePath = ProjectSettings.GetSetting(ProjectSettingName.LoadingScreenScene, "").AsString();
-            if (packedScenePath != string.Empty)
+            if (LoadingScreenScene != string.Empty)
             {
                 GetTree().Root.Ready += OnTreeRootReady;
                 ShowLoadingScreen();
@@ -97,10 +103,8 @@ public partial class AppStartupManager : Node
 
     private void ShowLoadingScreen()
     {
-        string packedScenePath = ProjectSettings.GetSetting(ProjectSettingName.LoadingScreenScene).AsString();
-        
         // Load up the loading screen and add it to the singleton. Also make sure it's ontop of everything
-        PackedScene packedScene = GD.Load<PackedScene>(packedScenePath);
+        PackedScene packedScene = GD.Load<PackedScene>(LoadingScreenScene);
         _loadingScreenControl = packedScene.Instantiate<LoadingScreen>();
 
         AddChild(_loadingScreenControl);

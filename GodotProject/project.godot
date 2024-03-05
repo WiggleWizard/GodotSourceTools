@@ -8,11 +8,6 @@
 
 config_version=5
 
-[App Framework]
-
-"Run/Loading Screen Scene"="res://Scenes/Loading/Loading.tscn"
-"Run/Prompt For VC Redist"=true
-
 [application]
 
 config/name="Godot Source Tools"
@@ -21,6 +16,8 @@ run/main_scene="res://Scenes/Main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot Source Tools"
 config/features=PackedStringArray("4.3", "C#")
+run/max_fps=60
+run/low_processor_mode=true
 boot_splash/bg_color=Color(0.0392157, 0.0470588, 0.0705882, 1)
 boot_splash/image="res://GodotSourceToolIcon.png"
 boot_splash/fullsize=false
@@ -29,7 +26,8 @@ config/windows_native_icon="res://Assets/App Icons/icon.ico"
 
 [autoload]
 
-AppStartupManager="*res://addons/appframework/AppStartupManager.cs"
+AFXManager="*res://addons/appframework/Source/AppFrameworkManager.cs"
+AppStartupManager="*res://addons/appframework/Source/AppStartupManager.cs"
 AppConfig="*res://Scripts/Autoloads/AppConfig.cs"
 ToastNotificationManager="*res://Scripts/Autoloads/ToastNotificationManager.cs"
 SourceManager="*res://Scripts/Autoloads/SourceManager.cs"
@@ -49,6 +47,13 @@ project/assembly_name="Godot Source Tools"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/StylesheetUI/plugin.cfg", "res://addons/appframework/plugin.cfg")
+
+[godot_app_framework]
+
+auto_updater/version_check_url="https://api.github.com/repos/WiggleWizard/GodotSourceTools/releases"
+auto_updater/enabled=true
+startup_manager/loading_scene="res://Scenes/Loading/Loading.tscn"
+auto_updater/show_update_prompt=true
 
 [gui]
 
