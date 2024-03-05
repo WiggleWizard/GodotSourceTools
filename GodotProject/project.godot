@@ -28,7 +28,6 @@ config/windows_native_icon="res://Assets/App Icons/icon.ico"
 
 AFXManager="*res://addons/appframework/Source/AppFrameworkManager.cs"
 AppStartupManager="*res://addons/appframework/Source/AppStartupManager.cs"
-AppConfig="*res://Scripts/Autoloads/AppConfig.cs"
 ToastNotificationManager="*res://Scripts/Autoloads/ToastNotificationManager.cs"
 SourceManager="*res://Scripts/Autoloads/SourceManager.cs"
 BuildManager="*res://Scripts/Autoloads/BuildManager.cs"
