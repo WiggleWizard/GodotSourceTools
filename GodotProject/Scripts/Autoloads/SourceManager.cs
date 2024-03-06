@@ -1,3 +1,7 @@
+using GodotAppFramework;
+using GodotAppFramework.Serializers.Github;
+using GodotSourceTools;
+
 using Godot;
 using Godot.Collections;
 using FileAccess = Godot.FileAccess;
@@ -8,8 +12,6 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
-using GodotAppFramework;
-using GodotSourceTools;
 using CSHttpClient = System.Net.Http.HttpClient;
 
 public partial class SourceManagerConfigEntry : Resource
@@ -116,12 +118,6 @@ public partial class SourceManagerConfigEntry : Resource
     }
 }
 
-internal class RepoFileEntry
-{
-    public String Name { set; get; }
-    public String Type { set; get; }
-}
-
 [Config]
 public partial class SourceManager : Node
 {
@@ -158,7 +154,7 @@ public partial class SourceManager : Node
     {
         // Fetch the vanilla module names from Github to be able to reliably pick out which modules are the user's
         // and which ones come with Godot.
-        List<RepoFileEntry> files;
+        List<RepoFileEntry>? files;
         using (var client = new CSHttpClient())
         {
             client.BaseAddress = new Uri(_vanillaModulesFetchUrl);
