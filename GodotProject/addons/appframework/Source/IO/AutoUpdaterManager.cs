@@ -53,7 +53,7 @@ public partial class AutoUpdaterManager : Node
 
     private Timer? _checkForUpdateTimer;
 
-    private ColorRect _greyOut = new ColorRect();
+    private ColorRect _greyOut = new();
 
     public static AutoUpdaterManager? GetInstance()
     {
@@ -63,6 +63,8 @@ public partial class AutoUpdaterManager : Node
     public override void _Ready()
     {
         Instance = this;
+        
+        _greyOut.Color = Color.Color8(12, 12, 12, 120);
         
         // On startup, we fetch the version file first. If this contains our current version then we all good. If it doesn't exist
         // at all then make one and write the current version. If it is a lower version then trigger the upgrade routine(s).
@@ -109,17 +111,12 @@ public partial class AutoUpdaterManager : Node
     
     public void UnattendedUpdate()
     {
+        // Download the ZIP file
     }
 
     public void IgnoreUpdate(JsonGithubReleaseEntry releaseInfo)
     {
-        // Close the update window if it's open
-        if (_updateWindow != null)
-        {
-            _updateWindow.QueueFree();
-            _updateWindow = null;
-        }
-
+        CloseVersionWindow();
         IgnoreUpdateToVersion = releaseInfo.GetVersionStr();
     }
 
@@ -187,16 +184,18 @@ public partial class AutoUpdaterManager : Node
 
         _updateWindow.CloseRequested += () =>
         {
-            _updateWindow.QueueFree();
-            _updateWindow = null;
+            CloseVersionWindow();
         };
 
+        _updateWindow.Transient = true;
+        _updateWindow.Exclusive = true;
+        
         AddChild(_updateWindow);
 
-        AddChild(_greyOut);
         _greyOut.TopLevel = true;
         _greyOut.ZIndex = 125;
         _greyOut.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        AddChild(_greyOut);
     }
 
     private static void DeleteFiles(List<string> files)
@@ -304,5 +303,20 @@ public partial class AutoUpdaterManager : Node
                 GD.PrintErr(e.Message);
             }
         }
+    }
+
+    private void CloseVersionWindow()
+    {
+        _updateWindow?.QueueFree();
+        _updateWindow = null;
+        
+        _greyOut.Hide();
+
+        OnVersionWindowClosed();
+    }
+
+    protected virtual void OnVersionWindowClosed()
+    {
+        
     }
 }
