@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace GodotAppFramework;
@@ -14,7 +15,7 @@ public static class StringExtensions
             default: return input[0].ToString().ToUpper() + input.Substring(1);
         }
     }
-
+    
     public static string Templated(this string input, dynamic args)
     {
         string result = input;
@@ -22,8 +23,17 @@ public static class StringExtensions
         foreach (var prop in properties)
         {
             object propValue = prop.GetValue(args, null);
-            //result = Regex.Replace(uri, $"{{{prop.Name}}}", propValue.ToString());
             result = Regex.Replace(result, $"{{{prop.Name}}}", propValue.ToString());
+        }
+        return result;
+    }
+
+    public static string Templated(this string input, Dictionary<string, string> args)
+    {
+        string result = input;
+        foreach (var prop in args)
+        {
+            result = Regex.Replace(result, $"{{{prop.Key}}}", prop.Value);
         }
         return result;
     }

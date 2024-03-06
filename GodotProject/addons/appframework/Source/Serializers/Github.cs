@@ -25,6 +25,18 @@ public partial class JsonGithubReleaseEntry : Resource
         var versionStr = GetVersionStr();
         return versionStr.ToVersion();
     }
+
+    public AppVersionInfo ToAppVersionInfo()
+    {
+        AppVersionInfo appVersionInfo = new();
+        appVersionInfo.Ver = Tag_Name.ToVersion();
+        appVersionInfo.ZipUrl = ZipBall_Url;
+        appVersionInfo.Time = Published_At;
+        appVersionInfo.ChangeLog = Body;
+        appVersionInfo.LinkToDownloadPage = Html_Url;
+
+        return appVersionInfo;
+    }
 }
 
 internal class RepoFileEntry

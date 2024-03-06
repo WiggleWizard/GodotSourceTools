@@ -31,10 +31,11 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer"]
 layout_mode = 2
-text = "A new version of {appName} is available to download.
+text = "A new version of {AppName} is available to download.
 
-Current Version: {currentVersion}
-New Version: {newVersion}"
+Current Version: {CurrentVer}
+New Version: {Ver}
+Published {Age} ago"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
@@ -62,14 +63,14 @@ layout_mode = 2
 [node name="Install" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Install"
+text = "Download & Install"
 
 [node name="Download" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Download"
+text = "Link to Download"
 
 [node name="Decline" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Not This TIme"
+text = "Not This Version"

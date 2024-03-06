@@ -1,11 +1,10 @@
-using Godot;
-
 using GodotAppFramework.Globals;
 using GodotAppFramework.Serializers.Github;
 
+using Godot;
+
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -14,6 +13,28 @@ using CSHttpClient = System.Net.Http.HttpClient;
 using FileAccess = Godot.FileAccess;
 
 namespace GodotAppFramework;
+
+public partial class AppVersionInfo : Resource 
+{
+    public Version Ver = new();
+    public string ZipUrl = "";
+    public DateTime Time = DateTime.MinValue;
+    public string ChangeLog = "";
+    public string LinkToDownloadPage = "";
+
+    public Dictionary<string, string> ToTemplatedArgs()
+    {
+        Dictionary<string, string> dict = new();
+
+        dict[nameof(Ver)] = Ver.ToString();
+        dict[nameof(ZipUrl)] = ZipUrl;
+        dict[nameof(Time)] = Time.ToLongTimeString();
+        dict[nameof(ChangeLog)] = ChangeLog;
+        dict[nameof(LinkToDownloadPage)] = LinkToDownloadPage;
+
+        return dict;
+    }
+}
 
 [AFXProjectSetting(Constants.ProjectSettingsPrefix, "auto_updater"), Config]
 public partial class AutoUpdaterManager : Node
@@ -45,7 +66,7 @@ public partial class AutoUpdaterManager : Node
     private Window? _updateWindow;
 
     // Triggers once an update to the application is available
-    [Signal] public delegate void UpdateAvailableEventHandler(JsonGithubReleaseEntry releaseInfo);
+    [Signal] public delegate void UpdateAvailableEventHandler(AppVersionInfo releaseInfo);
     
     [Signal] public delegate void DownloadProgressEventHandler(float progress);
     
@@ -109,15 +130,20 @@ public partial class AutoUpdaterManager : Node
         });
     }
     
-    public void UnattendedUpdate()
+    public void UnattendedUpdate(AppVersionInfo to)
     {
         // Download the ZIP file
+        using (var client = new HttpClient())
+        {
+            // var response = await client.GetByteArrayAsync("http://some-address");
+            // File.WriteAllBytes("Downloadedfile.xlsx", response);
+        }
     }
 
-    public void IgnoreUpdate(JsonGithubReleaseEntry releaseInfo)
+    public void IgnoreUpdate(AppVersionInfo releaseInfo)
     {
         CloseVersionWindow();
-        IgnoreUpdateToVersion = releaseInfo.GetVersionStr();
+        IgnoreUpdateToVersion = releaseInfo.Ver.ToString();
     }
 
     public void OnAppStartupAfterUpdateSuccessful(Version prevVersion)
@@ -125,10 +151,10 @@ public partial class AutoUpdaterManager : Node
         
     }
 
-    private void OnNewVersionAvailable(JsonGithubReleaseEntry? releaseInfo)
+    private void OnNewVersionAvailable(AppVersionInfo? versionInfo)
     {
         // No new version info...bail out, no need to continue
-        if (releaseInfo == null)
+        if (versionInfo == null)
         {
             return;
         }
@@ -137,7 +163,7 @@ public partial class AutoUpdaterManager : Node
         try
         {
             var ignoreVersion = IgnoreUpdateToVersion.ToVersion();
-            if (ignoreVersion == releaseInfo.GetVersion())
+            if (ignoreVersion == versionInfo.Ver)
             {
                 return;
             }
@@ -148,7 +174,7 @@ public partial class AutoUpdaterManager : Node
         }
         
         // Let interested parties know about this new version
-        EmitSignal(SignalName.UpdateAvailable, releaseInfo);
+        EmitSignal(SignalName.UpdateAvailable, versionInfo);
         
         // If dev has specified that the update window should not show (they might be doing something custom), then don't
         // continue.
@@ -172,7 +198,7 @@ public partial class AutoUpdaterManager : Node
             return;
         }
         
-        windowContents.InternalInitialize(releaseInfo);
+        windowContents.InternalInitialize(versionInfo);
         
         _updateWindow = new Window();
         _updateWindow.Borderless = false;
@@ -180,16 +206,11 @@ public partial class AutoUpdaterManager : Node
         _updateWindow.Unresizable = true;
         _updateWindow.Title = "Update Available";
         _updateWindow.Size = new Vector2I(650, 300);
-        _updateWindow.AddChild(windowContents);
-
-        _updateWindow.CloseRequested += () =>
-        {
-            CloseVersionWindow();
-        };
-
         _updateWindow.Transient = true;
         _updateWindow.Exclusive = true;
-        
+        _updateWindow.CloseRequested += CloseVersionWindow;
+
+        _updateWindow.AddChild(windowContents);
         AddChild(_updateWindow);
 
         _greyOut.TopLevel = true;
@@ -213,7 +234,7 @@ public partial class AutoUpdaterManager : Node
         }
     }
 
-    private async Task<JsonGithubReleaseEntry?> GetLatestVersionInfo()
+    private async Task<AppVersionInfo?> GetLatestVersionInfo()
     {
         string version = "";
 
@@ -244,7 +265,7 @@ public partial class AutoUpdaterManager : Node
                     var releaseVersion = entry.GetVersion();
                     if (releaseVersion > appVersion)
                     {
-                        return entry;
+                        return entry.ToAppVersionInfo();
                     }
                 }
             }

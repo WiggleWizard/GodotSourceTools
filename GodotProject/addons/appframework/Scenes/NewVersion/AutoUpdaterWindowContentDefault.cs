@@ -1,3 +1,4 @@
+using System;
 using GodotAppFramework.Serializers.Github;
 
 using Godot;
@@ -13,21 +14,23 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
     [Export] public Button ButtonDownload { get; set; }
     [Export] public Button ButtonCancel { get; set; }
 
-    public override void Initialize(JsonGithubReleaseEntry releaseInfo)
+    public override void Initialize(AppVersionInfo versionInfo)
     {
         AppFrameworkManager? appFrameworkManager = AppFrameworkManager.GetInstance();
         if (appFrameworkManager == null)
         {
             return;
         }
+
+        TimeSpan age = (versionInfo.Time - DateTime.Now).Duration();
         
-        var appName = AppFrameworkManager.GetAppName();
-        var newVersion = releaseInfo.GetVersionStr();
-        var currentVersion = AppFrameworkManager.GetAppVersion();
-        var changeLog = releaseInfo.Body;
-        
-        WindowBodyText.Text = WindowBodyText.Text.Templated(new { appName, newVersion, currentVersion });
-        ChangeLogText.Text = changeLog;
+        var templateArgs = versionInfo.ToTemplatedArgs();
+        templateArgs["AppName"] = AppFrameworkManager.GetAppName();
+        templateArgs["CurrentVer"] = AppFrameworkManager.GetAppVersion().ToString();
+        templateArgs["Age"] = StringFormatting.GetReadableTimespan(age);
+
+        WindowBodyText.Text = WindowBodyText.Text.Templated(templateArgs);
+        ChangeLogText.Text = versionInfo.ChangeLog;
         
         AutoUpdaterManager? autoUpdaterManager = AutoUpdaterManager.GetInstance();
         if (autoUpdaterManager == null)
@@ -37,17 +40,17 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
         
         ButtonInstall.Pressed += () =>
         {
-            autoUpdaterManager.UnattendedUpdate();
+            autoUpdaterManager.UnattendedUpdate(versionInfo);
         };
 
         ButtonDownload.Pressed += () =>
         {
-            OS.ShellOpen(releaseInfo.Html_Url);
+            OS.ShellOpen(versionInfo.LinkToDownloadPage);
         };
 
         ButtonCancel.Pressed += () =>
         {
-            autoUpdaterManager.IgnoreUpdate(releaseInfo);
+            autoUpdaterManager.IgnoreUpdate(versionInfo);
         };
     }
 }

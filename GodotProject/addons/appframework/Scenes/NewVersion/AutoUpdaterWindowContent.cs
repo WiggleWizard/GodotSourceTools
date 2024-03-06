@@ -6,10 +6,10 @@ namespace GodotAppFramework;
 
 public partial class AutoUpdaterWindowContent : Control
 {
-    public void InternalInitialize(JsonGithubReleaseEntry releaseInfo)
+    public void InternalInitialize(AppVersionInfo releaseInfo)
     {
         Initialize(releaseInfo);
     }
     
-    public virtual void Initialize(JsonGithubReleaseEntry releaseInfo) {}
+    public virtual void Initialize(AppVersionInfo versionInfo) {}
 }
