@@ -4,7 +4,7 @@ using System;
 using System.Reflection;
 using WinRT;
 
-namespace GodotAppFramework.Extentions;
+namespace GodotAppFramework.Extensions;
 
 public static class VariantExtentions
 {

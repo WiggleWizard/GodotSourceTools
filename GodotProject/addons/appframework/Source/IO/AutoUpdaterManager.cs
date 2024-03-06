@@ -1,7 +1,12 @@
 using GodotAppFramework.Globals;
 using GodotAppFramework.Serializers.Github;
+using GodotAppFramework.Extensions;
+using GodotAppFramework.System;
+using GodotAppFramework.HttpClientProgress;
 
 using Godot;
+using GDCollections = Godot.Collections;
+using GDFileAccess = Godot.FileAccess;
 
 using System;
 using System.Collections.Generic;
@@ -9,8 +14,11 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+
 using CSHttpClient = System.Net.Http.HttpClient;
-using FileAccess = Godot.FileAccess;
+using CSHttpProgressMessageHandler = System.Net.Http.HttpMessageHandler;
+using Environment = System.Environment;
+using FileAccess = System.IO.FileAccess;
 
 namespace GodotAppFramework;
 
@@ -22,17 +30,18 @@ public partial class AppVersionInfo : Resource
     public string ChangeLog = "";
     public string LinkToDownloadPage = "";
 
+    public Dictionary<BetterPlatformID, Tuple<string, string>> BinaryDownloads = new();
+
     public Dictionary<string, string> ToTemplatedArgs()
     {
-        Dictionary<string, string> dict = new();
-
-        dict[nameof(Ver)] = Ver.ToString();
-        dict[nameof(ZipUrl)] = ZipUrl;
-        dict[nameof(Time)] = Time.ToLongTimeString();
-        dict[nameof(ChangeLog)] = ChangeLog;
-        dict[nameof(LinkToDownloadPage)] = LinkToDownloadPage;
-
-        return dict;
+        return new()
+        {
+            [nameof(Ver)] = Ver.ToString(),
+            [nameof(ZipUrl)] = ZipUrl,
+            [nameof(Time)] = Time.ToLongTimeString(),
+            [nameof(ChangeLog)] = ChangeLog,
+            [nameof(LinkToDownloadPage)] = LinkToDownloadPage
+        };
     }
 }
 
@@ -53,13 +62,15 @@ public partial class AutoUpdaterManager : Node
     [Export, AFXProjectSettingProperty("version_check_url", "")]
     public static string VersionCheckUrl { get; set; }
 
-    [Export, AFXProjectSettingProperty("download_temp_path", "")]
-    public static string DownloadTempPath { get; set; } = "";
+    [Export, AFXProjectSettingProperty("download_temp_path", "user://Downloads")]
+    public static string DownloadTempPath { get; set; } = "user://Downloads";
 
     [Export, AFXProjectSettingPropertyScene("prompt_scene", "res://addons/appframework/Scenes/NewVersion/Scene.tscn")]
     public static string PromptScenePath { get; set; } = "";
 
     [Config] public static string IgnoreUpdateToVersion { get; set; } = "";
+
+    private CSHttpClient _downloadHttpClient = new();
 
     private static string _versionFilePath = "user://version";
 
@@ -90,13 +101,13 @@ public partial class AutoUpdaterManager : Node
         // On startup, we fetch the version file first. If this contains our current version then we all good. If it doesn't exist
         // at all then make one and write the current version. If it is a lower version then trigger the upgrade routine(s).
         Version verFileVersion = AppFrameworkManager.GetAppVersion();
-        if (!FileAccess.FileExists(_versionFilePath))
+        if (!GDFileAccess.FileExists(_versionFilePath))
         {
-            var initialVerFile = FileAccess.Open(_versionFilePath, FileAccess.ModeFlags.Write);
+            var initialVerFile = GDFileAccess.Open(_versionFilePath, GDFileAccess.ModeFlags.Write);
             initialVerFile.StoreString(verFileVersion.ToString());
             initialVerFile.Close();
         }
-        var verFile = FileAccess.Open(_versionFilePath, FileAccess.ModeFlags.Read);
+        var verFile = GDFileAccess.Open(_versionFilePath, GDFileAccess.ModeFlags.Read);
         verFileVersion = verFile.GetAsText().ToVersion();
 
         if (verFileVersion < AppFrameworkManager.GetAppVersion())
@@ -126,18 +137,45 @@ public partial class AutoUpdaterManager : Node
             var releaseEntry = await GetLatestVersionInfo();
             
             // If we actually have an entry, then we need to pass that on to the main thread to do something with it
-            CallDeferred(nameof(OnNewVersionAvailable), releaseEntry);
+            CallDeferred(MethodName.OnNewVersionAvailable, releaseEntry);
         });
     }
     
     public void UnattendedUpdate(AppVersionInfo to)
     {
         // Download the ZIP file
-        using (var client = new HttpClient())
+        Task.Run(async () =>
         {
-            // var response = await client.GetByteArrayAsync("http://some-address");
-            // File.WriteAllBytes("Downloadedfile.xlsx", response);
-        }
+            var progress = new Progress<float>();
+            progress.ProgressChanged += (sender, f) =>
+            {
+                CallDeferred(MethodName.OnDownloadProgress, to, f);
+            };
+
+            string downloadTempPath = ProjectSettings.GlobalizePath(DownloadTempPath);
+            
+            // Ensure that the download dir path exists
+            Directory.CreateDirectory(downloadTempPath);
+
+            OperatingSystem os = Environment.OSVersion;
+            BetterPlatformID platformId = os.GetBetterPlatformID();
+            if (!to.BinaryDownloads.ContainsKey(platformId))
+            {
+                return;
+            }
+
+            Tuple<string, string> downloadInfo = to.BinaryDownloads[platformId];
+            var fullPath = downloadTempPath + "/" + downloadInfo.Item2;
+            using (var file = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                await _downloadHttpClient.DownloadDataAsync(downloadInfo.Item1, file, progress);
+            }
+        });
+    }
+
+    private void OnDownloadProgress(AppVersionInfo versionInfo, float progress)
+    {
+        EmitSignal(SignalName.DownloadProgress, progress);
     }
 
     public void IgnoreUpdate(AppVersionInfo releaseInfo)
@@ -265,7 +303,22 @@ public partial class AutoUpdaterManager : Node
                     var releaseVersion = entry.GetVersion();
                     if (releaseVersion > appVersion)
                     {
-                        return entry.ToAppVersionInfo();
+                        var appVersionInfo = entry.ToAppVersionInfo();
+
+                        foreach (var asset in entry.Assets)
+                        {
+                            string[] split = asset.Browser_Download_Url.Split(".");
+                            if (split.Length >= 3)
+                            {
+                                string forOsStr = split[split.Length - 2];
+                                if (Enum.TryParse(forOsStr, true, out BetterPlatformID forOs))
+                                {
+                                    appVersionInfo.BinaryDownloads[forOs] = new Tuple<string, string>(asset.Browser_Download_Url, asset.Name);
+                                }
+                            }
+                        }
+                        
+                        return appVersionInfo;
                     }
                 }
             }

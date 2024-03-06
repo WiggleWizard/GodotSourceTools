@@ -1,8 +1,18 @@
-﻿using Godot;
+﻿using GodotAppFramework.Extensions;
+
+using Godot;
 
 using System;
+using System.Collections.Generic;
 
 namespace GodotAppFramework.Serializers.Github;
+
+public partial class JsonGithubReleaseEntryAsset : Resource
+{
+    public string Name { get; set; }
+    public string Browser_Download_Url { get; set; }
+    public int Size { get; set; }
+}
 
 public partial class JsonGithubReleaseEntry : Resource
 {
@@ -14,6 +24,7 @@ public partial class JsonGithubReleaseEntry : Resource
     public DateTime Published_At { get; set; }
     public string Body { get; set; }
     public string Html_Url { get; set; }
+    public List<JsonGithubReleaseEntryAsset> Assets { get; set; }
 
     public string GetVersionStr()
     {

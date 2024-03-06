@@ -1,12 +1,11 @@
 ﻿using GodotAppFramework.Globals;
+using GodotAppFramework.Extensions;
 
 using Godot;
 
 using System;
 using System.Linq;
-using System.Net;
 using System.Reflection;
-using GodotAppFramework.Extentions;
 
 namespace GodotAppFramework;
 

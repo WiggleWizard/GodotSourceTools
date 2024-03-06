@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace GodotAppFramework;
+namespace GodotAppFramework.Extensions;
 
 public static class StringExtensions
 {
