@@ -2,7 +2,6 @@ using GodotAppFramework.Globals;
 using GodotAppFramework.Serializers.Github;
 using GodotAppFramework.Extensions;
 using GodotAppFramework.System;
-using GodotAppFramework.HttpClientProgress;
 
 using Godot;
 using GDCollections = Godot.Collections;
@@ -45,6 +44,13 @@ public partial class AppVersionInfo : Resource
     }
 }
 
+public enum UpdateStatus
+{
+    Downloading,
+    Installing,
+    Complete
+}
+
 [AFXProjectSetting(Constants.ProjectSettingsPrefix, "auto_updater"), Config]
 public partial class AutoUpdaterManager : Node
 {
@@ -78,8 +84,10 @@ public partial class AutoUpdaterManager : Node
 
     // Triggers once an update to the application is available
     [Signal] public delegate void UpdateAvailableEventHandler(AppVersionInfo releaseInfo);
+
+    [Signal] public delegate void UpdateStatusChangedEventHandler(AppVersionInfo appVersionInfo, UpdateStatus status);
     
-    [Signal] public delegate void DownloadProgressEventHandler(float progress);
+    [Signal] public delegate void DownloadProgressEventHandler(AppVersionInfo appVersionInfo, float progress);
     
     [Signal] public delegate void InstallProgressEventHandler(float progress);
 
@@ -149,7 +157,7 @@ public partial class AutoUpdaterManager : Node
             var progress = new Progress<float>();
             progress.ProgressChanged += (sender, f) =>
             {
-                CallDeferred(MethodName.OnDownloadProgress, to, f);
+                CallDeferred(GodotObject.MethodName.EmitSignal, SignalName.DownloadProgress, to, f);
             };
 
             string downloadTempPath = ProjectSettings.GlobalizePath(DownloadTempPath);
@@ -168,14 +176,17 @@ public partial class AutoUpdaterManager : Node
             var fullPath = downloadTempPath + "/" + downloadInfo.Item2;
             using (var file = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
+                CallDeferred(GodotObject.MethodName.EmitSignal, SignalName.UpdateStatusChanged, to, (int)UpdateStatus.Downloading);
                 await _downloadHttpClient.DownloadDataAsync(downloadInfo.Item1, file, progress);
+                
+                CallDeferred(GodotObject.MethodName.EmitSignal, SignalName.UpdateStatusChanged, to, (int)UpdateStatus.Installing);
+                InstallUpdate(to, fullPath);
             }
         });
     }
 
-    private void OnDownloadProgress(AppVersionInfo versionInfo, float progress)
+    private void InstallUpdate(AppVersionInfo versionInfo, string zipFilePath)
     {
-        EmitSignal(SignalName.DownloadProgress, progress);
     }
 
     public void IgnoreUpdate(AppVersionInfo releaseInfo)

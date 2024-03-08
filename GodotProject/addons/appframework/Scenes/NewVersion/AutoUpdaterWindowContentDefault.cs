@@ -14,6 +14,8 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
     [Export] public Button ButtonInstall { get; set; }
     [Export] public Button ButtonDownload { get; set; }
     [Export] public Button ButtonCancel { get; set; }
+    
+    [Export] public ProgressBar DownloadProgress { get; set; }
 
     public override void Initialize(AppVersionInfo versionInfo)
     {
@@ -52,6 +54,16 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
         ButtonCancel.Pressed += () =>
         {
             autoUpdaterManager.IgnoreUpdate(versionInfo);
+        };
+
+        autoUpdaterManager.UpdateStatusChanged += (info, status) =>
+        {
+            GD.Print(status);
+        };
+
+        autoUpdaterManager.DownloadProgress += (info, progress) =>
+        {
+            DownloadProgress.Value = progress;
         };
     }
 }

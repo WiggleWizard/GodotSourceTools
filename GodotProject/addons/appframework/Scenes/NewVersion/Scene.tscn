@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="1_4hfk0"]
 [ext_resource type="Script" path="res://addons/appframework/Scenes/NewVersion/AutoUpdaterWindowContentDefault.cs" id="1_582cc"]
 
-[node name="Scene" type="Control" node_paths=PackedStringArray("WindowBodyText", "ChangeLogText", "ButtonInstall", "ButtonDownload", "ButtonCancel")]
+[node name="Scene" type="Control" node_paths=PackedStringArray("WindowBodyText", "ChangeLogText", "ButtonInstall", "ButtonDownload", "ButtonCancel", "DownloadProgress")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +16,7 @@ ChangeLogText = NodePath("Panel/VBoxContainer/VBoxContainer/MarginContainer/Rich
 ButtonInstall = NodePath("Panel/VBoxContainer/HBoxContainer/Install")
 ButtonDownload = NodePath("Panel/VBoxContainer/HBoxContainer/Download")
 ButtonCancel = NodePath("Panel/VBoxContainer/HBoxContainer/Decline")
+DownloadProgress = NodePath("MarginPanel/CenterContainer/ProgressBar")
 
 [node name="Panel" type="Container" parent="."]
 layout_mode = 1
@@ -61,6 +62,7 @@ size_flags_vertical = 3
 layout_mode = 2
 
 [node name="Install" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Download & Install"
@@ -68,9 +70,25 @@ text = "Download & Install"
 [node name="Download" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Link to Download"
+text = "Download"
 
 [node name="Decline" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Not This Version"
+
+[node name="MarginPanel" type="Container" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4hfk0")
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginPanel"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginPanel/CenterContainer"]
+layout_mode = 2
