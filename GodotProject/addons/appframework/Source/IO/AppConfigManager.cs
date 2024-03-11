@@ -16,6 +16,8 @@ namespace GodotAppFramework;
 public partial class AppConfigManager : Node
 {
     private static AppConfigManager? _instance = null;
+
+    private static ConfigFile _defaults = new ConfigFile();
     
     [AFXProjectSettingProperty("app_config_path", "user://config.ini")]
     public static string AppConfigPath { get; set; } = "";
@@ -59,6 +61,11 @@ public partial class AppConfigManager : Node
                         GD.PrintErr("Property must the static accessor in order for it to be saved/loaded from the application config");
                         continue;
                     }
+
+                    // Store defaults into a temporary memory mapped config file
+                    object? propVal = property.GetValue(null);
+                    Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
+                    _defaults.SetValue(type.Name, property.Name, gdVariant);
 
                     // Load the value from the config file if it has the property
                     if (configFile.HasSectionKey(type.Name, property.Name))
@@ -113,9 +120,13 @@ public partial class AppConfigManager : Node
 
                     object? propVal = property.GetValue(null);
                     Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
-                    
-                    // Save the property to the config file
-                    configFile.SetValue(type.Name, property.Name, gdVariant);
+
+                    // Only save to config file if this property has changed from defaults
+                    Variant defaultVal = _defaults.GetValue(type.Name, property.Name);
+                    if (!gdVariant.IsEqualTo(defaultVal))
+                    {
+                        configFile.SetValue(type.Name, property.Name, gdVariant);
+                    }
                 }
             }
         }
