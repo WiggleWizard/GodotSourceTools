@@ -51,9 +51,10 @@ BuildListContainer = NodePath("HSplitContainer/ItemList")
 BuildArgsDisplay = NodePath("HSplitContainer/Panel2/VBoxContainer/BuildArgs")
 ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollableTextBox")
 
-[node name="Source Control" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="1" node_paths=PackedStringArray("ChangeListControl") instance=ExtResource("5_u7g83")]
+[node name="Source Control" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="1" node_paths=PackedStringArray("ChangeListControl", "BranchSelectors") instance=ExtResource("5_u7g83")]
 visible = false
 layout_mode = 2
 ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
+BranchSelectors = []
 
 [editable path="WindowDecoration"]

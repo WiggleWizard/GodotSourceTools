@@ -14,6 +14,7 @@ using System.Net.Http.Json;
 using System.Reflection;
 using CSHttpClient = System.Net.Http.HttpClient;
 
+[Config]
 public partial class SourceManagerConfigEntry : Resource
 {
     [Export]
@@ -121,10 +122,13 @@ public partial class SourceManagerConfigEntry : Resource
 [Config]
 public partial class SourceManager : Node
 {
-    private static SourceManager _instance = null;
+    private static SourceManager? _instance = null;
 
     private static String _vanillaModulesFetchUrl = "https://api.github.com";
     private static String _vanillaModulesFetchUri = "repos/godotengine/godot/contents/modules";
+
+    public static string GodotSourceUrlHttp { get; set; } = "https://github.com/godotengine/godot.git";
+    public static string GodotSourceUrlSsh { get; set; } = "git@github.com:godotengine/godot.git";
 
     [Config] public static string LastOpenedSourceDir { get; set; } = "";
     
@@ -136,6 +140,8 @@ public partial class SourceManager : Node
 
     [Export] private Array<String> _availableModules = new();
     [Export] private Array<String> _vanillaModules = new();
+
+    private GitRepo? _repository = null;
     
     [Signal] public delegate void NewSourceLoadedEventHandler(String dirPath);
     [Signal] public delegate void NewConfigEventHandler(SourceManagerConfigEntry newConfig);
@@ -193,13 +199,26 @@ public partial class SourceManager : Node
         appStartupManager?.NodeIsReady(this);
     }
 
-    public static SourceManager GetInstance()
+    public static SourceManager? GetInstance()
     {
         return _instance;
     }
 
+    public GitRepo? GetRepo()
+    {
+        return _repository;
+    }
+
     public void OpenSourceDir(String dirPath)
     {
+        // Close the repository if it's open
+        if (_repository != null)
+        {
+            _repository.CloseRepo();
+            _repository.QueueFree();
+            _repository = null;
+        }
+        
         CurrentSourceDir = dirPath;
         
         LoadConfig();
@@ -208,6 +227,18 @@ public partial class SourceManager : Node
         GatherAvailableModules(dirPath, ref _availableModules);
 
         GetTree().Root.Title = $"Godot Source Tools ({dirPath})";
+
+        // Open the repository, if we can
+        _repository = new();
+        if (_repository.OpenRepo(dirPath))
+        {
+            AddChild(_repository);
+        }
+        else
+        {
+            _repository.QueueFree();
+            _repository = null;
+        }
         
         EmitSignal(SignalName.NewSourceLoaded, dirPath);
     }

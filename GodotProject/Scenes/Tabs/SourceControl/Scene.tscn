@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Tabs/SourceControl/MainTabSourceControl.cs" id="1_fawqg"]
 [ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_xrs6s"]
 
-[node name="Source Control" type="Control" node_paths=PackedStringArray("ChangeListControl")]
+[node name="Source Control" type="Control" node_paths=PackedStringArray("ChangeListControl", "ButtonAddUpstream", "ButtonFetchAndMerge", "ButtonRebaseChanges", "RemoteBranchSelectors", "LocalBranchSelectors")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +12,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fawqg")
 ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
+ButtonAddUpstream = NodePath("HBoxContainer/Control/VBoxContainer/Button")
+ButtonFetchAndMerge = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/Button2")
+ButtonRebaseChanges = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/Button2")
+RemoteBranchSelectors = [NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer/UpstreamRemote")]
+LocalBranchSelectors = [NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2/LocalBranch"), NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer/FromLocalBranch"), NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer2/ToLocalBranch")]
 
 [node name="HBoxContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -32,8 +37,81 @@ layout_mode = 2
 [node name="ChangeList" type="VBoxContainer" parent="HBoxContainer/Panel/ScrollContainer"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="Control" type="Container" parent="HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_xrs6s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control"]
 layout_mode = 2
 
-[node name="Control" type="Panel" parent="HBoxContainer/VBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+text = "Add Upstream"
+
+[node name="MarginPanel" type="Container" parent="HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_xrs6s")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Upstream"
+
+[node name="UpstreamRemote" type="OptionButton" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Branch"
+
+[node name="LocalBranch" type="OptionButton" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Fetches and merges from `Upstream` into the `Branch`"
+text = "Fetch & Merge"
+
+[node name="MarginPanel2" type="Container" parent="HBoxContainer/Control/VBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_xrs6s")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "From"
+
+[node name="FromLocalBranch" type="OptionButton" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "To"
+
+[node name="ToLocalBranch" type="OptionButton" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer"]
+layout_mode = 2
+tooltip_text = "Fetches and merges from `Upstream` into the `Branch`"
+text = "Rebase Changes"

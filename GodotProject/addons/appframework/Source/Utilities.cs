@@ -1,6 +1,8 @@
 ﻿using Godot;
+using GdCollections = Godot.Collections;
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.ComponentModel;
 
@@ -63,6 +65,12 @@ public class Utilities
         {
             return new Variant();
         }
+
+        var oType = o.GetType();
+        if (oType == typeof(GdCollections.Array<string>))
+        {
+            return (GdCollections.Array<string>)o;
+        }
         
         Variant variantValue = o switch
         {
@@ -73,5 +81,30 @@ public class Utilities
         };
 
         return variantValue;
+    }
+    
+    public static void DiffDictionaries<T, U>(IDictionary<T, U> dicA, IDictionary<T, U> dicB, IDictionary<T, U> dicAdd, IDictionary<T, U> dicDel)
+    {
+        // dicDel has entries that are in A, but not in B, 
+        // ie they were deleted when moving from A to B
+        diffDicSub<T, U>(dicA, dicB, dicDel);
+
+        // dicAdd has entries that are in B, but not in A,
+        // ie they were added when moving from A to B
+        diffDicSub<T, U>(dicB, dicA, dicAdd);
+    }
+
+    private static void diffDicSub<T, U>(IDictionary<T, U> dicA, IDictionary<T, U> dicB, IDictionary<T, U> dicAExceptB)
+    {
+        // Walk A, and if any of the entries are not
+        // in B, add them to the result dictionary.
+
+        foreach (KeyValuePair<T, U> kvp in dicA)
+        {
+            if (!dicB.ContainsKey(kvp.Key))
+            {
+                dicAExceptB[kvp.Key] = (U)kvp.Value;
+            }
+        }
     }
 }
