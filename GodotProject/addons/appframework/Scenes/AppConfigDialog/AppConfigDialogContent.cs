@@ -70,7 +70,7 @@ public partial class AppConfigDialogContent : Control
 
                 LineEdit lineEdit = new();
                 lineEdit.Text = variant.AsString();
-                lineEdit.TextSubmitted += text =>
+                lineEdit.TextChanged += text =>
                 {
                     SetPropertyValue(attributeInfo.PropInfo, lineEdit.Text);
                 };
