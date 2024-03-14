@@ -9,7 +9,7 @@ public partial class BurgerButton : Button
     {
         LoadProject,
         Sep1,
-        TestUpdate
+        AppSettings,
     }
 
     public override void _Ready()
@@ -18,6 +18,8 @@ public partial class BurgerButton : Button
         _dropdownMenu.InitialPosition = Window.WindowInitialPosition.Absolute;
 
         _dropdownMenu.AddItem("Open Project...", (int)DropdownMenuOptions.LoadProject);
+        _dropdownMenu.AddSeparator();
+        _dropdownMenu.AddItem("Settings", (int)DropdownMenuOptions.AppSettings);
 
         _dropdownMenu.IdPressed += OnIdPressed;
         
@@ -47,8 +49,9 @@ public partial class BurgerButton : Button
 
             fileDialog.Show();
         }
-        else if (id == (long)DropdownMenuOptions.TestUpdate)
+        else if (id == (long)DropdownMenuOptions.AppSettings)
         {
+            AppConfigManager.GetInstance()?.ShowAppSettingsDialog();
         }
     }
 

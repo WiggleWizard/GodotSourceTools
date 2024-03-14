@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Tabs/SourceControl/MainTabSourceControl.cs" id="1_fawqg"]
 [ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_xrs6s"]
 
-[node name="Source Control" type="Control" node_paths=PackedStringArray("ChangeListControl", "ButtonAddUpstream", "ButtonFetchAndMerge", "ButtonRebaseChanges", "RemoteBranchSelectors", "LocalBranchSelectors")]
+[node name="Source Control" type="Control" node_paths=PackedStringArray("ChangeListControl", "ButtonAddUpstream", "ButtonFetchAndMerge", "ButtonRebaseChanges", "FetchAndMergeRemoteBranchName", "FetchAndMergeLocalBranchName", "LocalBranchSelectors")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,8 @@ ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
 ButtonAddUpstream = NodePath("HBoxContainer/Control/VBoxContainer/Button")
 ButtonFetchAndMerge = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/Button2")
 ButtonRebaseChanges = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/Button2")
-RemoteBranchSelectors = [NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer/UpstreamRemote")]
+FetchAndMergeRemoteBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer/UpstreamRemote")
+FetchAndMergeLocalBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2/LocalBranch")
 LocalBranchSelectors = [NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2/LocalBranch"), NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer/FromLocalBranch"), NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer2/ToLocalBranch")]
 
 [node name="HBoxContainer" type="HSplitContainer" parent="."]
@@ -62,9 +63,10 @@ layout_mode = 2
 layout_mode = 2
 text = "Upstream"
 
-[node name="UpstreamRemote" type="OptionButton" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer"]
+[node name="UpstreamRemote" type="LineEdit" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+text = "master"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer"]
 layout_mode = 2

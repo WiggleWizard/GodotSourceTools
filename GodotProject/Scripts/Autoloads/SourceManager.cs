@@ -4,6 +4,7 @@ using GodotSourceTools;
 
 using Godot;
 using Godot.Collections;
+using GdCollections = Godot.Collections;
 using FileAccess = Godot.FileAccess;
 
 using System;
@@ -127,10 +128,12 @@ public partial class SourceManager : Node
     private static String _vanillaModulesFetchUrl = "https://api.github.com";
     private static String _vanillaModulesFetchUri = "repos/godotengine/godot/contents/modules";
 
-    public static string GodotSourceUrlHttp { get; set; } = "https://github.com/godotengine/godot.git";
+    public static string GodotSourceUrlHttp { get; set; } = "https://github.com/godotengine/godot";
     public static string GodotSourceUrlSsh { get; set; } = "git@github.com:godotengine/godot.git";
 
     [Config] public static string LastOpenedSourceDir { get; set; } = "";
+    [Config("Git", "Git Username")] public static string GitSignatureUsername { get; set; } = "";
+    [Config("Git", "Git Email")] public static string GitSignatureEmail { get; set; } = "";
     
     public static String ConfigName { set; get; } = "godotsourcetools.tres";
 

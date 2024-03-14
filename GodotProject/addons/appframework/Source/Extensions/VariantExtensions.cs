@@ -11,7 +11,22 @@ public static class VariantExtensions
     // Returns false if the variant is at all invalid (nil, nullptr, deleted, etc)
     public static bool IsValid(this Variant v)
     {
-        return v.VariantType == Variant.Type.Nil || v.Obj == null || !GodotObject.IsInstanceValid(v.AsGodotObject());
+        if (v.VariantType == Variant.Type.Nil)
+        {
+            return false;
+        }
+
+        if (v.Obj == null)
+        {
+            return false;
+        }
+
+        if (v.VariantType == Variant.Type.Object && !GodotObject.IsInstanceValid(v.AsGodotObject()))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     // Holder method, awaiting more advanced implementation

@@ -16,7 +16,8 @@ public partial class MainTabSourceControl : MainTabBase
     [Export] public Button ButtonFetchAndMerge { get; set; }
     [Export] public Button ButtonRebaseChanges { get; set; }
     
-    [Export] public GdCollections.Array<OptionButton> RemoteBranchSelectors { get; set; }
+    [Export] public LineEdit FetchAndMergeRemoteBranchName { get; set; }
+    [Export] public OptionButton FetchAndMergeLocalBranchName { get; set; }
     [Export] public GdCollections.Array<OptionButton> LocalBranchSelectors { get; set; }
 
     public override void _Ready()
@@ -28,6 +29,8 @@ public partial class MainTabSourceControl : MainTabBase
         {
             OnNewSourceLoaded(sourceManager.CurrentSourceDir);
         }
+
+        ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
     }
 
     public void OnChangelistChanged(GdCollections.Dictionary<string, FileStatus> filesAdded, GdCollections.Dictionary<string, FileStatus> filesDeleted)
@@ -87,7 +90,6 @@ public partial class MainTabSourceControl : MainTabBase
         }
 
         FillLocalBranchSelectors();
-        FillRemoteBranchSelectors();
     }
     
     public static string CreateMD5(string input)
@@ -109,59 +111,85 @@ public partial class MainTabSourceControl : MainTabBase
 
     public void OnFetchAndMergePressed()
     {
+        GitRepo? repo = GetRepo();
+        if (repo == null)
+        {
+            return;
+        }
+
+        var onProgressCb = Callable.From((string s) =>
+        {
+            CallDeferred(MethodName.OnFetchProgress, s);
+        });
         
+        var onTransferProgressCb = Callable.From((int indexedObjects, int receivedObjects, int receivedBytes, int totalObjects) =>
+        {
+            CallDeferred(MethodName.OnFetchTransferProgress, indexedObjects);
+        });
+
+        if (FetchAndMergeRemoteBranchName != null && FetchAndMergeLocalBranchName != null)
+        {
+            repo.Fetch("upstream", FetchAndMergeRemoteBranchName.Text, onTransferProgressCb, onProgressCb, Callable.From(() =>
+            {
+                var fromRemoteBranch = FetchAndMergeRemoteBranchName.Text;
+                var toLocalBranch = FetchAndMergeLocalBranchName.GetItemText(FetchAndMergeLocalBranchName.Selected);
+                repo.Merge("upstream/" + fromRemoteBranch, toLocalBranch, "WiggleWizard", "");
+            }));
+        }
     }
 
-    public void OnRebaseChanges()
+    public void OnRebaseChangesPressed()
     {
         
     }
 
     protected void FillLocalBranchSelectors()
     {
-        SourceManager? sourceManager = SourceManager.GetInstance();
-        if (sourceManager == null)
-        {
-            return;
-        }
-        
-        GitRepo? repo = sourceManager.GetRepo();
+        GitRepo? repo = GetRepo();
         if (repo == null)
         {
             return;
         }
 
-        var branches = repo.GetLocalBranches();
-        foreach (var selector in LocalBranchSelectors)
+        lock (repo.GetSynchro())
         {
-            foreach (var branch in branches)
+            var branches = repo.GetAllBranches();
+            foreach (var selector in LocalBranchSelectors)
             {
-                selector.AddItem(branch.FriendlyName);
+                foreach (var branch in branches)
+                {
+                    if (!branch.IsRemote)
+                    {
+                        selector.AddItem(branch.FriendlyName);
+                    }
+                }
             }
         }
     }
 
-    protected void FillRemoteBranchSelectors()
+    private GitRepo? GetRepo()
     {
         SourceManager? sourceManager = SourceManager.GetInstance();
         if (sourceManager == null)
         {
-            return;
+            return null;
         }
         
-        GitRepo? repo = sourceManager.GetRepo();
-        if (repo == null)
-        {
-            return;
-        }
+        return sourceManager.GetRepo();
+    }
 
-        var branches = repo.GetRemoteBranches();
-        foreach (var selector in RemoteBranchSelectors)
-        {
-            foreach (var branch in branches)
-            {
-                selector.AddItem(branch.FriendlyName);
-            }
-        }
+    private void OnFetchProgress(string s)
+    {
+        GD.Print(s);
+    }
+    
+    private void OnFetchTransferProgress(int indexedObjects, int receivedObjects, int receivedBytes, int totalObjects)
+    {
+        GD.Print(indexedObjects);
+    }
+
+    private void OnFetchAndMergeCompleted(bool successful)
+    {
+        
     }
 }

@@ -1,4 +1,5 @@
 using GodotAppFramework.Extensions;
+using GodotAppFramework.Globals;
 
 using Godot;
 using Godot.Collections;

@@ -4,8 +4,10 @@ using GodotAppFramework.Extensions;
 using Godot;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using InvalidCastException = System.InvalidCastException;
 
 namespace GodotAppFramework;
 
@@ -21,6 +23,11 @@ public partial class AppConfigManager : Node
     
     [AFXProjectSettingProperty("app_config_path", "user://config.ini")]
     public static string AppConfigPath { get; set; } = "";
+    
+    [Export, AFXProjectSettingPropertyScene("settings_dialog_scene", "res://addons/appframework/Scenes/AppConfigDialog/Scene.tscn")]
+    public static string AppConfigDialogScenePath { get; set; } = "";
+
+    private Window? _appConfigWindow = null;
 
     public static AppConfigManager? GetInstance()
     {
@@ -40,40 +47,20 @@ public partial class AppConfigManager : Node
         }
         
         configFile.Load(AppConfigPath);
-        
-        var assembly = Assembly.GetExecutingAssembly();
-        foreach (Type type in assembly.GetTypes())
+
+        var attributeInfos = AttributeInfo<Config>.GetAllStaticAttributesOfType(Assembly.GetExecutingAssembly());
+        foreach (var attributeInfo in attributeInfos)
         {
-            Config? typeAttr = type.GetCustomAttributes<Config>().SingleOrDefault();
-            if (typeAttr == null)
-            {
-                continue;
-            }
-            
-            foreach (PropertyInfo property in type.GetProperties())
-            {
-                var attributes = property.GetCustomAttributes<Config>();
-                foreach (var propertyAttr in attributes)
-                {
-                    // Only allow on static properties
-                    if (!property.GetAccessors(nonPublic: true)[0].IsStatic)
-                    {
-                        GD.PrintErr("Property must the static accessor in order for it to be saved/loaded from the application config");
-                        continue;
-                    }
+            // Store defaults into a temporary memory mapped config file
+            object? propVal = attributeInfo.PropInfo.GetValue(null);
+            Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
+            _defaults.SetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name, gdVariant);
 
-                    // Store defaults into a temporary memory mapped config file
-                    object? propVal = property.GetValue(null);
-                    Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
-                    _defaults.SetValue(type.Name, property.Name, gdVariant);
-
-                    // Load the value from the config file if it has the property
-                    if (configFile.HasSectionKey(type.Name, property.Name))
-                    {
-                        Variant v = configFile.GetValue(type.Name, property.Name);
-                        property.SetValue(null, v.ToCSharpObject());
-                    }
-                }
+            // Load the value from the config file if it has the property
+            if (configFile.HasSectionKey(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name))
+            {
+                Variant v = configFile.GetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name);
+                attributeInfo.PropInfo.SetValue(null, v.ToCSharpObject());
             }
         }
     }
@@ -84,6 +71,55 @@ public partial class AppConfigManager : Node
         {
             // When the application is about to exit, then we try save all properties that are marked as `Config`
             SaveConfig();
+        }
+    }
+    
+    public void ShowAppSettingsDialog()
+    {
+        if (AppConfigDialogScenePath == string.Empty)
+        {
+            return;
+        }
+        
+        PackedScene packedScene = GD.Load<PackedScene>(AppConfigDialogScenePath);
+        if (!IsInstanceValid(packedScene))
+        {
+            GD.PrintErr($"Could not load packed scene {AppConfigDialogScenePath} from disk");
+            return;
+        }
+
+        AppConfigDialogContent? windowContents = null;
+        try
+        {
+            windowContents = packedScene.Instantiate<AppConfigDialogContent>();
+            windowContents.InternalInitialize();
+        }
+        catch (InvalidCastException e)
+        {
+            GD.PrintErr($"Could not load packed scene {AppConfigDialogScenePath}. Cannot cast to a {nameof(AppConfigDialogContent)}");
+            return;
+        }
+
+        _appConfigWindow = new Window();
+        _appConfigWindow.Borderless = false;
+        _appConfigWindow.InitialPosition = Window.WindowInitialPosition.CenterMainWindowScreen;
+        _appConfigWindow.Unresizable = true;
+        _appConfigWindow.Title = "Application Configuration";
+        _appConfigWindow.Size = new Vector2I(650, 300);
+        _appConfigWindow.Transient = true;
+        _appConfigWindow.Exclusive = true;
+        _appConfigWindow.CloseRequested += CloseAppSettingsDialog;
+
+        _appConfigWindow.AddChild(windowContents);
+        AddChild(_appConfigWindow);
+    }
+
+    public void CloseAppSettingsDialog()
+    {
+        if (_appConfigWindow != null)
+        {
+            _appConfigWindow.QueueFree();
+            _appConfigWindow = null;
         }
     }
 
@@ -97,37 +133,17 @@ public partial class AppConfigManager : Node
     {
         ConfigFile configFile = new ConfigFile();
         
-        var assembly = Assembly.GetExecutingAssembly();
-        foreach (Type type in assembly.GetTypes())
+        var attributeInfos = AttributeInfo<Config>.GetAllStaticAttributesOfType(Assembly.GetExecutingAssembly());
+        foreach (var attributeInfo in attributeInfos)
         {
-            Config? typeAttr = type.GetCustomAttributes<Config>().SingleOrDefault();
-            if (typeAttr == null)
-            {
-                continue;
-            }
-			
-            foreach (PropertyInfo property in type.GetProperties())
-            {
-                var attributes = property.GetCustomAttributes<Config>();
-                foreach (var propertyAttr in attributes)
-                {
-                    // Only allow on static properties
-                    if (!property.GetAccessors(nonPublic: true)[0].IsStatic)
-                    {
-                        GD.PrintErr("Property must the static accessor in order for it to be saved/loaded from the application config");
-                        continue;
-                    }
+            object? propVal = attributeInfo.PropInfo.GetValue(null);
+            Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
 
-                    object? propVal = property.GetValue(null);
-                    Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
-
-                    // Only save to config file if this property has changed from defaults
-                    Variant defaultVal = _defaults.GetValue(type.Name, property.Name);
-                    if (!gdVariant.IsEqualTo(defaultVal))
-                    {
-                        configFile.SetValue(type.Name, property.Name, gdVariant);
-                    }
-                }
+            // Only save to config file if this property has changed from defaults
+            Variant defaultVal = _defaults.GetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name);
+            if (!gdVariant.IsEqualTo(defaultVal))
+            {
+                configFile.SetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name, gdVariant);
             }
         }
         
@@ -136,4 +152,21 @@ public partial class AppConfigManager : Node
 }
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, Inherited = false)]
-public class Config : Attribute {}
+public class Config : Attribute
+{
+    public bool ShowInSettingsDialog = false;
+    public string Category = "";
+    public string FriendlyName = "";
+    
+    public Config()
+    {
+        
+    }
+
+    public Config(string category, string friendlyName)
+    {
+        ShowInSettingsDialog = true;
+        Category = category;
+        FriendlyName = friendlyName;
+    }
+}
