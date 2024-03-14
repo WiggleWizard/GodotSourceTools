@@ -27,7 +27,7 @@ public class AttributeInfo<T> where T : Attribute
     public PropertyInfo PropInfo { get; set; }
     public T Attribute { get; set; }
 
-    public static List<AttributeInfo<T>> GetAllStaticAttributesOfType(Assembly assembly)
+    public static List<AttributeInfo<T>> GetAllStaticPropertyAttributes(Assembly assembly)
     {
         List<AttributeInfo<T>> list = new();
 

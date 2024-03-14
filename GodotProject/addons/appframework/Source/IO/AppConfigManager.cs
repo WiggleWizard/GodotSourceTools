@@ -27,6 +27,9 @@ public partial class AppConfigManager : Node
     [Export, AFXProjectSettingPropertyScene("settings_dialog_scene", "res://addons/appframework/Scenes/AppConfigDialog/Scene.tscn")]
     public static string AppConfigDialogScenePath { get; set; } = "";
 
+    [AFXProjectSettingPropertyScene("settings_dialog_title", "Settings")]
+    public static string AppConfigDialogTitle { get; set; } = "";
+
     private Window? _appConfigWindow = null;
 
     public static AppConfigManager? GetInstance()
@@ -48,7 +51,7 @@ public partial class AppConfigManager : Node
         
         configFile.Load(AppConfigPath);
 
-        var attributeInfos = AttributeInfo<Config>.GetAllStaticAttributesOfType(Assembly.GetExecutingAssembly());
+        var attributeInfos = AttributeInfo<Config>.GetAllStaticPropertyAttributes(Assembly.GetExecutingAssembly());
         foreach (var attributeInfo in attributeInfos)
         {
             // Store defaults into a temporary memory mapped config file
@@ -104,7 +107,7 @@ public partial class AppConfigManager : Node
         _appConfigWindow.Borderless = false;
         _appConfigWindow.InitialPosition = Window.WindowInitialPosition.CenterMainWindowScreen;
         _appConfigWindow.Unresizable = true;
-        _appConfigWindow.Title = "Application Configuration";
+        _appConfigWindow.Title = AppConfigDialogTitle;
         _appConfigWindow.Size = new Vector2I(650, 300);
         _appConfigWindow.Transient = true;
         _appConfigWindow.Exclusive = true;
@@ -133,7 +136,7 @@ public partial class AppConfigManager : Node
     {
         ConfigFile configFile = new ConfigFile();
         
-        var attributeInfos = AttributeInfo<Config>.GetAllStaticAttributesOfType(Assembly.GetExecutingAssembly());
+        var attributeInfos = AttributeInfo<Config>.GetAllStaticPropertyAttributes(Assembly.GetExecutingAssembly());
         foreach (var attributeInfo in attributeInfos)
         {
             object? propVal = attributeInfo.PropInfo.GetValue(null);

@@ -53,6 +53,7 @@ auto_updater/version_check_url="https://api.github.com/repos/WiggleWizard/GodotS
 auto_updater/enabled=true
 startup_manager/loading_scene="res://Scenes/Loading/Loading.tscn"
 auto_updater/show_update_prompt=true
+general/settings_dialog_scene="res://addons/appframework/Scenes/AppConfigDialog/Scene.tscn"
 
 [gui]
 

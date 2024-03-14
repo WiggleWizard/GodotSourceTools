@@ -15,7 +15,6 @@ using System.Net.Http.Json;
 using System.Reflection;
 using CSHttpClient = System.Net.Http.HttpClient;
 
-[Config]
 public partial class SourceManagerConfigEntry : Resource
 {
     [Export]

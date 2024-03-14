@@ -19,7 +19,7 @@ public partial class GitRepo : Node
 {
     [Export] private string RepositoryPath { get; set; } = "";
     
-    private Repository? _repository { set; get; } = null;
+    private Repository? _repository = null;
 
     private readonly object _syncLock = new();
     
