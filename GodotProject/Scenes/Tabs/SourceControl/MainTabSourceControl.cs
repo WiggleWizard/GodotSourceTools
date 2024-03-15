@@ -9,8 +9,11 @@ using System.Security.Cryptography;
 using System;
 using System.Linq;
 
+[Config]
 public partial class MainTabSourceControl : MainTabBase
 {
+    [Config] public static GdCollections.Dictionary LastBranchSelection { get; set; } = new();
+    
     [Export] public Control ChangeListControl { get; set; } = null!;
 
     [Export] public Button ButtonAddUpstream { get; set; } = null!;
@@ -19,21 +22,57 @@ public partial class MainTabSourceControl : MainTabBase
     
     [Export] public LineEdit FetchAndMergeRemoteBranchName { get; set; } = null!;
     [Export] public OptionButton FetchAndMergeLocalBranchName { get; set; } = null!;
-    [Export] public GdCollections.Array<OptionButton> LocalBranchSelectors { get; set; } = new();
+    [Export] public OptionButton RebaseFromBranchName { get; set; } = null!;
+    [Export] public OptionButton RebaseToBranchName { get; set; } = null!;
 
     public override void _Ready()
     {
         var sourceManager = SourceManager.GetInstance();
-        if (sourceManager != null)
+        if (sourceManager == null)
         {
-            sourceManager.NewSourceLoaded += OnNewSourceLoaded;
+            return;
+        }
 
-            if (sourceManager.CurrentSourceDir != "")
+        sourceManager.NewSourceLoaded += OnNewSourceLoaded;
+
+        if (sourceManager.CurrentSourceDir != "")
+        {
+            OnNewSourceLoaded(sourceManager.CurrentSourceDir);
+        }
+
+        ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
+
+        if (IsInstanceValid(FetchAndMergeRemoteBranchName))
+        {
+            FetchAndMergeRemoteBranchName.TextChanged += text =>
             {
-                OnNewSourceLoaded(sourceManager.CurrentSourceDir);
-            }
+                CacheInfoForProject(nameof(FetchAndMergeRemoteBranchName), FetchAndMergeRemoteBranchName.Text);
+            };
+        }
 
-            ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
+        if (IsInstanceValid(FetchAndMergeLocalBranchName))
+        {
+            FetchAndMergeLocalBranchName.ItemSelected += index =>
+            {
+                CacheInfoForProject(nameof(FetchAndMergeLocalBranchName),
+                    FetchAndMergeLocalBranchName.GetItemText((int)index));
+            };
+        }
+
+        if (IsInstanceValid(RebaseFromBranchName))
+        {
+            RebaseFromBranchName.ItemSelected += index =>
+            {
+                CacheInfoForProject(nameof(RebaseFromBranchName), RebaseFromBranchName.GetItemText((int)index));
+            };
+        }
+
+        if (IsInstanceValid(RebaseToBranchName))
+        {
+            RebaseToBranchName.ItemSelected += index =>
+            {
+                CacheInfoForProject(nameof(RebaseToBranchName), RebaseToBranchName.GetItemText((int)index));
+            };
         }
     }
 
@@ -94,6 +133,12 @@ public partial class MainTabSourceControl : MainTabBase
         }
 
         FillLocalBranchSelectors();
+        
+        // Massage the config data into the relevant selectors and line edits
+        PushCachedValueToControl(FetchAndMergeRemoteBranchName, nameof(FetchAndMergeRemoteBranchName));
+        PushCachedValueToControl(FetchAndMergeLocalBranchName, nameof(FetchAndMergeLocalBranchName));
+        PushCachedValueToControl(RebaseFromBranchName, nameof(RebaseFromBranchName));
+        PushCachedValueToControl(RebaseToBranchName, nameof(RebaseToBranchName));
     }
     
     public static string CreateMD5(string input)
@@ -155,19 +200,23 @@ public partial class MainTabSourceControl : MainTabBase
             return;
         }
 
+        if (!IsInstanceValid(RebaseFromBranchName) || !IsInstanceValid(RebaseToBranchName) || !IsInstanceValid(FetchAndMergeLocalBranchName))
+        {
+            return;
+        }
+
         lock (repo.GetSynchro())
         {
             var branches = repo.GetAllBranches();
             if (branches != null)
             {
-                foreach (var selector in LocalBranchSelectors)
+                foreach (var branch in branches)
                 {
-                    foreach (var branch in branches)
+                    if (!branch.IsRemote)
                     {
-                        if (!branch.IsRemote)
-                        {
-                            selector.AddItem(branch.FriendlyName);
-                        }
+                        FetchAndMergeLocalBranchName.AddItem(branch.FriendlyName);
+                        RebaseFromBranchName.AddItem(branch.FriendlyName);
+                        RebaseToBranchName.AddItem(branch.FriendlyName);
                     }
                 }
             }
@@ -198,5 +247,59 @@ public partial class MainTabSourceControl : MainTabBase
     private void OnFetchAndMergeCompleted(bool successful)
     {
         
+    }
+
+    private void CacheInfoForProject(string controlName, string value)
+    {
+        var sourceManager = SourceManager.GetInstance();
+        if (sourceManager == null)
+        {
+            return;
+        }
+        
+        if (!LastBranchSelection.ContainsKey(sourceManager.CurrentSourceDir))
+        {
+            LastBranchSelection.Add(sourceManager.CurrentSourceDir, new GdCollections.Dictionary());
+        }
+        
+        GdCollections.Dictionary branchNames = LastBranchSelection[sourceManager.CurrentSourceDir].AsGodotDictionary();
+        branchNames[controlName] = value;
+    }
+
+    private void PushCachedValueToControl(Control control, string controlName)
+    {
+        var sourceManager = SourceManager.GetInstance();
+        if (sourceManager == null)
+        {
+            return;
+        }
+        
+        if (!LastBranchSelection.ContainsKey(sourceManager.CurrentSourceDir))
+        {
+            return;
+        }
+        GdCollections.Dictionary branchNames = LastBranchSelection[sourceManager.CurrentSourceDir].AsGodotDictionary();
+        if (!branchNames.ContainsKey(controlName))
+        {
+            return;
+        }
+        
+        string value = branchNames[controlName].AsString();
+        
+        if (control is LineEdit lineEdit)
+        {
+            lineEdit.Text = value;
+        }
+        else if (control is OptionButton optionButton)
+        {
+            for (int i = 0; i < optionButton.ItemCount; ++i)
+            {
+                if (optionButton.GetItemText(i) == value)
+                {
+                    optionButton.Select(i);
+                    break;
+                }
+            }
+        }
     }
 }

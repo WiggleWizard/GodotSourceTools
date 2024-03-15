@@ -58,6 +58,11 @@ public class Utilities
         {
             return (GdCollections.Array<string>)o;
         }
+
+        if (oType == typeof(GdCollections.Dictionary))
+        {
+            return (GdCollections.Dictionary)o;
+        }
         
         Variant variantValue = o switch
         {
