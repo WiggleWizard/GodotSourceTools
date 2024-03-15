@@ -3,8 +3,8 @@ using System;
 
 public partial class Main : Node
 {
-	[Export] public Node TabContainer { set; get; }
-	[Export] public MenuBar MainMenu { set; get; }
+	[Export] public Node TabContainer { set; get; } = null!;
+	[Export] public MenuBar MainMenu { set; get; } = null!;
 
 	[Export] public String TabScenesPath { set; get; } = "res://Scenes/Tabs";
 

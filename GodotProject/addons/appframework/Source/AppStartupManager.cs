@@ -15,7 +15,7 @@ public partial class AppStartupManager : Node
     private static AppStartupManager? _instance = null;
 
     [Export, AFXProjectSettingPropertyScene("loading_scene", "")]
-    public static string LoadingScreenScene { get; set; }
+    public static string LoadingScreenScene { get; set; } = "";
     
     [Export, AFXProjectSettingProperty("prompt_for_vc_redists", false)]
     public static bool PromptForVcRedist { get; set; }
@@ -47,7 +47,7 @@ public partial class AppStartupManager : Node
             // Check for VC Redist on startup
             if (PromptForVcRedist)
             {
-                var vcredistVersion = Registry.GetValue(MiscNames.VCRedistRegPath, "Version", "").ToString();
+                var vcredistVersion = Registry.GetValue(MiscNames.VcRedistRegPath, "Version", "")?.ToString();
                 if (vcredistVersion == string.Empty)
                 {
                 }

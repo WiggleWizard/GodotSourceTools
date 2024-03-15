@@ -162,7 +162,7 @@ public partial class SourceManager : Node
     {
         // Fetch the vanilla module names from Github to be able to reliably pick out which modules are the user's
         // and which ones come with Godot.
-        List<RepoFileEntry>? files;
+        List<RepoFileEntry>? files = null;
         using (var client = new CSHttpClient())
         {
             client.BaseAddress = new Uri(_vanillaModulesFetchUrl);
@@ -174,10 +174,13 @@ public partial class SourceManager : Node
             files = response.Content.ReadFromJsonAsync<List<RepoFileEntry>>().Result;
         }
 
-        foreach (RepoFileEntry repoFileEntry in files)
+        if (files != null)
         {
-            if (repoFileEntry.Type == "dir")
-                _vanillaModules.Add(repoFileEntry.Name);
+            foreach (RepoFileEntry repoFileEntry in files)
+            {
+                if (repoFileEntry.Type == "dir")
+                    _vanillaModules.Add(repoFileEntry.Name);
+            }
         }
 
         CallDeferred(nameof(GitDirsFetched));
@@ -338,25 +341,35 @@ public partial class SourceManager : Node
         if (additionalArgs != null)
             args.AddRange(additionalArgs);
         
-        BuildManager buildManager = BuildManager.GetInstance();
-        ThreadedProcess? tp = buildManager.StartBuild(CurrentSourceDir, "scons", args);
+        var buildManager = BuildManager.GetInstance();
+        ThreadedProcess? tp = buildManager?.StartBuild(CurrentSourceDir, "scons", args);
 
+        if (tp == null)
+        {
+            return;
+        }
+        
         tp.OnCompleted += () =>
         {
-            ToastNotificationManager notificationManager = ToastNotificationManager.GetInstance();
-            notificationManager.ShowSimpleNotification("Build Completed", config.Name);   
+            var notificationManager = ToastNotificationManager.GetInstance();
+            notificationManager?.ShowSimpleNotification("Build Completed", config.Name);   
         };
     }
 
     public void StartClean()
     {
-        BuildManager buildManager = BuildManager.GetInstance();
-        ThreadedProcess? tp = buildManager.StartClean(CurrentSourceDir, "scons");
+        BuildManager? buildManager = BuildManager.GetInstance();
+        ThreadedProcess? tp = buildManager?.StartClean(CurrentSourceDir, "scons");
+
+        if (tp == null)
+        {
+            return;
+        }
 
         tp.OnCompleted += () =>
         {
-            ToastNotificationManager notificationManager = ToastNotificationManager.GetInstance();
-            notificationManager.ShowSimpleNotification("Clean Completed", "");   
+            var notificationManager = ToastNotificationManager.GetInstance();
+            notificationManager?.ShowSimpleNotification("Clean Completed", "");   
         };
     }
 

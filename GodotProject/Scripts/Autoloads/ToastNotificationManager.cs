@@ -4,7 +4,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 
 public partial class ToastNotificationManager : Node
 {
-    private static ToastNotificationManager _instance = null;
+    private static ToastNotificationManager? _instance = null;
     
     public override void _Ready()
     {
@@ -16,7 +16,7 @@ public partial class ToastNotificationManager : Node
         };
     }
 
-    public static ToastNotificationManager GetInstance()
+    public static ToastNotificationManager? GetInstance()
     {
         return _instance;
     }
@@ -36,6 +36,6 @@ public partial class ToastNotificationManager : Node
 
     private void OnNotificationActivated(string action)
     {
-        GetTree().Root.MoveToForeground();
+        GetTree().Root.GrabFocus();
     }
 }

@@ -23,7 +23,7 @@ public static class StringExtensions
         foreach (var prop in properties)
         {
             object propValue = prop.GetValue(args, null);
-            result = Regex.Replace(result, $"{{{prop.Name}}}", propValue.ToString());
+            result = Regex.Replace(result, $"{{{prop.Name}}}", propValue.ToString() ?? string.Empty);
         }
         return result;
     }

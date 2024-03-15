@@ -107,26 +107,20 @@ public partial class StylesheetImporter : EditorImportPlugin
             string type = m.Groups[2].Value;
             string defaultValue = m.Groups[3].Value;
 
-            Variant.Type gdType = Variant.Type.Int;
-            string gdInherits = "";
             Variant gdDefault = new Variant();
 
             switch (type)
             {
                 case "Int":
                 {
-                    gdType = Variant.Type.Int;
                     gdDefault = defaultValue.ToInt();
                 } break;
                 case "Color":
                 {
-                    gdType = Variant.Type.Color;
                     gdDefault = Color.FromString(defaultValue, Colors.Purple);
                 } break;
                 case "Texture":
                 {
-                    gdType = Variant.Type.Object;
-                    gdInherits = "ImageTexture";
                     gdDefault = new ImageTexture();
                 } break;
             }

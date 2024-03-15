@@ -33,11 +33,11 @@ public class GenerativeUIControl
 
             case Type when propType.IsEnum:
             {
-                string enumVal = propInfo.GetValue(o).ToString() ?? "";
+                string enumVal = propInfo.GetValue(o)?.ToString() ?? "";
                 if (control is OptionButton optionButton)
                 {
                     var selectedValue = propInfo.GetValue(o);
-                    optionButton.Selected = (int)selectedValue;
+                    optionButton.Selected = (int)(selectedValue ?? -1);
                 }
             } break;
 

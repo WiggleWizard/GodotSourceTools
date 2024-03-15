@@ -5,27 +5,30 @@ using System.Reflection;
 
 namespace GodotAppFramework.Globals;
 
-public class Constants
+public static class Constants
 {
     public const string AddonPath = "res://addons/appframework";
     public const string ProjectSettingsPrefix = "godot_app_framework";
-
 }
 
-public class ProjectSettingName
+public static class MiscNames
 {
-}
-
-public class MiscNames
-{
-    public const string VCRedistRegPath = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64";
+    public const string VcRedistRegPath = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64";
 }
 
 public class AttributeInfo<T> where T : Attribute
 {
+
     public Type TypeInfo { get; set; }
     public PropertyInfo PropInfo { get; set; }
     public T Attribute { get; set; }
+    
+    public AttributeInfo(Type typeInfo, PropertyInfo propInfo, T attribute)
+    {
+        TypeInfo = typeInfo;
+        PropInfo = propInfo;
+        Attribute = attribute;
+    }
 
     public static List<AttributeInfo<T>> GetAllStaticPropertyAttributes(Assembly assembly)
     {
@@ -50,12 +53,7 @@ public class AttributeInfo<T> where T : Attribute
                         continue;
                     }
 
-                    list.Add(new()
-                    {
-                        Attribute = propertyAttr,
-                        PropInfo = property,
-                        TypeInfo = type
-                    });
+                    list.Add(new(type, property, propertyAttr));
                 }
             }
         }

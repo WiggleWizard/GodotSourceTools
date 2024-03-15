@@ -7,14 +7,14 @@ namespace GodotAppFramework;
 
 public partial class AppConfigDialogContentDefault : AppConfigDialogContent
 {
-	[Export] public Button? SaveButton { get; set; }
-	[Export] public Button? CancelButton { get; set; }
-	
-	[Export] public Control GeneratedControlsContainer { get; set; }
+	[Export] public Button SaveButton { get; set; } = null!;
+	[Export] public Button CancelButton { get; set; } = null!;
+
+	[Export] public Control GeneratedControlsContainer { get; set; } = null!;
 
 	public override void _Ready()
 	{
-		if (SaveButton != null)
+		if (IsInstanceValid(SaveButton))
 		{
 			SaveButton.Pressed += () =>
 			{
@@ -24,7 +24,7 @@ public partial class AppConfigDialogContentDefault : AppConfigDialogContent
 			};
 		}
 
-		if (CancelButton != null)
+		if (IsInstanceValid(CancelButton))
 		{
 			CancelButton.Pressed += () =>
 			{

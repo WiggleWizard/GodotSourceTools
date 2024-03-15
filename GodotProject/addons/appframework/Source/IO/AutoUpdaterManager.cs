@@ -66,7 +66,7 @@ public partial class AutoUpdaterManager : Node
     public static int CheckForUpdateIntervalSec { get; set; }
 
     [Export, AFXProjectSettingProperty("version_check_url", "")]
-    public static string VersionCheckUrl { get; set; }
+    public static string VersionCheckUrl { get; set; } = "";
 
     [Export, AFXProjectSettingProperty("download_temp_path", "user://Downloads")]
     public static string DownloadTempPath { get; set; } = "user://Downloads";
@@ -145,7 +145,7 @@ public partial class AutoUpdaterManager : Node
             var releaseEntry = await GetLatestVersionInfo();
             
             // If we actually have an entry, then we need to pass that on to the main thread to do something with it
-            CallDeferred(MethodName.OnNewVersionAvailable, releaseEntry);
+            CallDeferred(MethodName.OnNewVersionAvailable, releaseEntry!);
         });
     }
     
@@ -217,11 +217,11 @@ public partial class AutoUpdaterManager : Node
                 return;
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            
+            // ignored
         }
-        
+
         // Let interested parties know about this new version
         EmitSignal(SignalName.UpdateAvailable, versionInfo);
         
@@ -285,8 +285,6 @@ public partial class AutoUpdaterManager : Node
 
     private async Task<AppVersionInfo?> GetLatestVersionInfo()
     {
-        string version = "";
-
         // If the specified URL is a Github URL then we fetch the Json and serialize it into a version info object
         if (VersionCheckUrl.StartsWith("https://api.github.com"))
         {

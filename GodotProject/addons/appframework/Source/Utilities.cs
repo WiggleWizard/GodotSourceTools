@@ -10,35 +10,22 @@ namespace GodotAppFramework;
 
 public class Utilities
 {
-    public static Variant PropToVariant(PropertyInfo propInfo)
+    public static bool EnsureManager<T>(object? manager)
     {
-        Variant result = new();
-        
-        Type propType = propInfo.PropertyType;
-        switch (propType)
+        if (manager == null)
         {
-            // Boolean
-            case Type when propType == typeof(bool):
-            {
-                result = (bool)(GetDefaultValue(propInfo) ?? false);
-            } break;
-            
-            // String
-            case Type when propType == typeof(string):
-            {
-                result = (string)(GetDefaultValue(propInfo) ?? "");
-            } break;
-			
-            // Int
-            case Type when propType == typeof(int):
-            {
-                result = (int)(GetDefaultValue(propInfo) ?? 0);
-            } break;
-
-            default: break;
+            GD.PrintErr($"The manager {typeof(T)} does not exist, ensure it's loaded at least once");
+            return false;
         }
+        
+        return true;
+    }
 
-        return result;
+    public static T? GetAutoload<T>(bool fatal = false, string customAutoloadName = "")
+    {
+        var manager = default(T);
+        
+        return manager;
     }
     
     public static object? GetDefaultValue(PropertyInfo prop)
@@ -87,14 +74,14 @@ public class Utilities
     {
         // dicDel has entries that are in A, but not in B, 
         // ie they were deleted when moving from A to B
-        diffDicSub<T, U>(dicA, dicB, dicDel);
+        DiffDicSub<T, U>(dicA, dicB, dicDel);
 
         // dicAdd has entries that are in B, but not in A,
         // ie they were added when moving from A to B
-        diffDicSub<T, U>(dicB, dicA, dicAdd);
+        DiffDicSub<T, U>(dicB, dicA, dicAdd);
     }
 
-    private static void diffDicSub<T, U>(IDictionary<T, U> dicA, IDictionary<T, U> dicB, IDictionary<T, U> dicAExceptB)
+    private static void DiffDicSub<T, U>(IDictionary<T, U> dicA, IDictionary<T, U> dicB, IDictionary<T, U> dicAExceptB)
     {
         // Walk A, and if any of the entries are not
         // in B, add them to the result dictionary.

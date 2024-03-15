@@ -8,14 +8,14 @@ using ModuleCheckBox = Godot.CheckBox;
 
 public partial class MainTabSconsBuilder : MainTabBase
 {
-    [Export] private Control ModuleListVanillaContainer { set; get; } = null;
+    [Export] private Control ModuleListVanillaContainer { set; get; } = null!;
     
-    [Export] private Control ModuleListCustomContainer { set; get; } = null;
-    [Export] private OptionButton TargetOptionButton { set; get; } = null;
-    [Export] private OptionButton PlatformOptionButton { set; get; } = null;
-    [Export] private OptionButton PrecisionOptionButton { set; get; } = null;
-    [Export] private OptionButton ConfigSelector { set; get; } = null;
-    [Export] private LineEdit ConfigEditor { set; get; } = null;
+    [Export] private Control ModuleListCustomContainer { set; get; } = null!;
+    [Export] private OptionButton TargetOptionButton { set; get; } = null!;
+    [Export] private OptionButton PlatformOptionButton { set; get; } = null!;
+    [Export] private OptionButton PrecisionOptionButton { set; get; } = null!;
+    [Export] private OptionButton ConfigSelector { set; get; } = null!;
+    [Export] private LineEdit ConfigEditor { set; get; } = null!;
     [Export] private Array<Control?> ConfigControlContainers { set; get; } = new();
 
     [Export] private SourceManagerConfigEntry? CurrentlySelectedConfig { set; get; } = null;
@@ -49,17 +49,21 @@ public partial class MainTabSconsBuilder : MainTabBase
         }
 
         var sourceManager = SourceManager.GetInstance();
-        sourceManager.NewSourceLoaded += OnNewSourceLoaded;
-        sourceManager.NewConfig += OnNewConfigAdded;
-
-        var buildManager = BuildManager.GetInstance();
-        buildManager.StatusChanged += (status, tp) =>
+        if (sourceManager != null)
         {
-        };
+            sourceManager.NewSourceLoaded += OnNewSourceLoaded;
+            sourceManager.NewConfig += OnNewConfigAdded;
 
-        if (sourceManager.CurrentSourceDir != "")
-        {
-            OnNewSourceLoaded(sourceManager.CurrentSourceDir);
+            var buildManager = BuildManager.GetInstance();
+            if (buildManager != null)
+            {
+                buildManager.StatusChanged += (status, tp) => { };
+            }
+
+            if (sourceManager.CurrentSourceDir != "")
+            {
+                OnNewSourceLoaded(sourceManager.CurrentSourceDir);
+            }
         }
     }
 
@@ -67,7 +71,12 @@ public partial class MainTabSconsBuilder : MainTabBase
     {
         ConfigSelector.Clear();
         
-        SourceManager sourceManager = SourceManager.GetInstance();
+        var sourceManager = SourceManager.GetInstance();
+        if (sourceManager == null)
+        {
+            return;
+        }
+        
         foreach (var entry in sourceManager.Config)
         {
             ConfigSelector.AddItem(entry.Name);
@@ -113,7 +122,7 @@ public partial class MainTabSconsBuilder : MainTabBase
     public void OnAddPressed()
     {
         var sourceManager = SourceManager.GetInstance();
-        sourceManager.CreateNewConfigEntry("New Config");
+        sourceManager?.CreateNewConfigEntry("New Config");
     }
 
     public void SaveConfig()
@@ -121,7 +130,7 @@ public partial class MainTabSconsBuilder : MainTabBase
         if (_configLoaded)
         {
             var sourceManager = SourceManager.GetInstance();
-            sourceManager.SaveConfig();   
+            sourceManager?.SaveConfig();
         }
     }
 
@@ -130,7 +139,11 @@ public partial class MainTabSconsBuilder : MainTabBase
         _configLoaded = false;
         
         var sourceManager = SourceManager.GetInstance();
-        CurrentlySelectedConfig = sourceManager.GetConfigEntry(index);
+        if (sourceManager != null)
+        {
+            CurrentlySelectedConfig = sourceManager.GetConfigEntry(index);
+        }
+        
         if (CurrentlySelectedConfig == null)
         {
             GD.Print("No sources loaded");
@@ -262,6 +275,10 @@ public partial class MainTabSconsBuilder : MainTabBase
     public void ForceModuleListPreset(String presetName)
     {
         var sourceManager = SourceManager.GetInstance();
+        if (sourceManager == null)
+        {
+            return;
+        }
         
         switch (presetName)
         {
@@ -323,8 +340,8 @@ public partial class MainTabSconsBuilder : MainTabBase
             return;
         }
         
-        SourceManager sourceManager = SourceManager.GetInstance();
-        sourceManager.StartBuildingConfig(CurrentlySelectedConfig);
+        var sourceManager = SourceManager.GetInstance();
+        sourceManager?.StartBuildingConfig(CurrentlySelectedConfig);
     }
     
     public void OnCleanPressed()
@@ -335,13 +352,13 @@ public partial class MainTabSconsBuilder : MainTabBase
             return;
         }
         
-        SourceManager sourceManager = SourceManager.GetInstance();
-        sourceManager.StartClean();
+        var sourceManager = SourceManager.GetInstance();
+        sourceManager?.StartClean();
     }
 
     public void OnCancelPressed()
     {
-        BuildManager buildManager = BuildManager.GetInstance();
-        buildManager.TerminateCurrentBuild();
+        var buildManager = BuildManager.GetInstance();
+        buildManager?.TerminateCurrentBuild();
     }
 }

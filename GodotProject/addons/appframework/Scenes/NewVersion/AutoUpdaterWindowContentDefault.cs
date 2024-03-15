@@ -8,14 +8,14 @@ namespace GodotAppFramework;
 
 public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
 {
-    [Export] public Label WindowBodyText { get; set; }
-    [Export] public RichTextLabel ChangeLogText { get; set; }
+    [Export] public Label WindowBodyText { get; set; } = null!;
+    [Export] public RichTextLabel ChangeLogText { get; set; } = null!;
     
-    [Export] public Button ButtonInstall { get; set; }
-    [Export] public Button ButtonDownload { get; set; }
-    [Export] public Button ButtonCancel { get; set; }
+    [Export] public Button ButtonInstall { get; set; } = null!;
+    [Export] public Button ButtonDownload { get; set; } = null!;
+    [Export] public Button ButtonCancel { get; set; } = null!;
     
-    [Export] public ProgressBar DownloadProgress { get; set; }
+    [Export] public ProgressBar DownloadProgress { get; set; } = null!;
 
     public override void Initialize(AppVersionInfo versionInfo)
     {
@@ -32,30 +32,46 @@ public partial class AutoUpdaterWindowContentDefault : AutoUpdaterWindowContent
         templateArgs["CurrentVer"] = AppFrameworkManager.GetAppVersion().ToString();
         templateArgs["Age"] = StringFormatting.GetReadableTimespan(age);
 
-        WindowBodyText.Text = WindowBodyText.Text.Templated(templateArgs);
-        ChangeLogText.Text = versionInfo.ChangeLog;
+        if (IsInstanceValid(WindowBodyText))
+        {
+            WindowBodyText.Text = WindowBodyText.Text.Templated(templateArgs);
+        }
+
+        if (IsInstanceValid(ChangeLogText))
+        {
+            ChangeLogText.Text = versionInfo.ChangeLog;
+        }
         
         AutoUpdaterManager? autoUpdaterManager = AutoUpdaterManager.GetInstance();
         if (autoUpdaterManager == null)
         {
             return;
         }
+
+        if (IsInstanceValid(ButtonInstall))
+        {
+            ButtonInstall.Pressed += () =>
+            {
+                autoUpdaterManager.UnattendedUpdate(versionInfo);
+            };
+        }
+
+        if (IsInstanceValid(ButtonDownload))
+        {
+            ButtonDownload.Pressed += () =>
+            {
+                OS.ShellOpen(versionInfo.LinkToDownloadPage);
+            };
+        }
+
+        if (IsInstanceValid(ButtonCancel))
+        {
+            ButtonCancel.Pressed += () =>
+            {
+                autoUpdaterManager.IgnoreUpdate(versionInfo);
+            };
+        }
         
-        ButtonInstall.Pressed += () =>
-        {
-            autoUpdaterManager.UnattendedUpdate(versionInfo);
-        };
-
-        ButtonDownload.Pressed += () =>
-        {
-            OS.ShellOpen(versionInfo.LinkToDownloadPage);
-        };
-
-        ButtonCancel.Pressed += () =>
-        {
-            autoUpdaterManager.IgnoreUpdate(versionInfo);
-        };
-
         autoUpdaterManager.UpdateStatusChanged += (info, status) =>
         {
             GD.Print(status);

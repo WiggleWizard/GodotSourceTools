@@ -26,7 +26,7 @@ public partial class StylesheetUITheme : Theme
         // { "stylebox_content_margins", new(SetStyleStyleBoxContentMargins, Variant.Type.Int, "") }
     };
     
-    private Stylesheet _stylesheet = default;
+    private Stylesheet _stylesheet = null!;
     [Export(PropertyHint.ResourceType, "Stylesheet")] public Stylesheet StylesheetPath
     {
         get => _stylesheet;

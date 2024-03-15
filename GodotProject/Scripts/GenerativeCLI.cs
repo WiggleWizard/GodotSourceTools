@@ -34,20 +34,23 @@ public class GenerativeCLIArg : Attribute
             } break;
             case Type when propType == typeof(string):
             {
-                string s = (string)propInfo.GetValue(o);
+                string s = (string)propInfo.GetValue(o)!;
                 result = Arg + "=" + s;
             } break;
             case Type when propType.IsEnum:
             {
                 var e = propInfo.GetValue(o);
-                Type enumType = e.GetType();
-                MemberInfo[] enumMemberInfo = enumType.GetMember(e.ToString());
+                if (e != null)
+                {
+                    Type enumType = e.GetType();
+                    MemberInfo[] enumMemberInfo = enumType.GetMember(e.ToString() ?? string.Empty);
                 
-                GenerativeCliEnumValue? buildTranslationEnum = enumMemberInfo[0].GetCustomAttribute<GenerativeCliEnumValue>();
-                if (buildTranslationEnum == null)
-                    break;
+                    GenerativeCliEnumValue? buildTranslationEnum = enumMemberInfo[0].GetCustomAttribute<GenerativeCliEnumValue>();
+                    if (buildTranslationEnum == null)
+                        break;
 
-                result = Arg + "=" + buildTranslationEnum.Value;
+                    result = Arg + "=" + buildTranslationEnum.Value;
+                }
             } break;
         }
 

@@ -25,7 +25,7 @@ public partial class LargeScrollableBuildStatus : LargeScrollableTextBox
         return _threadedProcess.StandardOut.Count;
     }
 
-    public void SetThreadedProcess(ThreadedProcess tp)
+    public void SetThreadedProcess(ThreadedProcess? tp)
     {
         _threadedProcess = tp;
     }

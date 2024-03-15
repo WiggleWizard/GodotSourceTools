@@ -21,7 +21,7 @@ public partial class Sidebar : Control
         set { _selectedIndex = value; PropChanged(); }
     }
     
-    private Control _switchContainer = null;
+    private Control _switchContainer = null!;
     [Export] public Control SwitchContainer
     {
         get => _switchContainer;

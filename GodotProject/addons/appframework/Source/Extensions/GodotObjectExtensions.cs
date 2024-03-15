@@ -4,5 +4,4 @@ namespace GodotAppFramework.Extensions;
 
 public static class GodotObjectExtensions
 {
-    
 }

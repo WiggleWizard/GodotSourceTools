@@ -20,7 +20,7 @@ public class AFXProjectSetting : Attribute
 [AttributeUsage(AttributeTargets.Property)]
 public class AFXProjectSettingProperty : Attribute
 {
-	public string SettingsName { get; set; }
+	public string SettingsName { get; set; } = "";
 	public Variant.Type VariantType { get; set; } = Variant.Type.Nil;
 	public PropertyHint HintType { get; set; } = PropertyHint.None;
 	public string HintString { get; set; } = "";

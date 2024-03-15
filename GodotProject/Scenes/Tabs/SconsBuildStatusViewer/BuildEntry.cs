@@ -6,10 +6,10 @@ using GodotSourceTools;
 
 public partial class BuildEntry : ItemListCustomItem
 {
-    [Export] public Label TitleNode { get; set; }
-    [Export] public Label TimeNode { get; set; }
+    [Export] public Label TitleNode { get; set; } = null!;
+    [Export] public Label TimeNode { get; set; } = null!;
 
-    public ThreadedProcess ThreadedProcess { get; set; }
+    public ThreadedProcess? ThreadedProcess { get; set; } = null;
 
     private Timer _timer = new Timer();
 
@@ -23,6 +23,11 @@ public partial class BuildEntry : ItemListCustomItem
 
     public void TimerTimeout()
     {
+        if (ThreadedProcess == null)
+        {
+            return;
+        }
+        
         var timeElapsed = StringFormatting.GetReadableTimespan(ThreadedProcess.TimeRunning());
         if (ThreadedProcess.IsRunning())
         {

@@ -3,18 +3,29 @@ using System;
 
 public partial class WindowTitlebar : Control
 {
-    [Export] private Button MinWindowControl;
-    [Export] private Button MaxWindowControl;
-    [Export] private Button CloseWindowControl;
+    [Export] private Button MinWindowControl { get; set; } = null!;
+    [Export] private Button MaxWindowControl { get; set; } = null!;
+    [Export] private Button CloseWindowControl { get; set; } = null!;
 
     private bool IsDragging { get; set; } = false;
     public Vector2I DragDelta { get; set; }
 
     public override void _Ready()
     {
-        MinWindowControl.Pressed += OnMinWindowControlPressed;
-        MaxWindowControl.Pressed += OnMaxWindowControlPressed;
-        CloseWindowControl.Pressed += OnCloseWindowControlPressed;
+        if (IsInstanceValid(MinWindowControl))
+        {
+            MinWindowControl.Pressed += OnMinWindowControlPressed;
+        }
+
+        if (IsInstanceValid(MaxWindowControl))
+        {
+            MaxWindowControl.Pressed += OnMaxWindowControlPressed;
+        }
+
+        if (IsInstanceValid(CloseWindowControl))
+        {
+            CloseWindowControl.Pressed += OnCloseWindowControlPressed;
+        }
     }
 
     public override void _Process(double delta)

@@ -72,10 +72,7 @@ public partial class GitRepo : Node
 
     public void CloseRepo()
     {
-        if (_repository != null)
-        {
-            _repository = null;
-        }
+        _repository = null;
     }
 
     public ConcurrentDictionary<string, FileStatus> GetChangelist()
@@ -88,14 +85,14 @@ public partial class GitRepo : Node
         return _initializedState;
     }
 
-    public BranchCollection GetAllBranches()
+    public BranchCollection? GetAllBranches()
     {
-        return _repository.Branches;
+        return _repository?.Branches;
     }
 
-    public RemoteCollection GetRemotes()
+    public RemoteCollection? GetRemotes()
     {
-        return _repository.Network.Remotes;
+        return _repository?.Network.Remotes;
     }
 
     public object GetSynchro()

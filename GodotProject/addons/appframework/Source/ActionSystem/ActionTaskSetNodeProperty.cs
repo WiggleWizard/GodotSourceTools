@@ -6,7 +6,7 @@ namespace GodotAppFramework.ActionSystem;
 [GlobalClass]
 public partial class ActionTaskSetNodeProperty : ActionTask
 {
-    [Export] public Dictionary<StringName, Variant> Properties { set; get; }
+    [Export] public Dictionary<StringName, Variant> Properties { set; get; } = new();
 
     public override void MultiExecute(Node executor, Array<NodePath> onNodes)
     {

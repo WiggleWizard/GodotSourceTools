@@ -38,8 +38,13 @@ public partial class ThreadedProcess : Node
 
     [Signal] public delegate void OnCompletedEventHandler();
     //[Signal] public delegate void OnNewStandardOutTextEventHandler();
+
+    public ThreadedProcess()
+    {
+        
+    }
     
-    public ThreadedProcess(string workingDirectory = "", string execFile = "", Array<string> args = default)
+    public ThreadedProcess(string workingDirectory, string execFile, Array<string> args)
     {
         WorkingDirectory = workingDirectory;
         ExecFile = execFile;

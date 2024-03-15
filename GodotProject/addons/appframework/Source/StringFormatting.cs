@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable disable
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,7 +61,7 @@ public class HMSFormatter:ICustomFormatter, IFormatProvider
 public class HMSFormatterHuman:ICustomFormatter, IFormatProvider
 {
     // list of Formats, with a P customformat for pluralization
-    static Dictionary<string, string> timeformats = new Dictionary<string, string> {
+    private static readonly Dictionary<string, string> Timeformats = new Dictionary<string, string> {
         {"S", "{0:P:Seconds:Second}"},
         {"M", "{0:P:Minutes:Minute}"},
         {"H", "{0:P:Hours:Hour}"},
@@ -68,7 +70,7 @@ public class HMSFormatterHuman:ICustomFormatter, IFormatProvider
 
     public string Format(string format, object arg, IFormatProvider formatProvider)
     {
-        return String.Format(new PluralFormatter(),timeformats[format], arg);
+        return String.Format(new PluralFormatter(), Timeformats[format], arg);
     }
 
     public object GetFormat(Type formatType)
@@ -84,14 +86,17 @@ public class PluralFormatter:ICustomFormatter, IFormatProvider
     {
         if (arg !=null)
         {
-            var parts = format.Split(':'); // ["P", "Plural", "Singular"]
-
-            if (parts[0] == "P") // correct format?
+            if (format != null)
             {
-                // which index postion to use
-                int partIndex = (arg.ToString() == "1")?2:1;
-                // pick string (safe guard for array bounds) and format
-                return String.Format("{0} {1}", arg, (parts.Length>partIndex?parts[partIndex]:""));               
+                var parts = format.Split(':'); // ["P", "Plural", "Singular"]
+
+                if (parts[0] == "P") // correct format?
+                {
+                    // which index postion to use
+                    int partIndex = (arg.ToString() == "1")?2:1;
+                    // pick string (safe guard for array bounds) and format
+                    return String.Format("{0} {1}", arg, (parts.Length>partIndex?parts[partIndex]:""));               
+                }
             }
         }
         return String.Format(format, arg);

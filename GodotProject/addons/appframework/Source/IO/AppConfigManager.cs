@@ -97,7 +97,7 @@ public partial class AppConfigManager : Node
             windowContents = packedScene.Instantiate<AppConfigDialogContent>();
             windowContents.InternalInitialize();
         }
-        catch (InvalidCastException e)
+        catch (InvalidCastException)
         {
             GD.PrintErr($"Could not load packed scene {AppConfigDialogScenePath}. Cannot cast to a {nameof(AppConfigDialogContent)}");
             return;
@@ -139,14 +139,14 @@ public partial class AppConfigManager : Node
         var attributeInfos = AttributeInfo<Config>.GetAllStaticPropertyAttributes(Assembly.GetExecutingAssembly());
         foreach (var attributeInfo in attributeInfos)
         {
-            object? propVal = attributeInfo.PropInfo.GetValue(null);
+            object? propVal = attributeInfo.PropInfo?.GetValue(null);
             Variant gdVariant = Utilities.CSharpObj2GdVariant(propVal);
 
             // Only save to config file if this property has changed from defaults
-            Variant defaultVal = _defaults.GetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name);
+            Variant defaultVal = _defaults.GetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo?.Name);
             if (!gdVariant.IsEqualTo(defaultVal))
             {
-                configFile.SetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo.Name, gdVariant);
+                configFile.SetValue(attributeInfo.TypeInfo.Name, attributeInfo.PropInfo?.Name, gdVariant);
             }
         }
         

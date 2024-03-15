@@ -9,13 +9,16 @@ public partial class ActionCueBuildStatusChanged : ActionCue
 
     public override void OnExecutorReady(Node executor)
     {
-        BuildManager buildManager = BuildManager.GetInstance();
-        buildManager.StatusChanged += (status, tp) =>
+        var buildManager = BuildManager.GetInstance();
+        if (buildManager != null)
         {
-            if (status == OnStatusChangedTo)
+            buildManager.StatusChanged += (status, tp) =>
             {
-                Trigger();
-            }
-        };
+                if (status == OnStatusChangedTo)
+                {
+                    Trigger();
+                }
+            };
+        }
     }
 }

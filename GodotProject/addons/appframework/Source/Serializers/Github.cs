@@ -9,22 +9,22 @@ namespace GodotAppFramework.Serializers.Github;
 
 public partial class JsonGithubReleaseEntryAsset : Resource
 {
-    public string Name { get; set; }
-    public string Browser_Download_Url { get; set; }
+    public string Name { get; set; } = "";
+    public string Browser_Download_Url { get; set; } = "";
     public int Size { get; set; }
 }
 
 public partial class JsonGithubReleaseEntry : Resource
 {
-    public string Name { get; set; }
-    public string Tag_Name { get; set; }
-    public string ZipBall_Url { get; set; }
-    public bool Prerelease { get; set; }
-    public DateTime Created_At { get; set; }
-    public DateTime Published_At { get; set; }
-    public string Body { get; set; }
-    public string Html_Url { get; set; }
-    public List<JsonGithubReleaseEntryAsset> Assets { get; set; }
+    public string Name { get; set; } = "";
+    public string Tag_Name { get; set; } = "";
+    public string ZipBall_Url { get; set; } = "";
+    public bool Prerelease { get; set; } = false;
+    public DateTime Created_At { get; set; } = DateTime.MinValue;
+    public DateTime Published_At { get; set; } = DateTime.MinValue;
+    public string Body { get; set; } = "";
+    public string Html_Url { get; set; } = "";
+    public List<JsonGithubReleaseEntryAsset> Assets { get; set; } = new();
 
     public string GetVersionStr()
     {
@@ -52,6 +52,6 @@ public partial class JsonGithubReleaseEntry : Resource
 
 internal class RepoFileEntry
 {
-    public String Name { set; get; }
-    public String Type { set; get; }
+    public string Name { set; get; } = "";
+    public string Type { set; get; } = "";
 }

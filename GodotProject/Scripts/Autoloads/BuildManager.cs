@@ -10,7 +10,7 @@ public enum BuildManagerStatus
 
 public partial class BuildManager : Node
 {
-    private static BuildManager _instance;
+    private static BuildManager? _instance = null;
 
     private ThreadedProcess? _currentlyExecutingThreadedProcess = null;
     private BuildManagerStatus _status = BuildManagerStatus.Idle;
@@ -22,7 +22,7 @@ public partial class BuildManager : Node
         _instance = this;
     }
 
-    public static BuildManager GetInstance()
+    public static BuildManager? GetInstance()
     {
         return _instance;
     }
@@ -103,7 +103,7 @@ public partial class BuildManager : Node
         _currentlyExecutingThreadedProcess = newThreadedProcess;
         _status = newStatus;
         
-        EmitSignal(SignalName.StatusChanged, (int)_status, _currentlyExecutingThreadedProcess);
+        EmitSignal(SignalName.StatusChanged, (int)_status, _currentlyExecutingThreadedProcess!);
     }
 
     private void OnBuildCompleted()

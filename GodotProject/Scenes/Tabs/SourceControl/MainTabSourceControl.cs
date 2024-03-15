@@ -1,3 +1,5 @@
+using GodotAppFramework;
+
 using Godot;
 using GdCollections = Godot.Collections;
 
@@ -6,31 +8,33 @@ using LibGit2Sharp;
 using System.Security.Cryptography;
 using System;
 using System.Linq;
-using GodotAppFramework;
 
 public partial class MainTabSourceControl : MainTabBase
 {
-    [Export] public Control ChangeListControl;
+    [Export] public Control ChangeListControl { get; set; } = null!;
 
-    [Export] public Button ButtonAddUpstream { get; set; }
-    [Export] public Button ButtonFetchAndMerge { get; set; }
-    [Export] public Button ButtonRebaseChanges { get; set; }
+    [Export] public Button ButtonAddUpstream { get; set; } = null!;
+    [Export] public Button ButtonFetchAndMerge { get; set; } = null!;
+    [Export] public Button ButtonRebaseChanges { get; set; } = null!;
     
-    [Export] public LineEdit FetchAndMergeRemoteBranchName { get; set; }
-    [Export] public OptionButton FetchAndMergeLocalBranchName { get; set; }
-    [Export] public GdCollections.Array<OptionButton> LocalBranchSelectors { get; set; }
+    [Export] public LineEdit FetchAndMergeRemoteBranchName { get; set; } = null!;
+    [Export] public OptionButton FetchAndMergeLocalBranchName { get; set; } = null!;
+    [Export] public GdCollections.Array<OptionButton> LocalBranchSelectors { get; set; } = new();
 
     public override void _Ready()
     {
         var sourceManager = SourceManager.GetInstance();
-        sourceManager.NewSourceLoaded += OnNewSourceLoaded;
-
-        if (sourceManager.CurrentSourceDir != "")
+        if (sourceManager != null)
         {
-            OnNewSourceLoaded(sourceManager.CurrentSourceDir);
-        }
+            sourceManager.NewSourceLoaded += OnNewSourceLoaded;
 
-        ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
+            if (sourceManager.CurrentSourceDir != "")
+            {
+                OnNewSourceLoaded(sourceManager.CurrentSourceDir);
+            }
+
+            ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
+        }
     }
 
     public void OnChangelistChanged(GdCollections.Dictionary<string, FileStatus> filesAdded, GdCollections.Dictionary<string, FileStatus> filesDeleted)
@@ -83,7 +87,7 @@ public partial class MainTabSourceControl : MainTabBase
 
         // Check if we have an upstream
         var remotes = repo.GetRemotes();
-        Remote? upstreamRemote = remotes["upstream"];
+        Remote? upstreamRemote = remotes?["upstream"];
         if (upstreamRemote == null)
         {
             
@@ -127,7 +131,7 @@ public partial class MainTabSourceControl : MainTabBase
             CallDeferred(MethodName.OnFetchTransferProgress, indexedObjects);
         });
 
-        if (FetchAndMergeRemoteBranchName != null && FetchAndMergeLocalBranchName != null)
+        if (IsInstanceValid(FetchAndMergeRemoteBranchName) && IsInstanceValid(FetchAndMergeLocalBranchName))
         {
             repo.Fetch("upstream", FetchAndMergeRemoteBranchName.Text, onTransferProgressCb, onProgressCb, Callable.From(() =>
             {
@@ -154,13 +158,16 @@ public partial class MainTabSourceControl : MainTabBase
         lock (repo.GetSynchro())
         {
             var branches = repo.GetAllBranches();
-            foreach (var selector in LocalBranchSelectors)
+            if (branches != null)
             {
-                foreach (var branch in branches)
+                foreach (var selector in LocalBranchSelectors)
                 {
-                    if (!branch.IsRemote)
+                    foreach (var branch in branches)
                     {
-                        selector.AddItem(branch.FriendlyName);
+                        if (!branch.IsRemote)
+                        {
+                            selector.AddItem(branch.FriendlyName);
+                        }
                     }
                 }
             }

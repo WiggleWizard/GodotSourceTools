@@ -58,7 +58,7 @@ public partial class BurgerButton : Button
     private void OnProjectDirSelected(string dir)
     {
         SourceManager.LastOpenedSourceDir = dir;
-        SourceManager sourceManager = SourceManager.GetInstance();
-        sourceManager.OpenSourceDir(dir);
+        var sourceManager = SourceManager.GetInstance();
+        sourceManager?.OpenSourceDir(dir);
     }
 }
