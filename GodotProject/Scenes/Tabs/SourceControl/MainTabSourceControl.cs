@@ -182,7 +182,7 @@ public partial class MainTabSourceControl : MainTabBase
             {
                 var fromRemoteBranch = FetchAndMergeRemoteBranchName.Text;
                 var toLocalBranch = FetchAndMergeLocalBranchName.GetItemText(FetchAndMergeLocalBranchName.Selected);
-                repo.Merge("upstream/" + fromRemoteBranch, toLocalBranch, "WiggleWizard", "");
+                repo.Merge("upstream/" + fromRemoteBranch, toLocalBranch, SourceManager.GitSignatureUsername, SourceManager.GitSignatureEmail);
             }));
         }
     }
