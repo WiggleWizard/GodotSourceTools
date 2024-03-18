@@ -14,10 +14,10 @@ public partial class AppStartupManager : Node
 {
     private static AppStartupManager? _instance = null;
 
-    [Export, AFXProjectSettingPropertyScene("loading_scene", "")]
+    [AFXProjectSettingPropertyScene("loading_scene", "")]
     public static string LoadingScreenScene { get; set; } = "";
     
-    [Export, AFXProjectSettingProperty("prompt_for_vc_redists", false)]
+    [AFXProjectSettingProperty("prompt_for_vc_redists", false)]
     public static bool PromptForVcRedist { get; set; }
 
     /// <summary>

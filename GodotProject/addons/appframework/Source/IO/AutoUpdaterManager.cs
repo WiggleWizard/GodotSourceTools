@@ -56,22 +56,22 @@ public partial class AutoUpdaterManager : Node
 {
     private static AutoUpdaterManager? Instance { set; get; }
         
-    [Export, AFXProjectSettingProperty("enabled", false)]
+    [AFXProjectSettingProperty("enabled", false)]
     public static bool IsEnabled { get; set; }
         
-    [Export, AFXProjectSettingProperty("show_update_prompt", true)]
+    [AFXProjectSettingProperty("show_update_prompt", true)]
     public static bool ShowUpdatePrompt { get; set; }
     
-    [Export, AFXProjectSettingProperty("check_for_update_interval", -1)]
+    [AFXProjectSettingProperty("check_for_update_interval", -1)]
     public static int CheckForUpdateIntervalSec { get; set; }
 
-    [Export, AFXProjectSettingProperty("version_check_url", "")]
+    [AFXProjectSettingProperty("version_check_url", "")]
     public static string VersionCheckUrl { get; set; } = "";
 
-    [Export, AFXProjectSettingProperty("download_temp_path", "user://Downloads")]
+    [AFXProjectSettingProperty("download_temp_path", "user://Downloads")]
     public static string DownloadTempPath { get; set; } = "user://Downloads";
 
-    [Export, AFXProjectSettingPropertyScene("prompt_scene", "res://addons/appframework/Scenes/NewVersion/Scene.tscn")]
+    [AFXProjectSettingPropertyScene("prompt_scene", "res://addons/appframework/Scenes/NewVersion/Scene.tscn")]
     public static string PromptScenePath { get; set; } = "";
 
     [Config] public static string IgnoreUpdateToVersion { get; set; } = "";

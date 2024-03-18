@@ -1,4 +1,4 @@
-<Project Sdk="Godot.NET.Sdk/4.3.0-dev.3">
+<Project Sdk="Godot.NET.Sdk/4.3.0-dev.5">
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
@@ -12,13 +12,11 @@
     <PublishTrimmed>true</PublishTrimmed>
     <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault> -->
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="ExCSS" Version="4.2.5" />
     <PackageReference Include="LibGit2Sharp" Version="0.29.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
   </ItemGroup>
-  
   <ItemGroup>
     <!-- Root the assemblies to avoid trimming. -->
     <TrimmerRootAssembly Include="GodotSharp" />

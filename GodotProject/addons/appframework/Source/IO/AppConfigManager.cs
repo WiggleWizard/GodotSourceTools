@@ -24,7 +24,7 @@ public partial class AppConfigManager : Node
     [AFXProjectSettingProperty("app_config_path", "user://config.ini")]
     public static string AppConfigPath { get; set; } = "";
     
-    [Export, AFXProjectSettingPropertyScene("settings_dialog_scene", "res://addons/appframework/Scenes/AppConfigDialog/Scene.tscn")]
+    [AFXProjectSettingPropertyScene("settings_dialog_scene", "res://addons/appframework/Scenes/AppConfigDialog/Scene.tscn")]
     public static string AppConfigDialogScenePath { get; set; } = "";
 
     [AFXProjectSettingPropertyScene("settings_dialog_title", "Settings")]
