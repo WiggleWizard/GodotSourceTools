@@ -45,4 +45,4 @@ size_flags_horizontal = 8
 auto_translate_mode = 1
 layout_mode = 2
 theme_type_variation = &"LabelOffText"
-text = "ERROR"
+text = "VERSION"

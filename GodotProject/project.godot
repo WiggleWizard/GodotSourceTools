@@ -15,7 +15,7 @@ config/version="0.1.1"
 run/main_scene="res://Scenes/Main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot Source Tools"
-config/features=PackedStringArray("4.3", "C#")
+config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 run/max_fps=60
 run/low_processor_mode=true
 boot_splash/bg_color=Color(0.0392157, 0.0470588, 0.0705882, 1)
@@ -31,6 +31,7 @@ AppStartupManager="*res://addons/appframework/Source/AppStartupManager.cs"
 ToastNotificationManager="*res://Scripts/Autoloads/ToastNotificationManager.cs"
 SourceManager="*res://Scripts/Autoloads/SourceManager.cs"
 BuildManager="*res://Scripts/Autoloads/BuildManager.cs"
+StatusManager="*res://Scripts/Autoloads/StatusManager.cs"
 
 [display]
 
