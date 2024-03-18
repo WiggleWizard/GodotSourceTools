@@ -1,6 +1,8 @@
-[gd_scene format=3 uid="uid://baf0nmgrmqijc"]
+[gd_scene load_steps=2 format=3 uid="uid://baf0nmgrmqijc"]
 
-[node name="Statusbar" type="Panel"]
+[ext_resource type="Script" path="res://Scenes/WindowDecoration/Statusbar.cs" id="1_0m1j3"]
+
+[node name="Statusbar" type="Panel" node_paths=PackedStringArray("_statusTextContainer", "_versionText")]
 custom_minimum_size = Vector2(0, 30)
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,16 +10,39 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"PanelWindowDecoration"
+script = ExtResource("1_0m1j3")
+_statusTextContainer = NodePath("MarginContainer/HBoxContainer2/HBoxContainer")
+_versionText = NodePath("MarginContainer/HBoxContainer2/HBoxContainer2/Version")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Status" type="Label" parent="MarginContainer/HBoxContainer2/HBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"LabelOffText"
-text = "Ready"
+text = "ERROR"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Version" type="Label" parent="MarginContainer/HBoxContainer2/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_type_variation = &"LabelOffText"
+text = "ERROR"
