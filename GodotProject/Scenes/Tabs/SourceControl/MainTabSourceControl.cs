@@ -8,6 +8,7 @@ using LibGit2Sharp;
 using System.Security.Cryptography;
 using System;
 using System.Linq;
+using GodotSourceTools;
 
 [Config]
 public partial class MainTabSourceControl : MainTabBase
@@ -41,6 +42,7 @@ public partial class MainTabSourceControl : MainTabBase
         }
 
         ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
+        ButtonRebaseChanges.Pressed += OnRebaseChangesPressed;
 
         if (IsInstanceValid(FetchAndMergeRemoteBranchName))
         {
@@ -166,6 +168,17 @@ public partial class MainTabSourceControl : MainTabBase
             return;
         }
 
+        if (!IsInstanceValid(FetchAndMergeRemoteBranchName) || !IsInstanceValid(FetchAndMergeLocalBranchName))
+        {
+            return;
+        }
+
+        var mergeStatusGuid = StatusManager.Instance?.QueueStatus("Merge Rebasing");
+        var cbMergeDone = Callable.From((bool successful) =>
+        {
+            StatusManager.Instance?.DequeueStatus(mergeStatusGuid);
+        });
+
         var onProgressCb = Callable.From((string s) =>
         {
             CallDeferred(MethodName.OnFetchProgress, s);
@@ -175,21 +188,49 @@ public partial class MainTabSourceControl : MainTabBase
         {
             CallDeferred(MethodName.OnFetchTransferProgress, indexedObjects);
         });
-
-        if (IsInstanceValid(FetchAndMergeRemoteBranchName) && IsInstanceValid(FetchAndMergeLocalBranchName))
+        
+        var fetchStatusGuid = StatusManager.Instance?.QueueStatus("Fetching");
+        var cbFetchDone = Callable.From(() =>
         {
-            repo.Fetch("upstream", FetchAndMergeRemoteBranchName.Text, onTransferProgressCb, onProgressCb, Callable.From(() =>
-            {
-                var fromRemoteBranch = FetchAndMergeRemoteBranchName.Text;
-                var toLocalBranch = FetchAndMergeLocalBranchName.GetItemText(FetchAndMergeLocalBranchName.Selected);
-                repo.Merge("upstream/" + fromRemoteBranch, toLocalBranch, SourceManager.GitSignatureUsername, SourceManager.GitSignatureEmail);
-            }));
-        }
+            StatusManager.Instance?.DequeueStatus(fetchStatusGuid);
+
+            var fromRemoteBranch = FetchAndMergeRemoteBranchName.Text;
+            var toLocalBranch = FetchAndMergeLocalBranchName.GetItemText(FetchAndMergeLocalBranchName.Selected);
+            repo.Merge("upstream/" + fromRemoteBranch, toLocalBranch, SourceManager.GitSignatureUsername, SourceManager.GitSignatureEmail, null, cbMergeDone);
+        });
+        
+        repo.Fetch("upstream", FetchAndMergeRemoteBranchName.Text, onTransferProgressCb, onProgressCb, cbFetchDone);
     }
 
     public void OnRebaseChangesPressed()
     {
+        GitRepo? repo = GetRepo();
+        if (repo == null)
+        {
+            return;
+        }
+
+        if (!IsInstanceValid(RebaseFromBranchName) || !IsInstanceValid(RebaseToBranchName))
+        {
+            return;
+        }
         
+        var rebaseStatusGuid = StatusManager.Instance?.QueueStatus("Rebasing");
+        
+        Callable cbProgress = Callable.From((int step, int totalSteps) =>
+        {
+            
+        });
+        
+        Callable cbDone = Callable.From((bool successful) =>
+        {
+            GD.Print(successful);
+            StatusManager.Instance?.DequeueStatus(rebaseStatusGuid);
+        });
+
+        string rebaseFromBranchStr = RebaseFromBranchName.GetItemText(RebaseFromBranchName.Selected);
+        string rebaseToBranchStr = RebaseToBranchName.GetItemText(RebaseToBranchName.Selected);
+        repo.Rebase(rebaseFromBranchStr, rebaseToBranchStr, SourceManager.GitSignatureUsername, SourceManager.GitSignatureEmail, cbProgress, cbDone);
     }
 
     protected void FillLocalBranchSelectors()

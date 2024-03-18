@@ -180,6 +180,7 @@ public partial class GitRepo : Node
             if (HasChanges(_repository))
             {
                 cbDone?.CallDeferred(false);
+                return;
             }
             
             // We first have to check out to the right branch
@@ -216,6 +217,53 @@ public partial class GitRepo : Node
 
                 cbDone?.CallDeferred(successful);
             }
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="fromBranchName"></param>
+    /// <param name="toBranchName"></param>
+    /// <param name="signatureName"></param>
+    /// <param name="signatureEmail"></param>
+    /// <param name="cbProgress">Signature: <code>void Callable(int steps, int totalSteps)</code></param>
+    /// <param name="cbDone">Signature: <code>void Callable(bool successful)</code></param>
+    public void Rebase(string fromBranchName, string toBranchName, string signatureName, string signatureEmail, Callable? cbProgress = null, Callable? cbDone = null)
+    {
+        if (_repository == null)
+        {
+            cbDone?.Call(false);
+            return;
+        }
+
+        Task.Run(() =>
+        {
+            // Check if we have changes, if we do then we have to abort
+            if (HasChanges(_repository))
+            {
+                cbDone?.CallDeferred(false);
+                return;
+            }
+            
+            var id = new Identity(signatureName, signatureEmail);
+            var opt = new RebaseOptions
+            {
+                RebaseStepCompleted = info =>
+                {
+                    if (cbProgress != null)
+                    {
+                        cbProgress.Value.CallDeferred(info.CompletedStepIndex, info.TotalStepCount);
+                    }
+                }
+            };
+
+            Branch fromBranch = _repository.Branches[fromBranchName];
+            Branch toBranch = _repository.Branches[toBranchName];
+            var rebaseResult = _repository.Rebase.Start(toBranch, fromBranch, null, id, opt);
+
+            bool successful = rebaseResult.Status == RebaseStatus.Complete;
+            cbDone?.CallDeferred(successful);
         });
     }
 
