@@ -58,7 +58,7 @@ script = ExtResource("4_a774s")
 Cues = [SubResource("Resource_ha06k")]
 Tasks = [SubResource("Resource_gy4b7"), SubResource("Resource_kx8ix")]
 
-[node name="Scons Builder" type="Control" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers")]
+[node name="Scons Builder" type="Control" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers", "CoreCountControl")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,6 +74,7 @@ PrecisionOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/
 ConfigSelector = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigSelector")
 ConfigEditor = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigEdit")
 ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/AdditionalArgs")]
+CoreCountControl = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Cores/Control")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -358,6 +359,30 @@ text = "Additional Args"
 [node name="Control" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/AdditionalArgs"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Cores" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+size_flags_vertical = 10
+tooltip_text = "Any additional arguments you wish to provide to the scons build. Sometimes this is required
+if you've got some custom scons scripts that need to run but can only be invoked through a
+CLI switch"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Cores"]
+auto_translate_mode = 1
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Cores
+"
+
+[node name="Control" type="SpinBox" parent="MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Cores"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 128.0
+value = 1.0
 
 [node name="MarginPanel2" type="Container" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2

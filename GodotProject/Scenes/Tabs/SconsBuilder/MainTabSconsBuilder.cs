@@ -1,13 +1,18 @@
+using GodotAppFramework;
+
 using Godot;
 using Godot.Collections;
 
 using System;
 using System.Reflection;
-
+using Environment = System.Environment;
 using ModuleCheckBox = Godot.CheckBox;
 
+[Config]
 public partial class MainTabSconsBuilder : MainTabBase
 {
+    [Config] public static Int64 CoreCount { get; set; } = -1;
+    
     [Export] private Control ModuleListVanillaContainer { set; get; } = null!;
     
     [Export] private Control ModuleListCustomContainer { set; get; } = null!;
@@ -17,6 +22,7 @@ public partial class MainTabSconsBuilder : MainTabBase
     [Export] private OptionButton ConfigSelector { set; get; } = null!;
     [Export] private LineEdit ConfigEditor { set; get; } = null!;
     [Export] private Array<Control?> ConfigControlContainers { set; get; } = new();
+    [Export] private SpinBox CoreCountControl { get; set; } = null!;
 
     [Export] private SourceManagerConfigEntry? CurrentlySelectedConfig { set; get; } = null;
 
@@ -64,6 +70,16 @@ public partial class MainTabSconsBuilder : MainTabBase
             {
                 OnNewSourceLoaded(sourceManager.CurrentSourceDir);
             }
+        }
+
+        CoreCountControl.Value = CoreCount;
+        CoreCountControl.ValueChanged += (newValue) =>
+        {
+            CoreCount = (int)Math.Round(newValue);
+        };
+        if (CoreCount < 0)
+        {
+            CoreCountControl.Value = Environment.ProcessorCount;
         }
     }
 

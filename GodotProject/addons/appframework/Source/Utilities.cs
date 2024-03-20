@@ -69,6 +69,7 @@ public class Utilities
             int v => Variant.From(v),
             float v => Variant.From(v),
             string v => Variant.From(v),
+            Int64 v => Variant.From(v),
             _ => throw new NotSupportedException(),
         };
 
