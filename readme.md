@@ -67,13 +67,13 @@ In no particular order, I'd love to add the following features in the near futur
 - [ ] Module/GDExtension repository to allow in-app one tap download of modules to allow easier compilation of entirely custom builds
 - [ ] Extra compilation options:
   - [x] Single/double precision 
-  - [ ] Core count
+  - [x] Core count
 - [ ] One tap Android compilation
 - [ ] Full end-to-end Mono/C# compilation
 - [ ] Automatic and custom source cloning/downloading
-- [ ] Git workflow
-  - [ ] One tap upstream from specific vanilla Godot branch to fetch/merge into specific project branch
-  - [ ] One tap rebase/merge from vanilla Godot branch to project branch
+- [x] Git workflow
+  - [x] One tap upstream from specific vanilla Godot branch to fetch/merge into specific project branch
+  - [x] One tap rebase/merge from vanilla Godot branch to project branch
 - [ ] Easy one click local web hosting for Godot Web exports
 - [ ] GDExtension support:
   - [ ] Ability to create new GDExtensions from different templates (Scons, cmake, etc)
