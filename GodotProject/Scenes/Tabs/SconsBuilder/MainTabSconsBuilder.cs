@@ -355,9 +355,15 @@ public partial class MainTabSconsBuilder : MainTabBase
             GD.PrintErr("No config selected");
             return;
         }
+
+        Array<string> additionalArgs = new();
+        if (CoreCount > 0)
+        {
+            additionalArgs.Add($"-j{CoreCount}");
+        }
         
         var sourceManager = SourceManager.GetInstance();
-        sourceManager?.StartBuildingConfig(CurrentlySelectedConfig);
+        sourceManager?.StartBuildingConfig(CurrentlySelectedConfig, additionalArgs);
     }
     
     public void OnCleanPressed()

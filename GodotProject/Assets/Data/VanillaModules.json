@@ -1,0 +1,252 @@
+﻿{
+    "astcenc":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "basis_universal":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "bmp":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "camera":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "csg":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "cvtt":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "dds":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "enet":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "etcpak":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "fbx":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "freetype":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "gdscript":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "glslang":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "gltf":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "gridmap":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "hdr":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "interactive_music":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "jpg":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "jsonrpc":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "ktx":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "lightmapper_rd":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "mbedtls":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "meshoptimizer":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "minimp3":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "mobile_vr":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "mono":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "msdfgen":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "multiplayer":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "navigation":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "noise":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "ogg":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "openxr":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "raycast":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "regex":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "squish":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "svg":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "text_server_adv":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "text_server_fb":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "tga":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "theora":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "tinyexr":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "upnp":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "vhacd":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "vorbis":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "webp":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "webrtc":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "websocket":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "webxr":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "xatlas_unwrap":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    },
+    "zip":
+    {
+        "min_ver": "",
+        "max_ver": ""
+    }
+}
