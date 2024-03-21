@@ -75,6 +75,11 @@ public partial class GitRepo : Node
         _repository = null;
     }
 
+    public void AddUpstream(string upstreamName, string upstreamUrl)
+    {
+        _repository?.Network.Remotes.Add(upstreamName, upstreamUrl);
+    }
+
     public ConcurrentDictionary<string, FileStatus> GetChangelist()
     {
         return Changelist;
