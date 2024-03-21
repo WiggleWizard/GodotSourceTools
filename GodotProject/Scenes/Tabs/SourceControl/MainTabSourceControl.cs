@@ -41,6 +41,7 @@ public partial class MainTabSourceControl : MainTabBase
             OnNewSourceLoaded(sourceManager.CurrentSourceDir);
         }
 
+        ButtonAddUpstream.Pressed += OnAddUpstreamPressed;
         ButtonFetchAndMerge.Pressed += OnFetchAndMergePressed;
         ButtonRebaseChanges.Pressed += OnRebaseChangesPressed;
 
@@ -157,7 +158,13 @@ public partial class MainTabSourceControl : MainTabBase
 
     public void OnAddUpstreamPressed()
     {
-        
+        GitRepo? repo = GetRepo();
+        if (repo == null)
+        {
+            return;
+        }
+
+        repo.AddUpstream("upstream", SourceManager.GodotSourceUrlHttp);
     }
 
     public void OnFetchAndMergePressed()
