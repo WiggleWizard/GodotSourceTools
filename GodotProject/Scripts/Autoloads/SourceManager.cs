@@ -10,6 +10,7 @@ using FileAccess = Godot.FileAccess;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Reflection;
@@ -147,6 +148,7 @@ public partial class SourceManager : Node
     
     [Signal] public delegate void NewSourceLoadedEventHandler(String dirPath);
     [Signal] public delegate void NewConfigEventHandler(SourceManagerConfigEntry newConfig);
+    [Signal] public delegate void ConfigEntryRemovedEventHandler(SourceManagerConfigEntry oldConfigEntry, int index);
     [Signal] public delegate void FetchedVanillaModulesEventHandler();
 
     public override void _Ready()
@@ -263,7 +265,9 @@ public partial class SourceManager : Node
         SourceManagerConfigEntry newConfigEntry = new();
 
         if (entryName == String.Empty || entryName == "")
+        {
             entryName = $"Config {Config.Count}";
+        }
         
         newConfigEntry.Name = entryName;
         Config.Add(newConfigEntry);
@@ -271,6 +275,25 @@ public partial class SourceManager : Node
         EmitSignal(SignalName.NewConfig, newConfigEntry);
         
         return newConfigEntry;
+    }
+
+    public void DeleteConfigEntry(SourceManagerConfigEntry entry)
+    {
+        int index = -1;
+        for (int i = 0; i < Config.Count; ++i)
+        {
+            if (Config[i] == entry)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index > -1)
+        {
+            Config.RemoveAt(index);
+            EmitSignal(SignalName.ConfigEntryRemoved, entry, index);
+        }
     }
 
     public SourceManagerConfigEntry? GetConfigEntry(int index)

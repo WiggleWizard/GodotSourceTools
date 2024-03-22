@@ -39,6 +39,12 @@ public partial class MainTabSconsBuilder : MainTabBase
             }
         }
         
+        var buildManager = BuildManager.GetInstance();
+        if (buildManager != null)
+        {
+            buildManager.StatusChanged += (status, tp) => { };
+        }
+        
         foreach (var v in Enum.GetValues(typeof(BuildTarget)))
         {
             TargetOptionButton.AddItem(v.ToString());
@@ -59,12 +65,7 @@ public partial class MainTabSconsBuilder : MainTabBase
         {
             sourceManager.NewSourceLoaded += OnNewSourceLoaded;
             sourceManager.NewConfig += OnNewConfigAdded;
-
-            var buildManager = BuildManager.GetInstance();
-            if (buildManager != null)
-            {
-                buildManager.StatusChanged += (status, tp) => { };
-            }
+            sourceManager.ConfigEntryRemoved += OnConfigEntryRemoved;
 
             if (sourceManager.CurrentSourceDir != "")
             {
@@ -139,6 +140,16 @@ public partial class MainTabSconsBuilder : MainTabBase
     {
         var sourceManager = SourceManager.GetInstance();
         sourceManager?.CreateNewConfigEntry("New Config");
+        sourceManager?.SaveConfig();
+    }
+
+    public void OnDeletePressed()
+    {
+        var sourceManager = SourceManager.GetInstance();
+        if (CurrentlySelectedConfig != null)
+        {
+            sourceManager?.DeleteConfigEntry(CurrentlySelectedConfig);
+        }
     }
 
     public void SaveConfig()
@@ -154,47 +165,41 @@ public partial class MainTabSconsBuilder : MainTabBase
     {
         _configLoaded = false;
         
+        SourceManagerConfigEntry? selectedEntry = null;
+        
         var sourceManager = SourceManager.GetInstance();
         if (sourceManager != null)
         {
-            CurrentlySelectedConfig = sourceManager.GetConfigEntry(index);
+            selectedEntry = sourceManager.GetConfigEntry(index);
         }
         
-        if (CurrentlySelectedConfig == null)
+        if (selectedEntry == null)
         {
             GD.Print("No sources loaded");
             return;
         }
-        
-        foreach (Control? container in ConfigControlContainers)
-        {
-            if (container?.FindChild("Control") is Control c)
-            {
-                GenerativeUIControl.SetControlValueFromProperty(CurrentlySelectedConfig, container.Name, c);
-            }
-        }
-        
-        // Set all the module checkbox statuses
-        foreach (Node child in ModuleListVanillaContainer.GetChildren())
-        {
-            if (child is ModuleCheckBox checkbox)
-                checkbox.ButtonPressed = CurrentlySelectedConfig.EnabledModules.Contains(child.Name);
-        }
-        
-        foreach (Node child in ModuleListCustomContainer.GetChildren())
-        {
-            if (child is ModuleCheckBox checkbox)
-                checkbox.ButtonPressed = CurrentlySelectedConfig.EnabledModules.Contains(child.Name);
-        }
 
-        _configLoaded = true;
+        SetSelectedConfigEntry(selectedEntry);
     }
 
     public void OnNewConfigAdded(SourceManagerConfigEntry newConfig)
     {
         ConfigSelector.AddItem(newConfig.Name);
+        SetSelectedConfigEntry(newConfig);
 
         SaveConfig();
+    }
+
+    public void OnConfigEntryRemoved(SourceManagerConfigEntry oldConfig, int index)
+    {
+        // Remove it from the dropdown and then select any other entry
+        ConfigSelector.RemoveItem(index);
+        var sourceManager = SourceManager.GetInstance();
+        if (sourceManager != null)
+        {
+            var configEntry = sourceManager.GetConfigEntry(index - 1);
+            SetSelectedConfigEntry(configEntry);
+        }
     }
 
     public void OnOptionButtonItemSelected(int index, String propName)
@@ -382,5 +387,52 @@ public partial class MainTabSconsBuilder : MainTabBase
     {
         var buildManager = BuildManager.GetInstance();
         buildManager?.TerminateCurrentBuild();
+    }
+
+    public void SetSelectedConfigEntry(SourceManagerConfigEntry? entry)
+    {
+        CurrentlySelectedConfig = entry;
+
+        if (entry == null)
+        {
+            return;
+        }
+        
+        foreach (Control? container in ConfigControlContainers)
+        {
+            if (container?.FindChild("Control") is Control c)
+            {
+                GenerativeUIControl.SetControlValueFromProperty(entry, container.Name, c);
+            }
+        }
+        
+        // Set all the module checkbox statuses
+        foreach (Node child in ModuleListVanillaContainer.GetChildren())
+        {
+            if (child is ModuleCheckBox checkbox)
+                checkbox.ButtonPressed = entry.EnabledModules.Contains(child.Name);
+        }
+        
+        foreach (Node child in ModuleListCustomContainer.GetChildren())
+        {
+            if (child is ModuleCheckBox checkbox)
+                checkbox.ButtonPressed = entry.EnabledModules.Contains(child.Name);
+        }
+        
+        // Show the config entry in the drop down
+        SourceManager? sourceManager = SourceManager.GetInstance();
+        if (sourceManager != null)
+        {
+            for (int i = 0; i < sourceManager.Config.Count; ++i)
+            {
+                if (entry == sourceManager.Config[i])
+                {
+                    ConfigSelector.Selected = i;
+                    break;
+                }
+            }
+        }
+
+        _configLoaded = true;
     }
 }
