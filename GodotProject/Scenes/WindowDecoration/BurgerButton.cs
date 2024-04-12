@@ -7,6 +7,7 @@ public partial class BurgerButton : Button
 
     private enum DropdownMenuOptions
     {
+        Wizard,
         LoadProject,
         Sep1,
         AppSettings,
@@ -17,7 +18,8 @@ public partial class BurgerButton : Button
         _dropdownMenu.Clear();
         _dropdownMenu.InitialPosition = Window.WindowInitialPosition.Absolute;
 
-        _dropdownMenu.AddItem("Open Project...", (int)DropdownMenuOptions.LoadProject);
+        _dropdownMenu.AddItem("Source Wizard", (int)DropdownMenuOptions.Wizard);
+        _dropdownMenu.AddItem("Open Project", (int)DropdownMenuOptions.LoadProject);
         _dropdownMenu.AddSeparator();
         _dropdownMenu.AddItem("Settings", (int)DropdownMenuOptions.AppSettings);
 
@@ -52,6 +54,10 @@ public partial class BurgerButton : Button
         else if (id == (long)DropdownMenuOptions.AppSettings)
         {
             AppConfigManager.GetInstance()?.ShowAppSettingsDialog();
+        }
+        else if (id == (long)DropdownMenuOptions.Wizard)
+        {
+            var window = WindowManager.Instance?.CreateExclusiveWindow(GD.Load<PackedScene>("res://Scenes/SourceWizard/Main.tscn"), "Source Wizard");
         }
     }
 

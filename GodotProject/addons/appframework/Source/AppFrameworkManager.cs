@@ -44,6 +44,7 @@ public partial class AppFrameworkManager : Node
 
     private void InitializeMandatoryManagers()
     {
+        InitManager<WindowManager>();
         InitManager<AppConfigManager>();
     }
 

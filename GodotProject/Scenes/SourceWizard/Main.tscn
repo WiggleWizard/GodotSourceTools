@@ -1,0 +1,77 @@
+[gd_scene load_steps=3 format=3 uid="uid://s8adclk32cpg"]
+
+[ext_resource type="Script" path="res://Scenes/SourceWizard/SourceWizard.cs" id="1_cr4ml"]
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/FilesystemPathSelector.cs" id="2_3f28r"]
+
+[node name="Main" type="MarginContainer" node_paths=PackedStringArray("SourceSelector", "SourceDescription", "BranchSelector")]
+offset_right = 1144.0
+offset_bottom = 525.0
+script = ExtResource("1_cr4ml")
+SourceSelector = NodePath("VBoxContainer/HBoxContainer/SourceSelection/OptionButton")
+SourceDescription = NodePath("VBoxContainer/HBoxContainer/RichTextLabel")
+BranchSelector = NodePath("VBoxContainer/HBoxContainer/BranchSelection/OptionButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/description = "Select your Godot fork to build your custom engine on. This choice cannot be undone, beyond going through the Wizard again."
+metadata/title = "Source Selection"
+
+[node name="SourceSelection" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/SourceSelection"]
+layout_mode = 2
+text = "Source Base"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/SourceSelection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="BranchSelection" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/BranchSelection"]
+layout_mode = 2
+text = "Branch"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/BranchSelection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Destination" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Destination"]
+auto_translate_mode = 1
+layout_mode = 2
+text = "Destination"
+
+[node name="FilesystemPathSelector" type="Control" parent="VBoxContainer/HBoxContainer/Destination"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_3f28r")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Cancel" type="Button" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Cancel"
+
+[node name="Accept" type="Button" parent="VBoxContainer/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Download"
