@@ -59,13 +59,14 @@ If you've already set up and run scons once to compile the engine then you're ba
 
 # Roadmap
 In no particular order, I'd love to add the following features in the near future:
+- [ ] Thirdparty engine Source Wizard to provide better visibility and accessibility for users who want to try unique/more expansive Godot forks
 - [ ] Module generator
 - [ ] External module support
 - [ ] Guidelines/Presets for creating minimal builds based on specific specs (ie leaving out 3D capabilities when dev only requires 2D)
 - [ ] Provide visual representation of how each module impacts binary size
 - [ ] Automatic installation of requirements 
 - [ ] Module/GDExtension repository to allow in-app one tap download of modules to allow easier compilation of entirely custom builds
-- [ ] Extra compilation options:
+- [x] Extra compilation options:
   - [x] Single/double precision 
   - [x] Core count
 - [ ] One tap Android compilation
