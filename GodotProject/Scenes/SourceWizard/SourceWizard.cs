@@ -1,4 +1,5 @@
 using GodotAppFramework;
+using GodotAppFramework.Extensions;
 
 using Godot;
 using GDArray = Godot.Collections.Array;
@@ -46,6 +47,8 @@ public partial class SourceWizard : Control
 
     [Config("Sources", "Godot Source Tools API URL")] public static string GstApiUrl { get; set; } = "http://gddb.lminl.one";
 
+    [Export] public TabContainer MainTabContainer = null!;
+    [Export] public ItemList MainTabItemList = null!;
     [Export] public OptionButton SourceSelector = null!;
     [Export] public RichTextLabel SourceDescription = null!;
     [Export] public OptionButton BranchSelector = null!;
@@ -56,6 +59,31 @@ public partial class SourceWizard : Control
         SourceSelector.ItemSelected += OnEngineSelected;
         SourceDescription.MetaClicked += OnMetaClicked;
         CacheEngineInfo(new Callable(this, MethodName.OnCachedEngineInfo));
+
+        if (IsInstanceValid(MainTabItemList) && IsInstanceValid(MainTabContainer))
+        {
+            MainTabItemList.Clear();
+            foreach (var child in MainTabContainer.GetChildren())
+            {
+                var i = MainTabItemList.AddItem(child.Name);
+                MainTabItemList.SetItemSelectable(i, false);
+            }
+        }
+    }
+
+    protected void OnNextClicked()
+    {
+        if ()
+    }
+    
+    protected void OnPreviousClicked()
+    {
+        
+    }
+
+    protected void OnCancelClicked()
+    {
+        
     }
 
     protected void OnMetaClicked(Variant meta)

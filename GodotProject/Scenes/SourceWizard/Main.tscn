@@ -1,77 +1,110 @@
 [gd_scene load_steps=3 format=3 uid="uid://s8adclk32cpg"]
 
 [ext_resource type="Script" path="res://Scenes/SourceWizard/SourceWizard.cs" id="1_cr4ml"]
-[ext_resource type="Script" path="res://addons/appframework/Source/UI/FilesystemPathSelector.cs" id="2_3f28r"]
+[ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_3y02w"]
 
-[node name="Main" type="MarginContainer" node_paths=PackedStringArray("SourceSelector", "SourceDescription", "BranchSelector")]
+[node name="Main" type="MarginContainer" node_paths=PackedStringArray("MainTabContainer", "MainTabItemList", "SourceSelector", "SourceDescription")]
 offset_right = 1144.0
 offset_bottom = 525.0
 script = ExtResource("1_cr4ml")
-SourceSelector = NodePath("VBoxContainer/HBoxContainer/SourceSelection/OptionButton")
-SourceDescription = NodePath("VBoxContainer/HBoxContainer/RichTextLabel")
-BranchSelector = NodePath("VBoxContainer/HBoxContainer/BranchSelection/OptionButton")
+MainTabContainer = NodePath("VBoxContainer/HBoxContainer/TabContainer")
+MainTabItemList = NodePath("VBoxContainer/HBoxContainer/MarginPanel/ItemList")
+SourceSelector = NodePath("VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection/OptionButton")
+SourceDescription = NodePath("VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel3/RichTextLabel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="MarginPanel" type="Container" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_3y02w")
+
+[node name="ItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/MarginPanel"]
+custom_minimum_size = Vector2(156.4, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+allow_search = false
+text_overrun_behavior = 0
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+current_tab = 0
+tabs_visible = false
+
+[node name="Engine" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
 metadata/description = "Select your Godot fork to build your custom engine on. This choice cannot be undone, beyond going through the Wizard again."
 metadata/title = "Source Selection"
 
-[node name="SourceSelection" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="MarginPanel" type="Container" parent="VBoxContainer/HBoxContainer/TabContainer/Engine"]
+layout_mode = 2
+script = ExtResource("2_3y02w")
+
+[node name="SourceSelection" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/SourceSelection"]
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection"]
 layout_mode = 2
-text = "Source Base"
+text = "Engine:"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/SourceSelection"]
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer"]
+[node name="MarginPanel3" type="Container" parent="VBoxContainer/HBoxContainer/TabContainer/Engine"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_3y02w")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel3"]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="BranchSelection" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Release" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/BranchSelection"]
-layout_mode = 2
-text = "Branch"
-
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/BranchSelection"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Destination" type="HBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="Destination" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/Destination"]
-auto_translate_mode = 1
+[node name="MarginPanel2" type="Container" parent="VBoxContainer"]
 layout_mode = 2
-text = "Destination"
+script = ExtResource("2_3y02w")
 
-[node name="FilesystemPathSelector" type="Control" parent="VBoxContainer/HBoxContainer/Destination"]
-layout_mode = 2
-size_flags_horizontal = 3
-script = ExtResource("2_3f28r")
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginPanel2"]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Cancel" type="Button" parent="VBoxContainer/HBoxContainer2"]
+[node name="Previous" type="Button" parent="VBoxContainer/MarginPanel2/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "< Previous"
+
+[node name="Next" type="Button" parent="VBoxContainer/MarginPanel2/HBoxContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Next >"
+
+[node name="Cancel" type="Button" parent="VBoxContainer/MarginPanel2/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 8
 text = "Cancel"
 
-[node name="Accept" type="Button" parent="VBoxContainer/HBoxContainer2"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 8
-text = "Download"
+[connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Previous" to="." method="OnPreviousClicked"]
+[connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Next" to="." method="OnNextClicked"]
+[connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Cancel" to="." method="OnCancelClicked"]
