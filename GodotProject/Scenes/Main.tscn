@@ -33,7 +33,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers") instance=ExtResource("2_cegwt")]
+[node name="Scons Builder" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("ModuleListVanillaContainer", "ModuleListCustomContainer", "TargetOptionButton", "PlatformOptionButton", "PrecisionOptionButton", "ConfigSelector", "ConfigEditor", "ConfigControlContainers", "CoreCountControl") instance=ExtResource("2_cegwt")]
 layout_mode = 2
 ModuleListVanillaContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/ScrollContainer/VBoxContainer/VanillaModules")
 ModuleListCustomContainer = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-1/VBoxContainer/ScrollContainer/VBoxContainer/CustomModules")
@@ -43,6 +43,7 @@ PrecisionOptionButton = NodePath("MarginContainer/VBoxContainer/HSplitContainer/
 ConfigSelector = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigSelector")
 ConfigEditor = NodePath("MarginContainer/VBoxContainer/MarginPanel/HBoxContainer/Control/ConfigEdit")
 ConfigControlContainers = [NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Platform"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Target"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Precision"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/IsDevBuild"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/BuildWithTools"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/GenerateVsProj"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Suffix"), NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/AdditionalArgs")]
+CoreCountControl = NodePath("MarginContainer/VBoxContainer/HSplitContainer/PanelLayer1-2/VBoxContainer/Cores/Control")
 
 [node name="Scons Build Status" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content/TabContainer" node_paths=PackedStringArray("BuildListContainer", "BuildArgsDisplay", "ScrollableTextBox") instance=ExtResource("4_kwo65")]
 visible = false
@@ -51,10 +52,20 @@ BuildListContainer = NodePath("HSplitContainer/ItemList")
 BuildArgsDisplay = NodePath("HSplitContainer/Panel2/VBoxContainer/BuildArgs")
 ScrollableTextBox = NodePath("HSplitContainer/Panel2/VBoxContainer/LargeScrollableTextBox")
 
-[node name="Source Control" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="1" node_paths=PackedStringArray("ChangeListControl", "BranchSelectors") instance=ExtResource("5_u7g83")]
+[node name="Source Control" parent="WindowDecoration/VBoxContainer/HBoxContainer/Content" index="1" node_paths=PackedStringArray("ChangeListControl", "ButtonAddUpstream", "ButtonFetchAndMerge", "ButtonRebaseChanges", "FetchAndMergeRemoteBranchName", "FetchAndMergeLocalBranchName", "RebaseFromBranchName", "RebaseToBranchName") instance=ExtResource("5_u7g83")]
 visible = false
 layout_mode = 2
 ChangeListControl = NodePath("HBoxContainer/Panel/ScrollContainer/ChangeList")
-BranchSelectors = []
+ButtonAddUpstream = NodePath("HBoxContainer/Control/VBoxContainer/Button")
+ButtonFetchAndMerge = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/Button2")
+ButtonRebaseChanges = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/Button2")
+FetchAndMergeRemoteBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer/UpstreamRemote")
+FetchAndMergeLocalBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel/HBoxContainer/HBoxContainer2/LocalBranch")
+RebaseFromBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer/FromLocalBranch")
+RebaseToBranchName = NodePath("HBoxContainer/Control/VBoxContainer/MarginPanel2/HBoxContainer/HBoxContainer2/ToLocalBranch")
+
+[node name="Statusbar" parent="WindowDecoration/VBoxContainer" index="2" node_paths=PackedStringArray("_statusTextContainer", "_versionText")]
+_statusTextContainer = NodePath("MarginContainer/HBoxContainer2/HBoxContainer")
+_versionText = NodePath("MarginContainer/HBoxContainer2/HBoxContainer2/Version")
 
 [editable path="WindowDecoration"]

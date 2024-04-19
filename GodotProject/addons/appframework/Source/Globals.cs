@@ -64,7 +64,4 @@ public class AttributeInfo<T> where T : Attribute
 
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ValidateExport : Attribute
-{
-    
-}
+public class ValidateExport : Attribute {}

@@ -10,6 +10,7 @@ using System.IO;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
+using GodotAppFramework.Globals;
 using CSHttpClient = System.Net.Http.HttpClient;
 
 internal partial class AvailableEngineBranch
@@ -40,34 +41,34 @@ internal class GSTApiInfo
     public int ServiceVersion { get; set; } = 0;
 }
 
-[Config, ExportValidation]
+[Config]
 public partial class SourceWizard : Control
 {
     private GDArray? _availableEngineInfos = new();
 
     [Config("Sources", "Godot Source Tools API URL")] public static string GstApiUrl { get; set; } = "http://gddb.lminl.one";
 
-    [Export] public TabContainer MainTabContainer { get; set; } = null!;
-    [Export] public ItemList MainTabItemList { get; set; } = null!;
-    [Export] public OptionButton SourceSelector { get; set; } = null!;
-    [Export] public RichTextLabel SourceDescription { get; set; } = null!;
-    [Export] public OptionButton BranchSelector { get; set; } = null!;
-    [Export] public OptionButton Destination { get; set; } = null!;
+    [Export, ValidateExport] public TabContainer MainTabContainer { get; set; } = null!;
+    [Export, ValidateExport] public ItemList MainTabItemList { get; set; } = null!;
+    [Export, ValidateExport] public OptionButton SourceSelector { get; set; } = null!;
+    [Export, ValidateExport] public RichTextLabel SourceDescription { get; set; } = null!;
     
     public override void _Ready()
     {
+        if (!this.EnsureExportsAreValid())
+        {
+            return;
+        }
+        
         SourceSelector.ItemSelected += OnEngineSelected;
         SourceDescription.MetaClicked += OnMetaClicked;
         CacheEngineInfo(new Callable(this, MethodName.OnCachedEngineInfo));
 
-        if (this.EnsureExportValid(nameof(MainTabItemList)) && this.EnsureExportValid(nameof(MainTabContainer)))
+        MainTabItemList.Clear();
+        foreach (var child in MainTabContainer.GetChildren())
         {
-            MainTabItemList.Clear();
-            foreach (var child in MainTabContainer.GetChildren())
-            {
-                var i = MainTabItemList.AddItem(child.Name);
-                MainTabItemList.SetItemSelectable(i, false);
-            }
+            var i = MainTabItemList.AddItem(child.Name);
+            MainTabItemList.SetItemSelectable(i, false);
         }
     }
 
@@ -105,33 +106,33 @@ public partial class SourceWizard : Control
             return;
         }
         
-        if (_availableEngineInfos[(int)itemId].AsGodotObject() is AvailableEngineInfo availableEngine)
-        {
-            if (IsInstanceValid(SourceDescription))
-            {
-                string url = $"https://github.com/{availableEngine.Owner}/{availableEngine.Name}";
-                SourceDescription.Text = $"Github: [url={{\"url\": \"{url}\"}}]{url}[/url]\n\n{availableEngine.Description}";
-
-                SourceDescription.Text += "\n\nNotable Features:\n";
-                foreach (var s in availableEngine.NotableFeatures)
-                {
-                    SourceDescription.Text += $"[ul]{s}[/ul]\n";
-                }
-
-                SourceDescription.Text += $"\n\nStars: {availableEngine.Stars}\nForks: {availableEngine.ForkCount}";
-            }
-
-            if (IsInstanceValid(BranchSelector))
-            {
-                // Sort the branch list by last updated
-                
-                BranchSelector.Clear();
-                foreach (var branch in availableEngine.Branches)
-                {
-                    BranchSelector.AddItem(branch.Name);
-                }
-            }
-        }
+        // if (_availableEngineInfos[(int)itemId].AsGodotObject() is AvailableEngineInfo availableEngine)
+        // {
+        //     if (IsInstanceValid(SourceDescription))
+        //     {
+        //         string url = $"https://github.com/{availableEngine.Owner}/{availableEngine.Name}";
+        //         SourceDescription.Text = $"Github: [url={{\"url\": \"{url}\"}}]{url}[/url]\n\n{availableEngine.Description}";
+        //
+        //         SourceDescription.Text += "\n\nNotable Features:\n";
+        //         foreach (var s in availableEngine.NotableFeatures)
+        //         {
+        //             SourceDescription.Text += $"[ul]{s}[/ul]\n";
+        //         }
+        //
+        //         SourceDescription.Text += $"\n\nStars: {availableEngine.Stars}\nForks: {availableEngine.ForkCount}";
+        //     }
+        //
+        //     if (IsInstanceValid(BranchSelector))
+        //     {
+        //         // Sort the branch list by last updated
+        //         
+        //         BranchSelector.Clear();
+        //         foreach (var branch in availableEngine.Branches)
+        //         {
+        //             BranchSelector.AddItem(branch.Name);
+        //         }
+        //     }
+        // }
     }
 
     private async void CacheEngineInfo(Callable cb)

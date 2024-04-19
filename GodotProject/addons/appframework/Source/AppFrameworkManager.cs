@@ -42,6 +42,65 @@ public partial class AppFrameworkManager : Node
         return ProjectSettings.GetSetting("application/config/name").AsString();
     }
 
+    public static void FatalError(string message)
+    {
+        GD.PushError(message);
+
+        var finalAlertMessage = $"{message}\n\nApplication will now terminate";
+        OS.Alert(finalAlertMessage, "Script Fatal Error");
+        Instance?.GetTree().Quit(0);
+
+        return;
+        
+        Window window = new Window();
+        
+        var content = new VBoxContainer();
+        content.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        
+        var lblMessage = new Label();
+        lblMessage.Text = message;
+        lblMessage.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+        lblMessage.AutowrapMode = TextServer.AutowrapMode.Word;
+        content.AddChild(lblMessage);
+
+        var buttonBox = new HBoxContainer();
+        content.AddChild(buttonBox);
+        
+        Button btnContinue = new Button();
+        btnContinue.Text = "Continue";
+        btnContinue.Pressed += () =>
+        {
+            window.QueueFree();
+        };
+        content.AddChild(btnContinue);
+        Button btnTerminate = new Button();
+        btnTerminate.Text = "Terminate";
+        btnTerminate.Pressed += () =>
+        {
+            // Be nice
+            Instance?.GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);
+            // GTFO
+            Instance?.GetTree().Quit(0);
+        };
+        buttonBox.AddChild(btnTerminate);
+
+        window.Borderless = false;
+        window.InitialPosition = Window.WindowInitialPosition.CenterMainWindowScreen;
+        window.Unresizable = true;
+        window.Title = "Script: Fatal Error Occurred";
+        window.Size = new Vector2I(500, 200);
+        window.Transient = true;
+        window.Exclusive = true;
+        window.ForceNative = true;
+        window.CloseRequested += () =>
+        {
+            // Deliberately empty
+        };
+        
+        window.AddChild(content);
+        Instance?.AddChild(window);
+    }
+
     private void InitializeMandatoryManagers()
     {
         InitManager<WindowManager>();
