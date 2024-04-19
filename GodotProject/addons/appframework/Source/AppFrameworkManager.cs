@@ -48,7 +48,7 @@ public partial class AppFrameworkManager : Node
 
         var finalAlertMessage = $"{message}\n\nApplication will now terminate";
         OS.Alert(finalAlertMessage, "Script Fatal Error");
-        Instance?.GetTree().Quit(0);
+        OS.Crash(message);
 
         return;
         
