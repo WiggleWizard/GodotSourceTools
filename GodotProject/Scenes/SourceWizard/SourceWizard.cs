@@ -40,19 +40,19 @@ internal class GSTApiInfo
     public int ServiceVersion { get; set; } = 0;
 }
 
-[Config]
+[Config, ExportValidation]
 public partial class SourceWizard : Control
 {
     private GDArray? _availableEngineInfos = new();
 
     [Config("Sources", "Godot Source Tools API URL")] public static string GstApiUrl { get; set; } = "http://gddb.lminl.one";
 
-    [Export] public TabContainer MainTabContainer = null!;
-    [Export] public ItemList MainTabItemList = null!;
-    [Export] public OptionButton SourceSelector = null!;
-    [Export] public RichTextLabel SourceDescription = null!;
-    [Export] public OptionButton BranchSelector = null!;
-    [Export] public OptionButton Destination = null!;
+    [Export] public TabContainer MainTabContainer { get; set; } = null!;
+    [Export] public ItemList MainTabItemList { get; set; } = null!;
+    [Export] public OptionButton SourceSelector { get; set; } = null!;
+    [Export] public RichTextLabel SourceDescription { get; set; } = null!;
+    [Export] public OptionButton BranchSelector { get; set; } = null!;
+    [Export] public OptionButton Destination { get; set; } = null!;
     
     public override void _Ready()
     {
@@ -60,7 +60,7 @@ public partial class SourceWizard : Control
         SourceDescription.MetaClicked += OnMetaClicked;
         CacheEngineInfo(new Callable(this, MethodName.OnCachedEngineInfo));
 
-        if (IsInstanceValid(MainTabItemList) && IsInstanceValid(MainTabContainer))
+        if (this.EnsureExportValid(nameof(MainTabItemList)) && this.EnsureExportValid(nameof(MainTabContainer)))
         {
             MainTabItemList.Clear();
             foreach (var child in MainTabContainer.GetChildren())
@@ -73,7 +73,6 @@ public partial class SourceWizard : Control
 
     protected void OnNextClicked()
     {
-        if ()
     }
     
     protected void OnPreviousClicked()

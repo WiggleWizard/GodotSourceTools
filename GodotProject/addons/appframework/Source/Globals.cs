@@ -61,3 +61,10 @@ public class AttributeInfo<T> where T : Attribute
         return list;
     }
 }
+
+
+[AttributeUsage(AttributeTargets.Property)]
+public class ValidateExport : Attribute
+{
+    
+}
