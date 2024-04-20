@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 using System.Collections.Generic;
 
@@ -7,8 +7,6 @@ namespace GodotAppFramework;
 public partial class WindowManager : Node
 {
     public static WindowManager? Instance { get; private set; } = null;
-
-    private List<Window> _activeWindows = new();
 
     public override void _Ready()
     {
@@ -52,22 +50,53 @@ public partial class WindowManager : Node
         window.Exclusive = true;
         window.CloseRequested += () =>
         {
-            _activeWindows.Remove(window);
-            window.QueueFree();
+            CloseManagedWindow(window);
         };
 
         window.AddChild(content);
+        window.Name = title;
         AddChild(window);
-
+        
         return window;
     }
 
-    public void AddCloseButton(Window window, Button button)
+    /// <summary>
+    /// Allows any input button to be able to close the window it belongs to.
+    /// </summary>
+    /// <param name="button"></param>
+    public void AddCloseButton(Button button)
     {
+        var buttonTree = button.GetTree();
+        var window = buttonTree.Root;
+        
         button.Pressed += () =>
         {
-            _activeWindows.Remove(window);
-            window.QueueFree();
+            CloseManagedWindow(window);
         };
+    }
+
+    public void CloseManagedWindow(Window? window)
+    {
+        if (window == null)
+        {
+            return;
+        }
+        
+        if (window.GetParent() == this)
+        {
+            RemoveChild(window);
+            window.QueueFree();   
+        }
+    }
+
+    public Window? GetManagedWindowOfNode(Node node)
+    {
+        var window = node.GetWindow();
+        if (window.GetParent() == this)
+        {
+            return window;
+        }
+
+        return null;
     }
 }
