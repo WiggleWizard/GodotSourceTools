@@ -89,7 +89,8 @@ public partial class SourceWizard : Control
 
     protected void OnCancelClicked()
     {
-        
+        var windowMan = WindowManager.Instance;
+        windowMan?.CloseManagedWindow(windowMan.GetManagedWindowOfNode(this));
     }
 
     protected void OnTabItemSelected(int itemIndex)
