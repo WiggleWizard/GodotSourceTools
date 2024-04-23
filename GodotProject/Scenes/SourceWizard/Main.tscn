@@ -1,9 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://s8adclk32cpg"]
+[gd_scene load_steps=4 format=3 uid="uid://s8adclk32cpg"]
 
 [ext_resource type="Script" path="res://Scenes/SourceWizard/SourceWizard.cs" id="1_cr4ml"]
 [ext_resource type="Script" path="res://addons/appframework/Source/UI/MarginPanel.cs" id="2_3y02w"]
+[ext_resource type="FontFile" uid="uid://dq5hlyelni6s6" path="res://Assets/Fonts/Inconsolata-Regular.otf" id="2_tnwbe"]
 
-[node name="Main" type="MarginContainer" node_paths=PackedStringArray("MainTabContainer", "MainTabItemList", "SourceSelector", "SourceDescription")]
+[node name="Main" type="MarginContainer" node_paths=PackedStringArray("MainTabContainer", "MainTabItemList", "SourceSelector", "SourceDescription", "ReleaseList")]
 offset_right = 1144.0
 offset_bottom = 525.0
 script = ExtResource("1_cr4ml")
@@ -11,6 +12,8 @@ MainTabContainer = NodePath("VBoxContainer/HBoxContainer/TabContainer")
 MainTabItemList = NodePath("VBoxContainer/HBoxContainer/MarginPanel/ItemList")
 SourceSelector = NodePath("VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection/OptionButton")
 SourceDescription = NodePath("VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel3/RichTextLabel")
+ReleaseList = NodePath("VBoxContainer/HBoxContainer/TabContainer/Release/MarginPanel/VBoxContainer/ScrollContainer/VBoxContainer")
+MonospaceFont = ExtResource("2_tnwbe")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -36,10 +39,11 @@ text_overrun_behavior = 0
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-current_tab = 0
+current_tab = 1
 tabs_visible = false
 
 [node name="Engine" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0
@@ -55,7 +59,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection"]
 layout_mode = 2
-text = "Engine:"
+text = "Engine"
 
 [node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection"]
 layout_mode = 2
@@ -72,8 +76,28 @@ size_flags_vertical = 3
 bbcode_enabled = true
 
 [node name="Release" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
-visible = false
 layout_mode = 2
+
+[node name="MarginPanel" type="Container" parent="VBoxContainer/HBoxContainer/TabContainer/Release"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("2_3y02w")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Release/MarginPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/TabContainer/Release/MarginPanel/VBoxContainer"]
+layout_mode = 2
+text = "Release"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Release/MarginPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer/Release/MarginPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Destination" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/TabContainer"]
 auto_translate_mode = 1
@@ -105,6 +129,9 @@ layout_mode = 2
 size_flags_horizontal = 8
 text = "Cancel"
 
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/MarginPanel/ItemList" to="." method="OnTabItemSelected"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel/SourceSelection/OptionButton" to="." method="OnEngineSelected"]
+[connection signal="meta_clicked" from="VBoxContainer/HBoxContainer/TabContainer/Engine/MarginPanel3/RichTextLabel" to="." method="OnMetaClicked"]
 [connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Previous" to="." method="OnPreviousClicked"]
 [connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Next" to="." method="OnNextClicked"]
 [connection signal="pressed" from="VBoxContainer/MarginPanel2/HBoxContainer2/Cancel" to="." method="OnCancelClicked"]

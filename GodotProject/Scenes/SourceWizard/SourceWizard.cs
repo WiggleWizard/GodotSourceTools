@@ -57,6 +57,8 @@ public partial class SourceWizard : Control
     [Export, ValidateExport] public RichTextLabel SourceDescription { get; set; } = null!;
 
     [Export, ValidateExport] public Control ReleaseList { get; set; } = null!;
+
+    [Export, ValidateExport] public Font MonospaceFont { get; set; } = null!;
     
     public override void _Ready()
     {
@@ -134,17 +136,35 @@ public partial class SourceWizard : Control
                 SourceDescription.Text += $"\n\nStars: {availableEngine.Stars}\nForks: {availableEngine.ForkCount}";
             }
 
-            var orderedBranches = availableEngine.Branches.OrderByDescending(branch => branch.LastCommitDateTime);
+            var orderedBranches = availableEngine.Branches.OrderByDescending(branch => branch.LastCommitDateTime).ToList();
             ReleaseList.RemoveAllChildren();
             var btnGroup = new ButtonGroup();
-            foreach (var branch in orderedBranches)
+            for (var i = 0; i < orderedBranches.Count; ++i)
             {
-                var optRelease = new CheckBox();
+                var branch = orderedBranches[i];
+                
+                HBoxContainer entryContainer = new();
+                entryContainer.SizeFlagsHorizontal = SizeFlags.ExpandFill;
+                
+                CheckBox optRelease = new();
+                entryContainer.AddChild(optRelease);
+                optRelease.Name = branch.Name;
                 optRelease.ButtonGroup = btnGroup;
+
+                RichTextLabel label = new();
+                entryContainer.AddChild(label);
+                label.FitContent = true;
+                label.AutowrapMode = TextServer.AutowrapMode.Off;
+                label.BbcodeEnabled = true;
+
+                var lerpedColor = Colors.Green.Lerp(Colors.Gray, (float)i / 10F);
                 var timeSinceLastCommit = DateTime.UtcNow - branch.LastCommitDateTime;
                 DateTimeOffset t = DateTimeOffset.UtcNow.Subtract(timeSinceLastCommit);
-                optRelease.Text = $"{branch.Name} ({t.Humanize()})";
-                ReleaseList.AddChild(optRelease);
+                
+                string colorStr = lerpedColor.ToHtml();
+                label.Text = $"[font_size=15][font={MonospaceFont.ResourcePath}]{branch.Name}[/font][/font_size] [color={colorStr}][i]{t.Humanize()}[/i][/color]";
+
+                ReleaseList.AddChild(entryContainer);
             }
         }
     }
